@@ -1,39 +1,45 @@
 <template>
-    <v-card class="card">
+    <v-card class="card" @mouseover="hoverPlayvideo" @mouseleave="leaveVideo">
         <div class="card__img"
             :style="{ backgroundImage: 'url(' + image + ')' }"
         >
-            <div class="playvideo" v-if="!hasClip">
-                <v-icon>
-                    mdi-play
-                </v-icon>
-                
+            <div class="playvideo" v-if="hasClip">
+                <v-icon>mdi-play</v-icon>
             </div>
         </div>
-        <div class="card__name">
-            <router-link :to="`games/${slug}`"> {{ name }} </router-link>
-            <span class="metacritic" :class="hasMetacritic">{{ metacritic ? metacritic : 0 }}</span>
+
+        <div class="card__video" v-if="isShow">
+            <span class="fullvideo"> <v-icon>mdi-play</v-icon>full video</span>
+            <video :src="clip.clip" loop muted autoplay></video>
         </div>
-        <div class="card__platforms">
-            <div class="icon">
-                <game-plat
-                    v-for="platform in parent_platforms"
-                    :key="platform.platform.id"
-                    :id="platform.platform.id"
-                    :name="platform.platform.name"
-                    :slug="platform.platform.slug"
-                >
-                </game-plat>
+
+        <div class="group-body">
+            <div class="card__name">
+                <router-link :to="`games/${slug}`"> {{ name }} </router-link>
+                <span class="metacritic" :class="hasMetacritic">{{ metacritic ? metacritic : 0 }}</span>
             </div>
-            <div class="mt-2">
-                <v-rating 
-                    color="yellow darken-3" 
-                    background-color="grey darken-2"
-                    size="20" 
-                    readonly 
-                    half-increments 
-                    :value="rating">
-                </v-rating>
+            <div class="card__platforms">
+                <div class="icon">
+                    <game-plat
+                        v-for="platform in parent_platforms"
+                        :key="platform.platform.id"
+                        :id="platform.platform.id"
+                        :name="platform.platform.name"
+                        :slug="platform.platform.slug"
+                    >
+                    </game-plat>
+                </div>
+                <div class="mt-2">
+                    <v-rating 
+                        class="custom-rating"
+                        color="yellow darken-3" 
+                        background-color="grey darken-2"
+                        size="20" 
+                        readonly 
+                        half-increments 
+                        :value="rating">
+                    </v-rating>
+                </div>
             </div>
         </div>
     </v-card>
@@ -46,6 +52,7 @@ export default {
     props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip'],
     data(){
         return{
+            isShow : false,
         }
     },
     computed : {
@@ -59,7 +66,18 @@ export default {
             }
         },
         hasClip(){
-            return this.clip == null
+            return this.clip
+        }
+    },
+    methods : {
+        hoverPlayvideo(){
+            if(this.clip == null){
+                return
+            }
+            this.isShow = true
+        },
+        leaveVideo(){
+            this.isShow = false
         }
     }
 }
@@ -68,10 +86,13 @@ export default {
 
 <style lang="scss">
     .card{
+        overflow: hidden;
+        position: relative;
         &__img{
              height: 20rem;
             background-size: cover;
-            background-position: top center;
+            background-position: center center;
+            position: relative;
             .playvideo{
                 background: rgba($color: #000000, $alpha: .7);
                 position: absolute;
@@ -98,8 +119,41 @@ export default {
                 color: #fff !important;
             }
         }
+        &__video{
+            position: absolute;
+            top: 0;
+            left: 0;
+            video{
+                height: 200px;
+                width: 100%;
+                object-fit: cover;
+            }
+            .fullvideo{
+                background : rgba($color: #000000, $alpha: .8);
+                padding: .5rem 1rem;
+                font-size: 1.2rem;
+                border-radius: .3rem;
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                display : flex;
+                align-items: center;
+                cursor: pointer;
+                z-index: 99999999;
+                &:hover{
+                    border: 1px solid #fff !important;
+                }
+            }
+        }
+        .group-body{
+            padding: 1rem 1rem;
+        }
     }
     .error,.warning,.success{
         color: #fff !important;
+    }
+    .custom-rating{
+        padding: 0 !important;
+        margin-top: 1rem;
     }
 </style>

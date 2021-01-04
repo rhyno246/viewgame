@@ -1,5 +1,14 @@
 <template>
   <div class="game">
+    <ul class="main-nav">
+        <slug-item
+            v-for="slug in getSlug"
+            :key="slug.id"
+            :name="slug.name"
+            :slug="slug.slug"
+        >
+        </slug-item>
+    </ul>
     <loading v-if="isLoading"></loading>
     <div class="game__box" v-else>
       <game-item
@@ -23,12 +32,14 @@
 <script>
 import GameItem from '../components/GameItem.vue'
 import Loading from '../components/Loading.vue';
+import SlugItem from '../components/SlugItem';
 // @ is an alias to /src
 
 export default {
   components: {
     GameItem,
-    Loading
+    Loading,
+    SlugItem
   },
   data(){
     return{
@@ -41,8 +52,15 @@ export default {
     },
     isLoading(){
       return this.$store.getters['game/isLoading']
+    },
+    getSlug(){
+          return this.$store.getters['game/getSlug'];
     }
+  },
+  mounted(){
+    return this.$store.dispatch('game/getSlug');
   }
+   
 }
 </script>
 
@@ -62,8 +80,18 @@ export default {
        grid-template-columns: repeat(1,1fr);
      }
   }
-  &__item{
-    padding: 1rem;
+}
+.main-nav{
+  padding-left: 0 !important;
+  list-style: none;
+  margin: 2rem 0 2rem 0;
+  li{
+      margin-right: 1.2rem;
+      display : inline-block;
+      font-size: 1.4rem;
+      a{
+          font-size: 1.4rem;
+      }
   }
 }
 </style>
