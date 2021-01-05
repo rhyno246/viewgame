@@ -23,7 +23,6 @@ export default {
         padding: 2rem 0;
         .top-nav {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             .logo{
                 @media (max-width: 768px) {
@@ -32,7 +31,8 @@ export default {
             }
             form {
                 width: 100%;
-                max-width: 400px;
+                max-width: 70rem;
+                margin-left: 5rem;
             }
         }
     }

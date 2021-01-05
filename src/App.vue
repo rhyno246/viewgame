@@ -4,16 +4,18 @@
     <v-main>
       <router-view></router-view>
     </v-main>
+      <page-footer></page-footer>
   </v-app>
 </template>
 
 <script>
 import TheHeader from './components/TheHeader.vue';
-
+import PageFooter from './components/PageFooter.vue';
 export default {
   name: 'App',
   components: {
-    TheHeader
+    TheHeader,
+    PageFooter
   },
 
   data: () => ({

@@ -30,7 +30,7 @@ textarea {
 }
 
 body {
-  font-weight: 400 !important;
+  font-weight: 300 !important;
   line-height: 1.6 !important;
   background-color: var(--color-dark) !important;
   font-family: 'Poppins', sans-serif !important;
@@ -41,7 +41,7 @@ body {
   max-width: $screen-max-width;
   padding: 0 5rem;
   margin: 0 auto;
-  background-color: var(--color-dark) !important;
+  //background-color: var(--color-dark) !important;
 }
 .img-res{
   max-width: 100%;

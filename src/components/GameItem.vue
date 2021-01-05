@@ -9,8 +9,8 @@
         </div>
 
         <div class="card__video" v-if="isShow">
-            <span class="fullvideo"> <v-icon>mdi-play</v-icon>full video</span>
             <video :src="clip.clip" loop muted autoplay></video>
+            <!-- <button class="fullvideo"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> -->
         </div>
 
         <div class="group-body">
@@ -77,6 +77,9 @@ export default {
             this.isShow = true
         },
         leaveVideo(){
+            if(this.clip == null){
+                return
+            }
             this.isShow = false
         }
     }
@@ -124,22 +127,25 @@ export default {
             top: 0;
             left: 0;
             video{
-                height: 200px;
+                height: 20rem;
                 width: 100%;
                 object-fit: cover;
             }
             .fullvideo{
-                background : rgba($color: #000000, $alpha: .8);
-                padding: .5rem 1rem;
-                font-size: 1.2rem;
-                border-radius: .3rem;
                 position: absolute;
-                bottom: 10px;
-                right: 10px;
-                display : flex;
-                align-items: center;
+                right: 1rem;
+                bottom: 1rem;
+                background-color: rgba(0,0,0,.45);
+                color: #fff;
+                border: 2px solid transparent;
+                outline: none;
+                padding: .6rem 1rem;
+                border-radius: .4rem;
+                font-size: 1.5rem;
                 cursor: pointer;
-                z-index: 99999999;
+                transition: border .2s;
+                display: flex;
+                align-items: center;
                 &:hover{
                     border: 1px solid #fff !important;
                 }
@@ -153,7 +159,9 @@ export default {
         color: #fff !important;
     }
     .custom-rating{
-        padding: 0 !important;
         margin-top: 1rem;
+        button{
+            padding: 0 !important;
+        }
     }
 </style>

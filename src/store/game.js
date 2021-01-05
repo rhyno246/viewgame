@@ -5,6 +5,8 @@ export default {
         return {
             Slug : [],
             Sluggame : [],
+            DetailGame : [],
+            screenShot : [],
             isLoading : false,
         }
     },
@@ -13,8 +15,13 @@ export default {
             return state.Slug = payload
         },
         showByGame(state , payload){
-            console.log(state.Sluggame = payload);
             return state.Sluggame = payload
+        },
+        getGameDetail(state,payload){
+            return state.DetailGame = payload
+        },
+        GetScreenshots(state,payload){
+            return state.screenShot = payload
         }
     },
     actions : {
@@ -38,6 +45,28 @@ export default {
             }).catch(error =>{
                 console.log(error.message);
             })
+        },
+        async getGameDetail({ commit, state } , payload){
+            const slug = payload;
+            state.isLoading = true;
+            await axios.get(`https://api.rawg.io/api/games/${slug}`)
+            .then(response => {
+                const slugDetail = response.data;
+                commit('getGameDetail' , slugDetail)
+                state.isLoading = false;
+            }).catch(error => {
+                console.log(error.message);
+            })
+        },
+        GetScreenshots({ commit }, payload){
+            const idImg = payload
+            axios.get(`https://api.rawg.io/api/games/${ idImg }/screenshots`)
+            .then(response => {
+                const dataImg = response.data.results;
+                commit('GetScreenshots' , dataImg)
+            }).catch(error => {
+                console.log(error.message);
+            })
         }
     },
     getters : {
@@ -49,6 +78,12 @@ export default {
         },
         isLoading(state){
             return state.isLoading
+        },
+        getDetail(state){
+            return state.DetailGame;
+        },
+        getScreenshots(state){
+            return state.screenShot;
         }
     }
 }
