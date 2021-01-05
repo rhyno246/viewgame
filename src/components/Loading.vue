@@ -23,7 +23,6 @@ $color: #ffffff;
 }
 
 .preloader {
-  /* size */
   width: $size + px;
   height: $size + px;
   position: absolute;
