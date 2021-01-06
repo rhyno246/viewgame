@@ -58,9 +58,9 @@ export default {
                 console.log(error.message);
             })
         },
-        GetScreenshots({ commit }, payload){
+        async GetScreenshots({ commit }, payload){
             const idImg = payload
-            axios.get(`https://api.rawg.io/api/games/${ idImg }/screenshots`)
+            await axios.get(`https://api.rawg.io/api/games/${idImg}/screenshots`)
             .then(response => {
                 const dataImg = response.data.results;
                 commit('GetScreenshots' , dataImg)

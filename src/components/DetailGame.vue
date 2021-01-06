@@ -3,6 +3,34 @@
         <v-row>
             <v-col cols="12" sm="5" md="4">
                 <div class="img" :style="{ backgroundImage : `url('${ image }')` }"></div>
+                <button class="play-trailer" @click="dialog = true" v-if="clip">
+                    <v-icon>mdi-play</v-icon> Play Trailer
+                </button>
+
+
+                <v-dialog  
+                    v-model="dialog"
+                    class="ma-2" 
+                    max-width="1150px"
+                >
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        allowFullScreen
+                        allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+                        title="Youtube video player"
+                        :src="`https://www.youtube.com/embed/${videoID}?autoplay=1`"
+                    >
+                    </iframe>
+                    <v-card-actions class="justify-end align-start">
+                        <v-btn color="error" class="close-model" text @click="dialog = false">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </v-card-actions>
+                </v-dialog>
+
+                
             </v-col>
             <v-col cols="12" sm="7" md="8">
                 <div class="game-detail">
@@ -29,7 +57,10 @@
                 </div>
                 <div class="box-txt mb-3">
                     <p class="mb-0 label">Description</p>
-                    <p class="mb-0 txt-name">{{ desc }}</p>
+                    <p class="mb-0 txt-name">
+                        {{ collapsedDescription }} 
+                        <a @click="seemore = !seemore"> {{ readMore }} </a>
+                    </p>
                 </div>
             </v-col>
         </v-row>
@@ -63,9 +94,16 @@ import GalleryDetail from '../components/GalleryDetail.vue';
 export default {
     props : ['image', 'name', 'detailID' , 'website' , 'genres','desc','tags' , 'clip' , 'metacritic' , 'released'],
     components : {GalleryDetail},
+    data(){
+        return{
+            seemore : true,
+            dialog : false
+        }
+    },
     beforeUpdate(){
-        console.log(this.detailID);
-        return this.$store.dispatch('game/GetScreenshots', this.detailID)
+        var vm = this
+       // console.log(vm.detailID);
+        return this.$store.dispatch('game/GetScreenshots', vm.detailID)
     },
     computed : {
         hasMetacritic(){
@@ -77,8 +115,25 @@ export default {
                 return 'success'
             }
         },
+        videoID(){
+            if(this.clip == null){
+                return
+            }
+            return this.clip.video
+        },
         getdetailscreen(){
             return this.$store.getters['game/getScreenshots']
+        },
+        showCollapsed(){
+            return this.desc && this.desc.length > 220 && this.seemore 
+        },
+        collapsedDescription(){
+            return this.showCollapsed ? `${ this.desc.substring(0,220) }...` : this.desc
+        },
+        readMore(){
+            if(this.seemore){
+                return 'Read more'
+            } return 'Read less'
         }
     }
 }
@@ -99,6 +154,14 @@ export default {
     .name{
         font-size: 2.8rem;
     }
+    .play-trailer {
+        width: 100%;
+        border: 1px solid;
+        border-radius: 5px;
+        padding: .4rem 0;
+        font-size: 1.3rem;
+        margin-top: 10px;
+    }
     .box-txt{
         .label{
             color: rgba($color: #fff, $alpha: .5);
@@ -113,6 +176,11 @@ export default {
             p{
                 margin-right: 1.2rem;
             }
+        }
+        a{
+            color: royalblue;
+            text-decoration: none;
+            font-size: 1.6rem;
         }
         p{
             a{
@@ -158,5 +226,34 @@ export default {
         display: grid;
         grid-template-columns: repeat(2,1fr);
         grid-gap: 1rem;
+        .box-img{
+            height: 25rem;
+            overflow: hidden;
+            @media (max-width: 768px) {
+                height: 15rem;
+            }
+            img{
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+    .v-dialog {
+        height: 67vh;
+        overflow: inherit !important;
+        position: relative;
+    }
+    .v-btn:not(.v-btn--round).v-size--default{
+        height: 40px !important;
+        min-width: 40px !important;
+        padding: 0 !important;
+        position: absolute;
+        top: 0 !important;
+        padding: 0 !important;
+        right: -5rem !important;
+        @media (max-width: 768px) {
+            top: -5rem!important;
+            right: -2rem !important;
+        }
     }
 </style>
