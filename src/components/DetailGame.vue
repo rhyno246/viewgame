@@ -13,7 +13,9 @@
                     class="ma-2" 
                     max-width="1150px"
                 >
-                    <iframe
+
+                    <youtube v-if="dialog" :video-id="videoID" player-width="100%" player-height="650" :player-vars="{ autoplay: 1 }"></youtube>
+                    <!-- <iframe
                         width="100%"
                         height="100%"
                         frameBorder="0"
@@ -22,7 +24,8 @@
                         title="Youtube video player"
                         :src="`https://www.youtube.com/embed/${videoID}?autoplay=1`"
                     >
-                    </iframe>
+                    </iframe> -->
+
                     <v-card-actions class="justify-end align-start">
                         <v-btn color="error" class="close-model" text @click="dialog = false">
                             <v-icon>mdi-close</v-icon>
