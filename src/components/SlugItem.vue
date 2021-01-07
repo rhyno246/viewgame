@@ -11,7 +11,7 @@ export default {
     props : ['id' , 'name', 'slug'],
     data(){
         return {
-            isActive : false
+            isActive : true
         }
     },
     methods : {

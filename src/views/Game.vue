@@ -1,11 +1,10 @@
 <template>
   <div class="game">
     <ul class="main-nav">
-      
-        <slug-menu></slug-menu>
         <slug-item
             v-for="slug in getSlug"
             :key="slug.id"
+            :id="slug.id"
             :name="slug.name"
             :slug="slug.slug"
         >
@@ -39,13 +38,11 @@ import { debounce } from '../utils/index';
 import GameItem from '../components/GameItem.vue';
 import Loading from '../components/Loading.vue';
 import SlugItem from '../components/SlugItem.vue';
-import SlugMenu from '../components/SlugMenu.vue';
 // @ is an alias to /src
 
 export default {
   components: {
     GameItem,
-    SlugMenu,
     Loading,
     SlugItem
   },
