@@ -1,6 +1,6 @@
 <template>
-    <form action="" class="form">
-        <input type="text" placeholder="Search ..... " class="input">
+    <form action="" class="form" @submit.prevent="searchSubmit">
+        <input type="text" placeholder="Search ..... " class="input" v-model="search">
         <button class="search-btn">
             <v-icon>mdi-search-web</v-icon>
         </button>
@@ -9,9 +9,20 @@
 
 <script>
 export default {
-    state(){
+    data(){
         return{
-
+            search : ''
+        }
+    },
+    methods : {
+        searchSubmit(){
+            if(this.search == ""){
+                this.$router.push("/games")
+                return
+            }
+            this.$router.replace(`/games?search=${this.search}`)
+            this.$store.dispatch('game/SearchGame', this.search)
+            this.search = ''
         }
     }
 }

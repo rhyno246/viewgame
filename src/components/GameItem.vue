@@ -3,6 +3,7 @@
         <div class="card__img"
             :style="{ backgroundImage: 'url(' + image + ')' }"
         >
+            <loading class="loader" v-if="loadding"></loading>
             <div class="playvideo" v-if="hasClip">
                 <v-icon>mdi-play</v-icon>
             </div>
@@ -47,12 +48,14 @@
 
 <script>
 import GamePlat from './GamePlat.vue'
+import Loading from './Loading.vue'
 export default {
-  components: { GamePlat },
+  components: { GamePlat,Loading },
     props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip'],
     data(){
         return{
             isShow : false,
+            loadding : false
         }
     },
     computed : {
@@ -74,12 +77,11 @@ export default {
             if(this.clip == null){
                 return
             }
+            this.loadding = true
             this.isShow = true
         },
         leaveVideo(){
-            if(this.clip == null){
-                return
-            }
+            this.loadding = false
             this.isShow = false
         }
     }
@@ -104,6 +106,13 @@ export default {
                 border-radius: .3rem;
                 width: 4rem;
                 text-align: center;
+            }
+            .loader{
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: .8;
+                z-index: 0;
             }
         }
         &__name{

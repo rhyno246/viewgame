@@ -97,16 +97,15 @@ import GalleryDetail from '../components/GalleryDetail.vue';
 export default {
     props : ['image', 'name', 'detailID' , 'website' , 'genres','desc','tags' , 'clip' , 'metacritic' , 'released'],
     components : {GalleryDetail},
+
+    beforeUpdate (){
+        return this.$store.dispatch('game/GetScreenshots', this.detailID)
+    },
     data(){
         return{
             seemore : true,
             dialog : false
         }
-    },
-    beforeUpdate(){
-        var vm = this
-       // console.log(vm.detailID);
-        return this.$store.dispatch('game/GetScreenshots', vm.detailID)
     },
     computed : {
         hasMetacritic(){

@@ -22,6 +22,9 @@ export default {
         },
         GetScreenshots(state,payload){
             return state.screenShot = payload
+        },
+        SearchGame(state,payload) {
+            return state.Sluggame = payload
         }
     },
     actions : {
@@ -34,6 +37,8 @@ export default {
                 console.log(error.message);
             })
         },
+
+
         async showByGame({ commit ,state } , payload){
             const slug = payload;
             state.isLoading = true
@@ -46,6 +51,9 @@ export default {
                 console.log(error.message);
             })
         },
+
+
+        
         async getGameDetail({ commit, state } , payload){
             const slug = payload;
             state.isLoading = true;
@@ -65,6 +73,17 @@ export default {
                 const dataImg = response.data.results;
                 commit('GetScreenshots' , dataImg)
             }).catch(error => {
+                console.log(error.message);
+            })
+        },
+        async SearchGame({ commit , state} , payload){
+            const search = payload
+            state.isLoading = true
+            await axios(`https://api.rawg.io/api/games?search=${search}`)
+            .then(response =>{
+                commit('SearchGame' , response.data.results)
+                state.isLoading = false
+            }).catch(error =>{
                 console.log(error.message);
             })
         }

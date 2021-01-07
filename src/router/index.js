@@ -30,7 +30,11 @@ const routes = [
   //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   // }
 ]
-
+// FIXME <Uncaught (in promise) Error: Avoided redundant navigation to current location >
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
