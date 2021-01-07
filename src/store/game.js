@@ -1,4 +1,10 @@
 import axios from 'axios'
+import { urlParse } from "../utils/helpers.js"
+
+//active control menu
+let menuObj = { game : 'action' };
+let urlObj = urlParse();
+let params = { ...menuObj, ...urlObj };
 export default { 
     namespaced : true,
     state(){
@@ -8,6 +14,7 @@ export default {
             DetailGame : [],
             screenShot : [],
             isLoading : false,
+            params : params
         }
     },
     mutations : {
@@ -42,6 +49,7 @@ export default {
         async showByGame({ commit ,state } , payload){
             const slug = payload;
             state.isLoading = true
+            console.log(slug);
             await axios.get(`https://api.rawg.io/api/games?genres=${slug}`)
             .then(response => {
                 const slugData = response.data.results;

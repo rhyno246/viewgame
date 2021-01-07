@@ -16,7 +16,6 @@ export default {
     },
     methods : {
         slugChange(){
-            //this.$router.push('games?genres=' + this.slug)
             return this.$store.dispatch('game/showByGame' , this.slug);
         }
     }

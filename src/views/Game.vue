@@ -1,6 +1,8 @@
 <template>
   <div class="game">
     <ul class="main-nav">
+      
+        <slug-menu></slug-menu>
         <slug-item
             v-for="slug in getSlug"
             :key="slug.id"
@@ -27,7 +29,7 @@
       </game-item>
     </div>
 
-    <div :style="{ textAlign: 'center' , marginTop: '40px' , fontSize: '30px' }" id="loadmore">Loadding .................</div>
+    <!-- <div :style="{ textAlign: 'center' , marginTop: '40px' , fontSize: '30px' }" id="loadmore">Loadding .................</div> -->
 
   </div>
 </template>
@@ -36,12 +38,14 @@
 import { debounce } from '../utils/index';
 import GameItem from '../components/GameItem.vue';
 import Loading from '../components/Loading.vue';
-import SlugItem from '../components/SlugItem';
+import SlugItem from '../components/SlugItem.vue';
+import SlugMenu from '../components/SlugMenu.vue';
 // @ is an alias to /src
 
 export default {
   components: {
     GameItem,
+    SlugMenu,
     Loading,
     SlugItem
   },
@@ -60,6 +64,9 @@ export default {
         if(vm.getGameWindow() > screenY){
           vm.loadmorePage++;
         }
+        // if(history){
+        //   history.pushState({}, "", "/games?genres=" + vm.loadmorePage);
+        // }
       }, 500)
     );
   },
