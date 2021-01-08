@@ -43,7 +43,6 @@ export default {
     GameItem,
     Loading,
     SlugItem,
-    SlugMenu
   },
   data(){
     return{
