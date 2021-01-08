@@ -18,7 +18,11 @@ $color: #ffffff;
   right: 0px;
   width: 100%;
   height: 100%;
+<<<<<<< HEAD
   background-color: rgba($color: #333, $alpha: .7);
+=======
+  background-color: rgba($color: #333, $alpha: .8);
+>>>>>>> 7b322a50d6a656796715231a3cbed31c55b14162
   z-index: 99999;
 }
 

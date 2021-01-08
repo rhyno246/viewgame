@@ -9,11 +9,6 @@
 <script>
 export default {
     props : ['id' , 'name', 'slug'],
-    data(){
-        return {
-            isActive : 'action',
-        }
-    },
     methods : {
         slugChange(slug){
             return this.$store.dispatch('game/showByGame' , slug);
