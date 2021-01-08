@@ -24,11 +24,6 @@ const routes = [
     name : 'notfound',
     component : () => import('../views/NotFound.vue')
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
 ]
 // FIXME <Uncaught (in promise) Error: Avoided redundant navigation to current location >
 const originalPush = VueRouter.prototype.push;

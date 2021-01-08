@@ -2,7 +2,7 @@
     <div class="nav">
         <div class="top-nav">
             <div class="logo">
-                <router-link to="/"><img src="../assets/logo2.png" alt="" class="img-res"></router-link>
+                <a href="/"><img src="../assets/logo2.png" alt="" class="img-res"></a>
             </div>
             <search-slug></search-slug>
         </div>
@@ -13,7 +13,7 @@
 <script>
 import SearchSlug from './SearchSlug.vue';
 export default {
-  components: {SearchSlug },
+    components: {SearchSlug },
 }
 </script>
 

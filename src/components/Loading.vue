@@ -18,7 +18,7 @@ $color: #ffffff;
   right: 0px;
   width: 100%;
   height: 100%;
-  background-color: rgba($color: #333, $alpha: 1);
+  background-color: rgba($color: #333, $alpha: .7);
   z-index: 99999;
 }
 

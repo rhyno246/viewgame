@@ -1,8 +1,8 @@
 <template>
   <div class="game">
     <ul class="main-nav">
-      
-        <slug-menu></slug-menu>
+        <!-- <slug-menu></slug-menu> -->
+
         <slug-item
             v-for="slug in getSlug"
             :key="slug.id"
@@ -29,8 +29,6 @@
       </game-item>
     </div>
 
-    <!-- <div :style="{ textAlign: 'center' , marginTop: '40px' , fontSize: '30px' }" id="loadmore">Loadding .................</div> -->
-
   </div>
 </template>
 
@@ -45,9 +43,9 @@ import SlugMenu from '../components/SlugMenu.vue';
 export default {
   components: {
     GameItem,
-    SlugMenu,
     Loading,
-    SlugItem
+    SlugItem,
+    SlugMenu
   },
   data(){
     return{

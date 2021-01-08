@@ -1,6 +1,6 @@
 <template>
     <li>
-        <a class="nav-link" @click="slugChange">
+        <a class="nav-link" @click="slugChange(slug)">
             {{ name }}
         </a>
     </li>
@@ -11,12 +11,12 @@ export default {
     props : ['id' , 'name', 'slug'],
     data(){
         return {
-            isActive : false
+            isActive : 'action',
         }
     },
     methods : {
-        slugChange(){
-            return this.$store.dispatch('game/showByGame' , this.slug);
+        slugChange(slug){
+            return this.$store.dispatch('game/showByGame' , slug);
         }
     }
 }

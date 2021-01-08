@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { urlParse } from "../utils/helpers.js"
+import _ from "lodash";
+import { urlParse,urlStringify } from "../utils/helpers.js"
 
 //active control menu
 let menuObj = { game : 'action' };
@@ -32,6 +33,12 @@ export default {
         },
         SearchGame(state,payload) {
             return state.Sluggame = payload
+        },
+        setGameSlug(state,payload){
+            state.params = { ...state.params , ...payload };
+            let urlParams = urlStringify(state.params);
+            if (history)
+                history.replaceState({}, "", location.pathname + "#/?" + urlParams);
         }
     },
     actions : {
@@ -49,7 +56,6 @@ export default {
         async showByGame({ commit ,state } , payload){
             const slug = payload;
             state.isLoading = true
-            console.log(slug);
             await axios.get(`https://api.rawg.io/api/games?genres=${slug}`)
             .then(response => {
                 const slugData = response.data.results;
@@ -111,6 +117,9 @@ export default {
         },
         getScreenshots(state){
             return state.screenShot;
+        },
+        params(state){
+            return state.params
         }
     }
 }
