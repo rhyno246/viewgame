@@ -1,6 +1,6 @@
 <template>
     <li>
-        <a class="nav-link" @click="slugChange(slug)">
+        <a class="nav-link" @click="slugChange(slug)" :class="{ active: params.game === slug}">
             {{ name }}
         </a>
     </li>
@@ -9,9 +9,15 @@
 <script>
 export default {
     props : ['id' , 'name', 'slug'],
+    computed : {
+        params(){
+            return this.$store.getters['game/params']
+        }
+    },
     methods : {
         slugChange(slug){
-            return this.$store.dispatch('game/showByGame' , slug);
+            this.$store.commit("game/setGameSlug", { game : slug });
+            return this.$store.dispatch('game/recordGame' , slug);
         }
     }
 }
@@ -34,5 +40,6 @@ export default {
     .active{
         background: #fff !important;
         color: #333 !important;
+        opacity: 1;
     }
 </style>

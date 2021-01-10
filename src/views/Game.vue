@@ -14,7 +14,7 @@
     <div class="game__box" v-else>
       <game-item
         class="game__item"
-        v-for="game in getSlugBygame"
+        v-for="game in getAllGame"
         :id="game.id"
         :key="game.id"
         :name="game.name"
@@ -46,45 +46,18 @@ export default {
   },
   data(){
     return{
-      loadmorePage: 1,
     }
   },
   mounted(){
-    var vm = this;
-    vm.$store.dispatch('game/getSlug');
-    window.addEventListener("scroll", debounce(() =>  {
-        //get vi tri loadmore
-        let lastLoad = vm.getGame(document.querySelector("#loadmore"));
-        let screenY = lastLoad.y
-        if(vm.getGameWindow() > screenY){
-          vm.loadmorePage++;
-        }
-        // if(history){
-        //   history.pushState({}, "", "/games?genres=" + vm.loadmorePage);
-        // }
-      }, 500)
-    );
-  },
-  methods : {
-    getGame(el) {
-      for (
-        var lx = 0, ly = 0;
-        el != null;
-        lx += el.offsetLeft, 
-        ly += el.offsetTop, 
-        el = el.offsetParent
-      );
-      return { x: lx, y: ly };
-    },
-    getGameWindow() {
-      var doc = document.documentElement;
-      return ((window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0) + window.innerHeight);
-    },
+    this.$store.dispatch('game/getSlug');
+    this.$store.dispatch('game/getAllGame');
   },
   computed :{
-    getSlugBygame(){
-      return this.$store.getters['game/showSlugByGame']
+
+    getAllGame(){
+      return this.$store.getters['game/getAllGame'];
     },
+
     isLoading(){
       return this.$store.getters['game/isLoading']
     },

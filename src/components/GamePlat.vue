@@ -11,7 +11,6 @@ export default {
     props : ['id' , 'name' , 'slug'],
     computed : {
         hasIcon(){
-
             switch (this.slug) {
                 case 'pc':
                     return 'mdi-microsoft-windows'
@@ -33,25 +32,6 @@ export default {
                     return ''   
                 break;
             }
-            // if(this.slug == "pc"){
-            //     return "mdi-microsoft-windows"
-            // }else if(this.slug == "playstation4" || this.slug == "playstation3"){
-            //     return "mdi-sony-playstation"
-            // }else if(this.slug == "linux"){
-            //     return "mdi-linux"
-            // }else if(this.slug == "macos" || this.slug == "ios" || this.slug == "mac"){
-            //     return "mdi-apple"
-            // }else if(this.slug == "android"){
-            //     return "mdi-android"
-            // }else if(this.slug == "nintendo-switch"){
-            //     return 'mdi-nintendo-switch'
-            // }else if(this.slug == "xbox-one" || this.slug == "xbox360"){
-            //     return 'mdi-microsoft-xbox'
-            // }else if(this.slug == "web"){
-            //     return 'mdi-web'
-            // }else {
-            //     return ""
-            // }
         }
     },
 }
