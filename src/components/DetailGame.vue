@@ -2,7 +2,7 @@
     <div class="detail__main--box">
         <v-row>
             <v-col cols="12" sm="5" md="4">
-                <div class="img" :style="{ backgroundImage : `url('${ image }')` }"></div>
+                <div class="img" v-lazy:background-image="image"></div>
                 <button class="play-trailer" @click="dialog = true" v-if="clip">
                     <v-icon>mdi-play</v-icon> Play Trailer
                 </button>

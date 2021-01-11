@@ -1,9 +1,12 @@
 <template>
     <v-card class="card" @mouseover="hoverPlayvideo" @mouseleave="leaveVideo">
         <div class="card__img"
-            :style="{ backgroundImage: 'url(' + image + ')' }"
+            v-lazy:background-image="image"
         >
-            <loading class="loader" v-if="loadding"></loading>
+        
+            <!-- :style="{ backgroundImage: 'url(' + image + ')' }" -->
+            <!-- <loading class="loader" v-if="loadding"></loading> -->
+            <loading-item class="loader" v-if="loadding"></loading-item>
             <div class="playvideo" v-if="hasClip">
                 <v-icon>mdi-play</v-icon>
             </div>
@@ -11,7 +14,7 @@
 
         <div class="card__video" v-if="isShow">
             <video :src="clip.clip" loop muted autoplay></video>
-            <!-- <button class="fullvideo"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> -->
+            <button class="fullvideo"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
         </div>
 
         <div class="group-body">
@@ -48,9 +51,9 @@
 
 <script>
 import GamePlat from './GamePlat.vue'
-import Loading from './Loading.vue'
+import LoadingItem from './LoadingItem.vue'
 export default {
-  components: { GamePlat,Loading },
+  components: { GamePlat,LoadingItem },
     props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip'],
     data(){
         return{
@@ -109,9 +112,12 @@ export default {
             }
             .loader{
                 position: absolute;
-                top: 0;
-                left: 0;
-                opacity: .8;
+                top: 50%;
+                right: 50%;
+                opacity: 0.8;
+                z-index: 0;
+                transform: translate(50%, -50%);
+                width: 100%;
                 z-index: 0;
             }
         }
@@ -135,6 +141,7 @@ export default {
             position: absolute;
             top: 0;
             left: 0;
+            width: 100%;
             video{
                 height: 20rem;
                 width: 100%;
@@ -162,6 +169,8 @@ export default {
         }
         .group-body{
             padding: 1rem 1rem;
+            position: inherit;
+            z-index: 99999;
         }
     }
     .error,.warning,.success{

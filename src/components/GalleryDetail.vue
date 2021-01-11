@@ -1,6 +1,6 @@
 <template>
     <div class="box-img">
-        <img :src="img" class="img-res">
+        <img v-lazy="img" class="img-res">
     </div>
 </template>
 

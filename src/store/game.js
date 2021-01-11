@@ -24,6 +24,7 @@ export default {
             return state.Slug = payload
         },
         getAllGame(state , payload){
+            state.record = payload;
             return state.All = payload
         },
         getGameDetail(state,payload){
@@ -33,7 +34,7 @@ export default {
             return state.screenShot = payload
         },
         SearchGame(state,payload) {
-            return state.Sluggame = payload
+            return state.All = payload
         },
         setGameSlug(state,payload){
             state.params = { ...state.params , ...payload };
@@ -58,13 +59,19 @@ export default {
         },
 
 
+        loadMore({ commit } , payload){
+            const page = payload;
+           console.log(page);
+        },
+
 
         async getAllGame({ commit , state }){
             state.isLoading = true
             await axios.get('https://api.rawg.io/api/games')
             .then(response => {
                 const data = response.data.results;
-                commit('getAllGame' , data),
+                commit('getAllGame' , data ),
+                console.log(data);
                 state.isLoading = false;
             }).catch(error => {
                 console.log(error.message);
@@ -74,11 +81,6 @@ export default {
         async recordGame({ commit,state } , payload){
             const slugFilter = payload;
             state.isLoading = true;
-            let param = urlParse();
-            console.log(param);
-
-
-
             await axios.get(`https://api.rawg.io/api/games?genres=${slugFilter}`)
             .then(response => {
                 const data = response.data.results

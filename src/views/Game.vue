@@ -10,6 +10,9 @@
         >
         </slug-item>
     </ul>
+
+    <filter-main></filter-main>
+
     <loading v-if="isLoading"></loading>
     <div class="game__box" v-else>
       <game-item
@@ -28,11 +31,26 @@
       </game-item>
     </div>
 
+
+    <div class="load-more text-center mt-10"
+      v-viewability="{
+        loop: true,
+        padded: 100,
+        store : {
+          dispatch : 'game/loadMore',
+          opt: { game: 'game', limit: 20 }
+        },
+        callback : loadMore
+      }"
+    >
+    </div>
+
+
   </div>
 </template>
 
 <script>
-import { debounce } from '../utils/index';
+import FilterMain from '../components/Filter/FilterMain.vue';
 import GameItem from '../components/GameItem.vue';
 import Loading from '../components/Loading.vue';
 import SlugItem from '../components/SlugItem.vue';
@@ -43,14 +61,24 @@ export default {
     GameItem,
     Loading,
     SlugItem,
+    FilterMain,
   },
   data(){
     return{
+      
     }
   },
+
   mounted(){
     this.$store.dispatch('game/getSlug');
     this.$store.dispatch('game/getAllGame');
+  },
+  methods : {
+    loadMore(store) {
+      //console.log(store, store.page);
+      const page = store.page;
+      return this.$store.dispatch('game/loadMore' , page);
+    },
   },
   computed :{
 
@@ -59,7 +87,7 @@ export default {
     },
 
     isLoading(){
-      return this.$store.getters['game/isLoading']
+      return this.$store.getters['game/isLoading'];
     },
     getSlug(){
       return this.$store.getters['game/getSlug'];
