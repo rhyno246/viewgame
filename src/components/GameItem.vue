@@ -14,8 +14,22 @@
 
         <div class="card__video" v-if="isShow">
             <video :src="clip.clip" loop muted autoplay></video>
-            <button class="fullvideo"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
+            <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
         </div>
+
+
+        <v-dialog  
+            v-model="dialog"
+            class="ma-2" 
+            max-width="1150px"
+        >
+            <youtube v-if="dialog" :video-id="clip.video" player-width="100%" player-height="650" :player-vars="{ autoplay: 1 }"></youtube> 
+            <v-card-actions class="justify-end align-start">
+                <v-btn color="error" class="close-model" text @click="dialog = false">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+            </v-card-actions>
+        </v-dialog>
 
         <div class="group-body">
             <div class="card__name">
@@ -58,7 +72,8 @@ export default {
     data(){
         return{
             isShow : false,
-            loadding : false
+            loadding : false,
+            dialog : false
         }
     },
     computed : {
@@ -170,7 +185,7 @@ export default {
         .group-body{
             padding: 1rem 1rem;
             position: inherit;
-            z-index: 99999;
+            z-index: 99;
         }
     }
     .error,.warning,.success{

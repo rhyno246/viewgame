@@ -95,7 +95,7 @@
 <script>
 import GalleryDetail from '../components/GalleryDetail.vue';
 export default {
-    props : ['image', 'name', 'detailID' , 'website' , 'genres','desc','tags' , 'clip' , 'metacritic' , 'released'],
+    props : ['image', 'name', 'detailID' , 'website' , 'genres','desc','tags' , 'clip' , 'metacritic' , 'released' , 'short'],
     components : {GalleryDetail},
 
     beforeUpdate (){

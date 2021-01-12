@@ -45,6 +45,20 @@ export default {
         recordGame(state, payload){
             state.record = state.All = payload
             return state.record
+        },
+        FilterPlatForm(state , payload){
+            const filter = payload;
+            switch (filter) {
+                case "PC":
+                    return (state.All.filter(item => {
+                        return item.parent_platforms[0].platform.name === filter
+                    }));
+                default:
+                    return state.All
+            }
+        },
+        FilterOrderby(state, payload){
+            console.log(payload);
         }
     },
     actions : {
@@ -61,7 +75,7 @@ export default {
 
         loadMore({ commit } , payload){
             const page = payload;
-           console.log(page);
+            console.log(page);
         },
 
 
@@ -99,6 +113,7 @@ export default {
             .then(response => {
                 const dataDetail = response.data;
                 commit('getGameDetail' , dataDetail)
+                console.log(dataDetail);
                 state.isLoading = false;
             }).catch(error => {
                 console.log(error.message);
@@ -124,6 +139,14 @@ export default {
             }).catch(error =>{
                 console.log(error.message);
             })
+        },
+        FilterPlatForm({ commit } , payload){
+            const filter = payload
+            commit('FilterPlatForm' , filter);
+        },
+        FilterOrderby({ commit, state } , payload){
+            const orderBy = payload
+            console.log(orderBy);
         }
     },
     getters : {

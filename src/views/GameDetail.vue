@@ -20,7 +20,6 @@
                 :released="getDetailGame.released"
            >
            </detail-game>
-           
         </div>
     </div>
 </template>

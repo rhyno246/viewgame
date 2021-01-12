@@ -16,9 +16,11 @@
                 class="select-1"
                 :items="items1"
                 label="Order By"
+                item-text="state"
+                item-value="abbr"
                 dense
                 solo
-                @change="FilterPlatForm"
+                @change="FilterOrderby"
             >
             </v-select>
         </v-col>
@@ -29,13 +31,21 @@
 export default {
     data(){
         return{
-            items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-            items1 : ['Name']
+            items: ['PC', 'PlayStation', 'Xbox', 'IOS','Android' ,'linux' , 'Web'],
+            items1 : [
+                { state : 'Name' , abbr : 'name' },
+                { state : 'Rating' , abbr : '-rating' },
+                { state : 'Release Date' , abbr : '-release' },
+                { state : 'Date added' , abbr : '-created' }
+            ]
         }
     },
     methods :{
         FilterPlatForm(val){
-            console.log(val);
+            return this.$store.dispatch('game/FilterPlatForm' , val)
+        },
+        FilterOrderby(val){
+            return this.$store.dispatch('game/FilterOrderby' , val)
         }
     }
 }
