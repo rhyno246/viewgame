@@ -16,6 +16,7 @@ export default {
             DetailGame : [],
             screenShot : [],
             isLoading : false,
+            isloadMore : false,
             params : params
         }
     },
@@ -24,8 +25,8 @@ export default {
             return state.Slug = payload
         },
         getAllGame(state , payload){
-            state.record = payload;
-            return state.All = payload
+            state.record = [ ...state.All ] = payload;
+            return state.All
         },
         getGameDetail(state,payload){
             return state.DetailGame = payload
@@ -43,7 +44,7 @@ export default {
                 history.replaceState({}, "", location.pathname + "#/?" + urlParams);
         },
         recordGame(state, payload){
-            state.record = state.All = payload
+            state.record = [ ...state.All ] = payload
             return state.record
         },
         FilterPlatForm(state , payload){
@@ -59,6 +60,10 @@ export default {
         },
         FilterOrderby(state, payload){
             console.log(payload);
+        },
+        loadMore(state,payload){
+            let newArr =  payload
+            return state.All = state.All.concat(newArr);
         }
     },
     actions : {
@@ -73,20 +78,32 @@ export default {
         },
 
 
-        loadMore({ commit } , payload){
+        async loadMore({ commit , state } , payload){
+            const game = state.params.game
             const page = payload;
-            console.log(page);
-        },
-
-
-        async getAllGame({ commit , state }){
-            state.isLoading = true
-            await axios.get('https://api.rawg.io/api/games')
+            console.log(page, game);
+            state.isloadMore = true;
+            await axios.get(`https://api.rawg.io/api/games?genres=${game}&page=${page}`)
             .then(response => {
                 const data = response.data.results;
-                commit('getAllGame' , data ),
-                console.log(data);
-                state.isLoading = false;
+                commit('loadMore' , data);
+                state.isloadMore = false;
+            }).catch(error => {
+                console.log(error.message);
+            })
+        },
+
+        async getAllGame({ commit , state }){
+            // let qp = urlParse();
+            // let param = qp.game;
+            const game = state.params.game
+            state.isloadMore = true
+            console.log(game);
+            await axios.get(`https://api.rawg.io/api/games?genres=${game}`)
+            .then(response => {
+                const data = response.data.results;
+                commit('getAllGame' , data )
+                state.isloadMore = false
             }).catch(error => {
                 console.log(error.message);
             })
@@ -158,6 +175,9 @@ export default {
         },
         isLoading(state){
             return state.isLoading
+        },
+        isloadMore(state){
+            return state.isloadMore
         },
         getDetail(state){
             return state.DetailGame;

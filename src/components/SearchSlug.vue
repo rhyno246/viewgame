@@ -20,7 +20,6 @@ export default {
                 this.$router.push("/games")
                 return
             }
-            this.$router.replace(`/games?search=${this.search}`)
             this.$store.dispatch('game/SearchGame', this.search)
             this.search = ''
         }

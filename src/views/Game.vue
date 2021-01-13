@@ -32,7 +32,7 @@
     </div>
 
 
-    <div class="load-more text-center mt-10"
+    <div class="load-more text-center"
       v-viewability="{
         loop: true,
         padded: 100,
@@ -43,6 +43,9 @@
         callback : loadMore
       }"
     >
+      <div class="load-more text-center" v-if="isLoadmore">
+        <img src="img/loader.svg" alt="">
+      </div>
     </div>
 
 
@@ -68,19 +71,21 @@ export default {
       
     }
   },
-
-  mounted(){
-    this.$store.dispatch('game/getSlug');
-    this.$store.dispatch('game/getAllGame');
+  async mounted(){
+    await this.$store.dispatch('game/getSlug');
+    await this.$store.dispatch('game/getAllGame');
   },
   methods : {
     loadMore(store) {
-      //console.log(store, store.page);
       const page = store.page;
-      return this.$store.dispatch('game/loadMore' , page);
+      this.$store.dispatch('game/loadMore' , page);
     },
   },
   computed :{
+
+    isLoadmore(){
+      return this.$store.getters['game/isloadMore'];
+    },
 
     getAllGame(){
       return this.$store.getters['game/getAllGame'];
@@ -114,6 +119,12 @@ export default {
      }
   }
 }
+.load-more{
+  img{
+    width: 20rem;
+  }
+}
+
 .main-nav{
   padding-left: 0 !important;
   list-style: none;
