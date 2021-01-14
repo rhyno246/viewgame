@@ -2,8 +2,8 @@
   <div class="game">
     <ul class="main-nav">
         <slug-item
-            v-for="slug in getSlug"
-            :key="slug.id"
+            v-for="(slug , index) in getSlug"
+            :key="index"
             :id="slug.id"
             :name="slug.name"
             :slug="slug.slug"
@@ -17,9 +17,9 @@
     <div class="game__box" v-else>
       <game-item
         class="game__item"
-        v-for="game in getAllGame"
+        v-for="(game , index) in getAllGame"
         :id="game.id"
-        :key="game.id"
+        :key="index"
         :name="game.name"
         :image="game.background_image"
         :metacritic="game.metacritic"

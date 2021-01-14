@@ -15,11 +15,13 @@ export default {
         }
     },
     methods : {
-        searchSubmit(){
+        searchSubmit(e){
             if(this.search == ""){
-                this.$router.push("/games")
+                this.$router.push("/");
+                location.reload(); // reload browser
                 return
             }
+            this.$router.push(`?search=${ this.search }`);
             this.$store.dispatch('game/SearchGame', this.search)
             this.search = ''
         }

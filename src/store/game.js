@@ -3,7 +3,9 @@ import _ from "lodash";
 import { urlParse,urlStringify } from "../utils/helpers.js"
 
 //active control menu
-let menuObj = { game : 'action' };
+let menuObj = { 
+    game : 'action' 
+};
 let urlObj = urlParse();
 let params = { ...menuObj, ...urlObj };
 export default { 
@@ -35,6 +37,7 @@ export default {
             return state.screenShot = payload
         },
         SearchGame(state,payload) {
+            state.params.game = null;
             return state.All = payload
         },
         setGameSlug(state,payload){
@@ -130,7 +133,6 @@ export default {
             .then(response => {
                 const dataDetail = response.data;
                 commit('getGameDetail' , dataDetail)
-                console.log(dataDetail);
                 state.isLoading = false;
             }).catch(error => {
                 console.log(error.message);
@@ -148,7 +150,7 @@ export default {
         },
         async SearchGame({ commit , state} , payload){
             const search = payload
-            state.isLoading = true
+            state.isLoading = true;
             await axios(`https://api.rawg.io/api/games?search=${search}`)
             .then(response =>{
                 commit('SearchGame' , response.data.results)

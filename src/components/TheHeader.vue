@@ -2,7 +2,7 @@
     <div class="nav">
         <div class="top-nav">
             <div class="logo">
-                <a href="/"><img src="../assets/logo2.png" alt="" class="img-res"></a>
+                <router-link to="/"><img src="../assets/logo2.png" alt="" class="img-res"></router-link>
             </div>
             <search-slug></search-slug>
         </div>

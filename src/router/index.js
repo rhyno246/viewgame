@@ -7,15 +7,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect : '/games'
-  },
-  {
-    path: '/games',
     name: 'Game',
     component: Game
   },
   {
-    path : '/games/:slug',
+    path : '/:slug',
     props : true,
     component : () => import('../views/GameDetail.vue')
   },
