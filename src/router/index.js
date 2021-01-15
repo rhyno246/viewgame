@@ -11,6 +11,11 @@ const routes = [
     component: Game
   },
   {
+    path : '/search',
+    name : 'Search',
+    component : () => import('../views/Search.vue')
+  },
+  {
     path : '/:slug',
     props : true,
     component : () => import('../views/GameDetail.vue')

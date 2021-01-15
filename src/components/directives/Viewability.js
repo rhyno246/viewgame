@@ -1,4 +1,4 @@
-function throttle(func, wait = 100) {
+function throttle(func, wait = 500) {
     let timer = null;
     return (...args) => {
       if (timer === null) {

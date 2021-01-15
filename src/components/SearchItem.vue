@@ -63,6 +63,7 @@
     </v-card>
 </template>
 
+
 <script>
 import GamePlat from './GamePlat.vue'
 import LoadingItem from './LoadingItem.vue'
@@ -105,96 +106,3 @@ export default {
     }
 }
 </script>
-
-
-<style lang="scss">
-    .card{
-        overflow: hidden;
-        position: relative;
-        &__img{
-             height: 20rem;
-            background-size: cover;
-            background-position: center center;
-            position: relative;
-            .playvideo{
-                background: rgba($color: #000000, $alpha: .7);
-                position: absolute;
-                bottom: .5rem;
-                left: .5rem;
-                border-radius: .3rem;
-                width: 4rem;
-                text-align: center;
-            }
-            .loader{
-                position: absolute;
-                top: 50%;
-                right: 50%;
-                opacity: 0.8;
-                z-index: 0;
-                transform: translate(50%, -50%);
-                width: 100%;
-                z-index: 0;
-            }
-        }
-        &__name{
-            padding: 1rem 0;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            span{
-                font-size: 1.4rem;
-                padding: 0 .6rem;
-                border-radius: 3px;
-            }
-            a{
-                font-size: 1.8rem;
-                text-decoration: none;
-                color: #fff !important;
-            }
-        }
-        &__video{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            video{
-                height: 20rem;
-                width: 100%;
-                object-fit: cover;
-            }
-            .fullvideo{
-                position: absolute;
-                right: 1rem;
-                bottom: 1rem;
-                background-color: rgba(0,0,0,.45);
-                color: #fff;
-                border: 2px solid transparent;
-                outline: none;
-                padding: .6rem 1rem;
-                border-radius: .4rem;
-                font-size: 1.5rem;
-                cursor: pointer;
-                transition: border .2s;
-                display: flex;
-                align-items: center;
-                &:hover{
-                    border: 1px solid #fff !important;
-                }
-            }
-        }
-        .group-body{
-            padding: 1rem 1rem;
-            position: inherit;
-            z-index: 99;
-        }
-    }
-    .error,.warning,.success{
-        color: #fff !important;
-    }
-    .custom-rating{
-        margin-top: 1rem;
-        button{
-            padding: 0 !important;
-        }
-    }
-</style>

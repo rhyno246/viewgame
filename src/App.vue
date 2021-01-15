@@ -17,10 +17,6 @@ export default {
     TheHeader,
     PageFooter
   },
-
-  data: () => ({
-
-  }),
 };
 </script>
 

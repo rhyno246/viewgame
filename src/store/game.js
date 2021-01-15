@@ -17,8 +17,10 @@ export default {
             record : [],
             DetailGame : [],
             screenShot : [],
+            search : [],
             isLoading : false,
             isloadMore : false,
+            strSearch : '',
             params : params
         }
     },
@@ -37,8 +39,9 @@ export default {
             return state.screenShot = payload
         },
         SearchGame(state,payload) {
-            state.params.game = null;
-            return state.All = payload
+            state.search = [...state.All] = payload;
+            console.log(state.search);
+            return state.search
         },
         setGameSlug(state,payload){
             state.params = { ...state.params , ...payload };
@@ -150,6 +153,7 @@ export default {
         },
         async SearchGame({ commit , state} , payload){
             const search = payload
+            state.strSearch = search;
             state.isLoading = true;
             await axios(`https://api.rawg.io/api/games?search=${search}`)
             .then(response =>{
@@ -186,6 +190,15 @@ export default {
         },
         getScreenshots(state){
             return state.screenShot;
+        },
+        getSearch(state){
+            return state.search;
+        },
+        getStrSearch(state){
+            return state.strSearch;
+        },
+        hasSearch(state){
+            return state.search.length > 0;
         },
         params(state){
             return state.params

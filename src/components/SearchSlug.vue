@@ -17,11 +17,10 @@ export default {
     methods : {
         searchSubmit(e){
             if(this.search == ""){
-                this.$router.push("/");
-                location.reload(); // reload browser
+                this.$router.push(`/search?query=null`);
                 return
             }
-            this.$router.push(`?search=${ this.search }`);
+            this.$router.push(`/search?query=${this.search}`);
             this.$store.dispatch('game/SearchGame', this.search)
             this.search = ''
         }
