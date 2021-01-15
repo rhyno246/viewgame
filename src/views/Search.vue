@@ -33,7 +33,8 @@ export default {
     components: { Loading , SearchItem },
     methods : {
         viewedLoad(store){
-            console.log(store);
+            const page = store.page;
+            console.log('pageSearch' , page);
         }
     },
     computed : {

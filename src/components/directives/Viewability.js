@@ -53,7 +53,7 @@ function throttle(func, wait = 500) {
             let store = { ...bind.value.store, page: page++ };
             bind.value.callback(store);
           }
-          console.log("viewed");
+          //console.log("viewed");
           if (!bind.value.loop) {
             window.removeEventListener("scroll", f);
             return true;
