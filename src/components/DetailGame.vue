@@ -98,7 +98,7 @@ export default {
     props : ['image', 'name', 'detailID' , 'website' , 'genres','desc','tags' , 'clip' , 'metacritic' , 'released' , 'short'],
     components : {GalleryDetail},
 
-    beforeUpdate (){
+    mounted (){
         return this.$store.dispatch('game/GetScreenshots', this.detailID)
     },
     data(){

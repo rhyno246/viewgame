@@ -1,6 +1,5 @@
 <template>
     <div class="detail">
-        <loading v-if="isLoading"></loading>
         <div class="detail__bg-page">
             <div class="bg" :style="{ backgroundImage:  `linear-gradient(rgba(15, 15, 15, 0.7),
             rgb(21, 21, 21)), linear-gradient(rgba(21, 21, 21, 0.8),
@@ -8,6 +7,7 @@
         </div>
         <div class="detail__main">
            <detail-game
+                v-if="renderComponent"
                 :detailID="getDetailGame.id"
                 :name="getDetailGame.name"
                 :image="getDetailGame.background_image"
@@ -26,20 +26,34 @@
 
 <script>
 import DetailGame from '../components/DetailGame.vue';
-import Loading from '../components/Loading.vue';
 export default {    
-    components : {Loading, DetailGame},
+    components : { DetailGame},
     props : ['slug'],
- 
+    data(){
+        return { 
+            renderComponent : true
+        }
+    },
+    watch : {
+        getDetailGame(val){
+            /**
+             * re-render component
+             */
+            //off component
+            this.renderComponent = false;
+            this.$nextTick(() =>{
+                //on component after proccess other
+                this.renderComponent = true;
+            });
+            console.log(val.id);
+        } 
+    },
     mounted(){
         this.$store.dispatch('game/getGameDetail' , this.slug );
     },
     computed : {
         getDetailGame(){
             return this.$store.getters['game/getDetail']
-        },
-        isLoading(){
-            return this.$store.getters['game/isLoading']
         }
     }
 }

@@ -1,14 +1,24 @@
-function throttle(func, wait = 500) {
-    let timer = null;
-    return (...args) => {
-      if (timer === null) {
-        timer = setTimeout(() => {
-          func.apply(this, args);
-          timer = null;
-        }, wait);
-      }
-    };
-  }
+// function throttle(func, wait = 500) {
+//     let timer = null;
+//     return (...args) => {
+//       if (timer === null) {
+//         timer = setTimeout(() => {
+//           func.apply(this, args);
+//           timer = null;
+//         }, wait);
+//       }
+//     };
+//   }
+
+
+function debounce(callback, wait) {
+  let timeout;
+  return (...args) => {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(context, args), wait);
+  };
+}
   
   const visibleArea = (el, pad) => {
     const padded = pad || 0;
@@ -61,7 +71,7 @@ function throttle(func, wait = 500) {
         }
         return false;
       }
-      f = throttle(visible, 200);
+      f = debounce(visible, 500);
   
       if (!visible()) {
         window.addEventListener("scroll", f);

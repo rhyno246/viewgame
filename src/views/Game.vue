@@ -10,10 +10,10 @@
         >
         </slug-item>
     </ul>
-
     <filter-main></filter-main>
-
-    <loading v-if="isLoading"></loading>
+    <div class="load-more text-center" v-if="isLoading">
+        <img src="img/loader.svg" alt="">
+      </div>
     <div class="game__box" v-else>
       <game-item
         class="game__item"
@@ -30,8 +30,6 @@
       >
       </game-item>
     </div>
-
-
     <div class="load-more text-center"
       v-viewability="{
         loop: true,
@@ -47,22 +45,18 @@
         <img src="img/loader.svg" alt="">
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
 import FilterMain from '../components/Filter/FilterMain.vue';
 import GameItem from '../components/GameItem.vue';
-import Loading from '../components/Loading.vue';
 import SlugItem from '../components/SlugItem.vue';
 // @ is an alias to /src
 
 export default {
   components: {
     GameItem,
-    Loading,
     SlugItem,
     FilterMain,
   },
@@ -73,24 +67,25 @@ export default {
   },
   async mounted(){
     await this.$store.dispatch('game/getSlug');
-    await this.$store.dispatch('game/getAllGame');
+    await this.$store.dispatch("game/recordGame", "action");
   },
   methods : {
-    loadMore(store) {
-      const page = store.page;
-      this.$store.dispatch('game/loadMore' , page);
+    loadMore() {
+      let pager = this.$store.state.game.pager;
+      const routeName = this.$route.name;
+      if(routeName === "Game" || routeName ==="Search"){
+        this.$store.dispatch('game/loadMore' , pager);
+        this.$store.commit('game/SetPager' , ++pager);
+      }
     },
   },
   computed :{
-
     isLoadmore(){
       return this.$store.getters['game/isloadMore'];
     },
-
     getAllGame(){
       return this.$store.getters['game/getAllGame'];
     },
-
     isLoading(){
       return this.$store.getters['game/isLoading'];
     },

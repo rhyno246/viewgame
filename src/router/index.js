@@ -18,6 +18,7 @@ const routes = [
   {
     path : '/:slug',
     props : true,
+    name : 'GameDetail',
     component : () => import('../views/GameDetail.vue')
   },
   { 
