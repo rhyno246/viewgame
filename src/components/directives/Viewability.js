@@ -55,15 +55,17 @@ function debounce(callback, wait) {
   
   export default {
     inserted(el, bind) {
-      let f,
-        page = 1;
+      let f,page = 1;
       function visible() {
         if (visibleArea(el, bind.value.padded)) {
           if (bind.value.callback) {
-            let store = { ...bind.value.store, page: page++ };
+            let store = { 
+              ...bind.value.store, 
+              //page: page++ 
+            };
             bind.value.callback(store);
           }
-          //console.log("viewed");
+          //console.log("loadmore : " , page);
           if (!bind.value.loop) {
             window.removeEventListener("scroll", f);
             return true;

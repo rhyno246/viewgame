@@ -77,7 +77,7 @@ export default {
                 commit('getAllSlug' , data);
             }
         },
-        async  loadMore({ commit , state } , payload){
+        async loadMore({ commit , state } , payload){
             const game = state.params.game
             const page = payload;
             console.log(page, game);
