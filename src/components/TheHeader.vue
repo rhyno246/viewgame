@@ -6,14 +6,33 @@
             </div>
             <search-slug></search-slug>
         </div>
+        <div class="main-nav">
+            <slug-item
+                v-for="(slug , index) in getSlug"
+                :key="index"
+                :id="slug.id"
+                :name="slug.name"
+                :slug="slug.slug"
+            >
+            </slug-item>
+        </div>
     </div>
 </template>
 
 
 <script>
 import SearchSlug from './SearchSlug.vue';
+import SlugItem from './SlugItem.vue';
 export default {
-    components: {SearchSlug },
+    components: {SearchSlug, SlugItem },
+    async mounted(){
+        await this.$store.dispatch('game/getSlug');
+    },
+    computed : {
+        getSlug(){
+            return this.$store.getters['game/getSlug'];
+        }
+    }
 }
 </script>
 
@@ -33,6 +52,19 @@ export default {
                 width: 100%;
                 max-width: 70rem;
                 margin-left: 5rem;
+            }
+        }
+    }
+    .main-nav{
+        padding-left: 0 !important;
+        list-style: none;
+        margin: 2rem 0 0 0;
+        li{
+            margin-right: 1.2rem;
+            display : inline-block;
+            font-size: 1.4rem;
+            a{
+                font-size: 1.4rem;
             }
         }
     }

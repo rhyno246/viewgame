@@ -34,6 +34,7 @@ export default {
             state.screenShot = payload
         },
         SearchGame(state,payload) {
+            state.params.game = "";
             state.search = payload;
         },
         setGameSlug(state,payload){
@@ -96,6 +97,7 @@ export default {
             state.isloadMore = false;
             state.isLoading = true;
             state.strSearch = '';
+            state.params.game = slugFilter;
             state.pager = 2;
             let response = await axios.get(`https://api.rawg.io/api/games?genres=${slugFilter}`);
             let data = response.data.results;

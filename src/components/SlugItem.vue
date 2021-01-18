@@ -17,6 +17,7 @@ export default {
     methods : {
         slugChange(slug){
             this.$store.commit("game/setGameSlug", { game : slug });
+            this.$router.push(`/#/?game=${slug}`)
             return this.$store.dispatch('game/recordGame' , slug);
         }
     }
@@ -42,4 +43,5 @@ export default {
         color: #333 !important;
         opacity: 1;
     }
+    
 </style>

@@ -1,15 +1,5 @@
 <template>
   <div class="game">
-    <ul class="main-nav">
-        <slug-item
-            v-for="(slug , index) in getSlug"
-            :key="index"
-            :id="slug.id"
-            :name="slug.name"
-            :slug="slug.slug"
-        >
-        </slug-item>
-    </ul>
     <!-- <filter-main></filter-main> -->
     <div class="load-more text-center" v-if="isLoading">
         <img src="img/loader.svg" alt="">
@@ -47,13 +37,11 @@
 <script>
 //import FilterMain from '../components/Filter/FilterMain.vue';
 import GameItem from '../components/GameItem.vue';
-import SlugItem from '../components/SlugItem.vue';
 // @ is an alias to /src
 
 export default {
   components: {
     GameItem,
-    SlugItem,
     //FilterMain,
   },
   data(){
@@ -62,7 +50,6 @@ export default {
     }
   },
   async mounted(){
-    await this.$store.dispatch('game/getSlug');
     await this.$store.dispatch("game/recordGame", "action");
   },
   methods : {
@@ -84,9 +71,6 @@ export default {
     },
     isLoading(){
       return this.$store.getters['game/isLoading'];
-    },
-    getSlug(){
-      return this.$store.getters['game/getSlug'];
     }
   }
    
@@ -113,20 +97,6 @@ export default {
 .load-more{
   img{
     width: 20rem;
-  }
-}
-
-.main-nav{
-  padding-left: 0 !important;
-  list-style: none;
-  margin: 2rem 0 2rem 0;
-  li{
-      margin-right: 1.2rem;
-      display : inline-block;
-      font-size: 1.4rem;
-      a{
-          font-size: 1.4rem;
-      }
   }
 }
 </style>
