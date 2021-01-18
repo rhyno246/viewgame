@@ -76,6 +76,7 @@ export default {
             dialog : false
         }
     },
+    
     computed : {
         hasMetacritic(){
             if(this.metacritic == null){

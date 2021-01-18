@@ -10,7 +10,7 @@
         >
         </slug-item>
     </ul>
-    <filter-main></filter-main>
+    <!-- <filter-main></filter-main> -->
     <div class="load-more text-center" v-if="isLoading">
         <img src="img/loader.svg" alt="">
       </div>
@@ -33,11 +33,7 @@
     <div class="load-more text-center"
       v-viewability="{
         loop: true,
-        padded: 100,
-        store : {
-          dispatch : 'game/loadMore',
-          opt: { game: 'game', limit: 20 }
-        },
+        padded: 0,
         callback : loadMore
       }"
     >
@@ -49,7 +45,7 @@
 </template>
 
 <script>
-import FilterMain from '../components/Filter/FilterMain.vue';
+//import FilterMain from '../components/Filter/FilterMain.vue';
 import GameItem from '../components/GameItem.vue';
 import SlugItem from '../components/SlugItem.vue';
 // @ is an alias to /src
@@ -58,7 +54,7 @@ export default {
   components: {
     GameItem,
     SlugItem,
-    FilterMain,
+    //FilterMain,
   },
   data(){
     return{
@@ -73,7 +69,7 @@ export default {
     loadMore() {
       let pager = this.$store.state.game.pager;
       const routeName = this.$route.name;
-      if(routeName === "Game" || routeName ==="Search"){
+      if(routeName === "Game"){
         this.$store.dispatch('game/loadMore' , pager);
         this.$store.commit('game/SetPager' , ++pager);
       }

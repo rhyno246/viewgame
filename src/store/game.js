@@ -1,5 +1,4 @@
 import axios from 'axios'
-import _ from "lodash";
 import { urlParse,urlStringify } from "../utils/helpers.js"
 
 //active control menu
@@ -36,7 +35,6 @@ export default {
         },
         SearchGame(state,payload) {
             state.search = payload;
-            console.log(state.search);
         },
         setGameSlug(state,payload){
             state.params = { ...state.params , ...payload };
@@ -64,6 +62,10 @@ export default {
         loadMore(state,payload){
             let newArr =  payload
             state.All = state.All.concat(newArr);
+        },
+        SetLoadSearch(state,payload){
+            let newLoadSearch = payload;
+            state.search = state.search.concat(newLoadSearch);
         },
         SetPager(state , payload){
             state.pager = payload;
@@ -93,6 +95,7 @@ export default {
             const slugFilter = payload;
             state.isloadMore = false;
             state.isLoading = true;
+            state.strSearch = '';
             state.pager = 2;
             let response = await axios.get(`https://api.rawg.io/api/games?genres=${slugFilter}`);
             let data = response.data.results;
@@ -129,6 +132,20 @@ export default {
                 state.isLoading = false
             }
         },
+
+        async loadSearch({ commit, state } , payload){
+            state.isloadMore = true
+            let search = state.strSearch;
+            let page = payload;
+            let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`);
+            let data = response.data.results;
+            console.log(page);
+            if(data){
+                commit('SetLoadSearch' , data);
+                state.isloadMore = false
+            }
+        },
+
         FilterPlatForm({ commit } , payload){
             const filter = payload
             commit('FilterPlatForm' , filter);
@@ -137,21 +154,6 @@ export default {
             const orderBy = payload
             console.log(orderBy);
         }
-        // async loadMore({ commit , state } , payload){
-        //     const game = state.params.game
-        //     const page = payload;
-        //     console.log(page, game);
-        //     state.isloadMore = true;
-        //     await axios.get(`https://api.rawg.io/api/games?genres=${game}&page=${page}`)
-        //     .then(response => {
-        //         const data = response.data.results;
-        //         commit('loadMore' , data);
-        //         state.isloadMore = false;
-        //     }).catch(error => {
-        //         console.log(error.message);
-        //     })
-        // },
-
     },
     getters : {
         getSlug(state) { 

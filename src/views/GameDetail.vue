@@ -45,7 +45,7 @@ export default {
                 //on component after proccess other
                 this.renderComponent = true;
             });
-            console.log(val.id);
+            //console.log(val.id);
         } 
     },
     mounted(){

@@ -7,6 +7,14 @@
 <script>
 export default {
     props : ['img', 'id'],
+    // watch : {
+    //     img : {
+    //         immediate : true,
+    //         handler(val){
+    //             console.log(val);
+    //         }
+    //     }
+    // }
 }
 </script>
 

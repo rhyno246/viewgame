@@ -18,26 +18,35 @@
         <div class="load-more"
             v-viewability="{
                 loop: true,
-                padded: 100,
+                padded: 0,
                 callback: viewedLoad
             }"
         >
+            <div class="text-center" v-if="isLoadmore"><loading-item></loading-item></div>
         </div>
     </div>
 </template>
 
 <script>
 import Loading from '../components/Loading.vue'
+import LoadingItem from '../components/LoadingItem.vue';
 import SearchItem from '../components/SearchItem.vue'
 export default {
-    components: { Loading , SearchItem },
+    components: { Loading , SearchItem, LoadingItem },
     methods : {
-        viewedLoad(store){
-            const page = store.page;
-            console.log('pageSearch' , page);
+        viewedLoad(){
+            let pager = this.$store.state.game.pager;
+            let routeName = this.$route.name
+            if(routeName === "Search"){
+                this.$store.dispatch('game/loadSearch' , pager);
+                this.$store.commit('game/SetPager' , ++pager);
+            }
         }
     },
     computed : {
+        isLoadmore(){
+            return this.$store.getters['game/isloadMore'];
+        },
         isLoading(){
             return this.$store.getters['game/isLoading'];
         },

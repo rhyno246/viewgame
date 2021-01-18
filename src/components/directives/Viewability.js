@@ -28,6 +28,7 @@ function debounce(callback, wait) {
     const elemHeight = elemBottom - elemTop;
     if (elemTop > windowHeight) {
       // Not viewable, below viewport
+      //top position
       return 0;
     }
     if (elemBottom <= 0) {
@@ -35,6 +36,7 @@ function debounce(callback, wait) {
       return 0;
     }
     if (elemTop >= 0 && elemBottom <= windowHeight) {
+      //when scroll bottom el
       return 1;
     }
     if (elemTop < 0 && elemBottom > windowHeight) {
@@ -61,7 +63,7 @@ function debounce(callback, wait) {
           if (bind.value.callback) {
             let store = { 
               ...bind.value.store, 
-              //page: page++ 
+              page: page++ 
             };
             bind.value.callback(store);
           }
