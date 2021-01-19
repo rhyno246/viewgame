@@ -50,7 +50,7 @@ export default {
     }
   },
   async mounted(){
-    await this.$store.dispatch("game/recordGame", "action");
+    await this.$store.dispatch("game/recordGame" , this.params.game);
   },
   methods : {
     loadMore() {
@@ -63,6 +63,9 @@ export default {
     },
   },
   computed :{
+    params(){
+        return this.$store.getters['game/params']
+    },
     isLoadmore(){
       return this.$store.getters['game/isloadMore'];
     },

@@ -16,6 +16,7 @@
             ></search-item>
         </div>
         <div class="load-more"
+            v-if="hasSearch"
             v-viewability="{
                 loop: true,
                 padded: 0,
@@ -36,7 +37,7 @@ export default {
     methods : {
         viewedLoad(){
             let pager = this.$store.state.game.pager;
-            let routeName = this.$route.name
+            let routeName = this.$route.name;
             if(routeName === "Search"){
                 this.$store.dispatch('game/loadSearch' , pager);
                 this.$store.commit('game/SetPager' , ++pager);
@@ -58,7 +59,7 @@ export default {
         },
         getStrSearch(){
             return this.$store.getters['game/getStrSearch'];
-        }
+        },
     }
 }
 </script>

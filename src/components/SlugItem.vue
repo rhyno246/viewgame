@@ -12,7 +12,7 @@ export default {
     computed : {
         params(){
             return this.$store.getters['game/params']
-        }
+        },
     },
     methods : {
         slugChange(slug){

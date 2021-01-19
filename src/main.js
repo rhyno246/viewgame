@@ -10,7 +10,7 @@ import viewability from "./components/directives/Viewability.js";
 Vue.config.productionTip = false
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: '/img/loader.svg',
+  error: '/img/error.svg',
   loading: '/img/loader.svg',
   attempt: 1
 })

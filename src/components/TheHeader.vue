@@ -6,7 +6,7 @@
             </div>
             <search-slug></search-slug>
         </div>
-        <div class="main-nav">
+        <div class="main-nav" v-if="!routeDetail">
             <slug-item
                 v-for="(slug , index) in getSlug"
                 :key="index"
@@ -31,6 +31,9 @@ export default {
     computed : {
         getSlug(){
             return this.$store.getters['game/getSlug'];
+        },
+        routeDetail(){
+            return this.$route.name === "GameDetail" || this.$route.name === "Search"
         }
     }
 }

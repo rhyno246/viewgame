@@ -34,7 +34,6 @@ export default {
             state.screenShot = payload
         },
         SearchGame(state,payload) {
-            state.params.game = "";
             state.search = payload;
         },
         setGameSlug(state,payload){
@@ -97,7 +96,6 @@ export default {
             state.isloadMore = false;
             state.isLoading = true;
             state.strSearch = '';
-            state.params.game = slugFilter;
             state.pager = 2;
             let response = await axios.get(`https://api.rawg.io/api/games?genres=${slugFilter}`);
             let data = response.data.results;
@@ -127,6 +125,7 @@ export default {
             const search = payload
             state.strSearch = search;
             state.isLoading = true;
+            state.pager = 2;
             let response = await axios(`https://api.rawg.io/api/games?search=${search}`);
             let data = response.data.results;
             if(data){
@@ -139,9 +138,9 @@ export default {
             state.isloadMore = true
             let search = state.strSearch;
             let page = payload;
+            console.log(page);
             let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`);
             let data = response.data.results;
-            console.log(page);
             if(data){
                 commit('SetLoadSearch' , data);
                 state.isloadMore = false
@@ -183,10 +182,10 @@ export default {
             return state.strSearch;
         },
         hasSearch(state){
-            return state.search.length > 0;
+            return state.search.length > 0 || !state.search;
         },
         params(state){
             return state.params
-        }
+        },
     }
 }
