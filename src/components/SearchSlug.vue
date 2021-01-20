@@ -14,6 +14,11 @@ export default {
             search : ''
         }
     },
+    computed : {
+        isLoadSearch(){
+            return this.$store.getters['game/isLoadSearch'];
+        },
+    },
     methods : {
         searchSubmit(e){
             if(this.search == ""){

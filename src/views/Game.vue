@@ -1,6 +1,5 @@
 <template>
   <div class="game">
-    <!-- <filter-main></filter-main> -->
     <div class="load-more text-center" v-if="isLoading">
         <img src="img/loader.svg" alt="">
       </div>
@@ -35,23 +34,14 @@
 </template>
 
 <script>
-//import FilterMain from '../components/Filter/FilterMain.vue';
 import GameItem from '../components/GameItem.vue';
-// @ is an alias to /src
-
 export default {
   components: {
     GameItem,
-    //FilterMain,
   },
-  data(){
-    return{
-      
-    }
-  },
-  async mounted(){
-    await this.$store.dispatch("game/recordGame" , this.params.game);
-  },
+  // async mounted(){
+  //   await this.$store.dispatch("game/recordGame" , this.params.game);
+  // },
   methods : {
     loadMore() {
       let pager = this.$store.state.game.pager;

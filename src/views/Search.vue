@@ -38,10 +38,15 @@ export default {
         viewedLoad(){
             let pager = this.$store.state.game.pager;
             let routeName = this.$route.name;
-            if(routeName === "Search"){
+            if(routeName === "Search" && this.isLoadSearch){
                 this.$store.dispatch('game/loadSearch' , pager);
                 this.$store.commit('game/SetPager' , ++pager);
             }
+        }
+    },
+    watch : {
+        isLoadSearch(val){
+            console.log(val);
         }
     },
     computed : {
@@ -59,6 +64,9 @@ export default {
         },
         getStrSearch(){
             return this.$store.getters['game/getStrSearch'];
+        },
+        isLoadSearch(){
+            return this.$store.getters['game/isLoadSearch'];
         },
     }
 }
