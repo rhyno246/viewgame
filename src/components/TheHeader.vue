@@ -35,7 +35,7 @@ export default {
         routeDetail(){
             return this.$route.name === "GameDetail" || this.$route.name === "Search"
         }
-    }
+    },
 }
 </script>
 

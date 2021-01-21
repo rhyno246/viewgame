@@ -14,11 +14,6 @@ export default {
             search : ''
         }
     },
-    computed : {
-        isLoadSearch(){
-            return this.$store.getters['game/isLoadSearch'];
-        },
-    },
     methods : {
         searchSubmit(e){
             if(this.search == ""){
@@ -26,7 +21,7 @@ export default {
                 return
             }
             this.$router.push(`/search?query=${this.search}`);
-            this.$store.dispatch('game/SearchGame', this.search)
+            this.$store.dispatch('game/SearchGame', this.search);
             this.search = ''
         }
     }
