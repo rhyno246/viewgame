@@ -64,7 +64,7 @@ export default {
         },
         getStrSearch(){
             return this.$store.getters['game/getStrSearch'];
-        },
+        }
     }
 }
 </script>
