@@ -20,6 +20,7 @@ export default {
             isloadMore : false,
             strSearch : '',
             pager: 1,
+            pagesearch : 2,
             params : params,
             LoadSearch : []
         }
@@ -71,6 +72,9 @@ export default {
         },
         SetPager(state , payload){
             state.pager = payload;
+        },
+        SetPageSearch(state,payload){
+            state.pagesearch = payload;
         }
     },
     actions : {
@@ -127,7 +131,7 @@ export default {
             const search = payload
             state.strSearch = search;
             state.isLoading = true;
-            state.pager = 2;
+            state.pagesearch = 2;
             let response = await axios(`https://api.rawg.io/api/games?search=${search}`);
             let data = response.data.results;
             if(data){
@@ -136,15 +140,18 @@ export default {
             }
         },
 
-        async loadSearch({ commit, state } , payload){
+        async loadSearch({ commit, rootGetters ,state } , payload){
             state.isloadMore = true
             let search = state.strSearch;
             let page = payload;
-            console.log(page);
-            let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`);
-            let data = response.data;
-            if(data){
+            let lastPage = rootGetters['game/isLoadSearch'];
+            if(lastPage === true){
+                let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`);
+                let data = response.data;
+                console.log(page , search ,  lastPage);
                 commit('SetLoadSearch' , data);
+                state.isloadMore = false
+            }else{
                 state.isloadMore = false
             }
         },

@@ -36,11 +36,11 @@ export default {
     components: { Loading , SearchItem, LoadingItem },
     methods : {
         viewedLoad(){
-            let pager = this.$store.state.game.pager;
+            let page = this.$store.state.game.pagesearch;
             let routeName = this.$route.name;
-            if(routeName === "Search" && this.isLoadSearch){
-                this.$store.dispatch('game/loadSearch' , pager);
-                this.$store.commit('game/SetPager' , ++pager);
+            if(routeName === "Search"){
+                this.$store.dispatch('game/loadSearch' , page);
+                this.$store.commit('game/SetPageSearch' , ++page);
             }
         }
     },
@@ -64,9 +64,6 @@ export default {
         },
         getStrSearch(){
             return this.$store.getters['game/getStrSearch'];
-        },
-        isLoadSearch(){
-            return this.$store.getters['game/isLoadSearch'];
         },
     }
 }
