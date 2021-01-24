@@ -11,20 +11,36 @@
 export default {
     data(){
         return{
-            search : ''
+            search : '',
+            refreshSearch: true,
         }
     },
     methods : {
-        searchSubmit(e){
+        searchSubmit(input){
+            console.log(input)
+            //when enter search input = event 
+            if (typeof input === 'string' || input instanceof String){
+                this.search = input;
+            }
+            
             if(this.search == ""){
                 this.$router.push('/');
                 return
             }
             this.$router.push(`/search?query=${this.search}`);
             this.$store.dispatch('game/SearchGame', this.search);
+            this.$store.commit('game/SetEndLoad', false);
             this.search = ''
         }
-    }
+    },
+    watch:{
+        '$route.query'(val){
+            if(val.query && this.refreshSearch){
+                this.searchSubmit(val.query)
+                this.refreshSearch = false
+            }
+        }
+    },
 }
 </script>
 

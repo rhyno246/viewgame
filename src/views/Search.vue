@@ -50,6 +50,9 @@ export default {
         }
     },
     computed : {
+        endLoad(){
+            return this.$store.state.game.endLoad;
+        },
         isLoadmore(){
             return this.$store.getters['game/isloadMore'];
         },
@@ -65,7 +68,7 @@ export default {
         getStrSearch(){
             return this.$store.getters['game/getStrSearch'];
         }
-    }
+    },
 }
 </script>
 

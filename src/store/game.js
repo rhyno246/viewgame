@@ -22,7 +22,8 @@ export default {
             pager: 1,
             pagesearch : 2,
             params : params,
-            LoadSearch : []
+            LoadSearch : {},
+            endLoad: false
         }
     },
     mutations : {
@@ -75,6 +76,10 @@ export default {
         },
         SetPageSearch(state,payload){
             state.pagesearch = payload;
+        },
+        SetEndLoad(state, payload){
+            state.endLoad = payload;
+            console.log('set endload', payload)
         }
     },
     actions : {
@@ -141,18 +146,19 @@ export default {
         },
 
         async loadSearch({ commit, rootGetters ,state } , payload){
-            state.isloadMore = true
+            state.isloadMore = true;
             let search = state.strSearch;
             let page = payload;
-            let lastPage = rootGetters['game/isLoadSearch'];
-            if(lastPage === true){
-                let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`);
-                let data = response.data;
-                console.log(page , search ,  lastPage);
-                commit('SetLoadSearch' , data);
-                state.isloadMore = false
-            }else{
-                state.isloadMore = false
+            if(state.endLoad) { //stop if endload true
+                state.isloadMore = false;
+                return; 
+            }
+            let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`);
+            state.isloadMore = false;
+            let data = response.data || {};
+            commit('SetLoadSearch' , data);
+            if(data.next == null){
+                state.endLoad = true;
             }
         },
 
