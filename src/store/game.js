@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { urlParse,urlStringify } from "../utils/helpers.js"
+import { urlParse,urlStringify } from "../utils/helpers.js";
+import Storage from '../utils/storage.js';
 
 //active control menu
 let menuObj = { 
@@ -7,11 +8,14 @@ let menuObj = {
 };
 let urlObj = urlParse();
 let params = { ...menuObj, ...urlObj };
+
+//cache key name trong storage
+const slug = "slug";
 export default { 
     namespaced : true,
     state(){
         return {
-            Slug : [],
+            Slug : Storage.get(slug, "[]"),
             All : [],
             DetailGame : [],
             screenShot : [],
@@ -23,7 +27,7 @@ export default {
             pagesearch : 1,
             params : params,
             LoadSearch : {},
-            endLoad: false
+            endLoad: false,
         }
     },
     mutations : {
@@ -83,9 +87,11 @@ export default {
         }
     },
     actions : {
-        async getSlug({ commit }){
+        async getSlug({ commit ,state }){
+            if(state.Slug.length > 0) return; //check array is exist
             let response = await axios.get('https://api.rawg.io/api/genres');
             let data = response.data.results;
+            Storage.set(slug, JSON.stringify(data), 60 * 24 * 3); //set data vao storage 
             if(data){
                 commit('getAllSlug' , data);
             }
@@ -102,7 +108,7 @@ export default {
                 state.isloadMore = false;
             }
         },
-        async recordGame({ commit,state } , payload){
+        async recordGame({ commit, state } , payload){
             const slugFilter = payload;
             state.isloadMore = false;
             state.isLoading = true;
@@ -138,7 +144,7 @@ export default {
             state.isLoading = true;
             state.pagesearch = 2;
             let response = await axios(`https://api.rawg.io/api/games?search=${search}`);
-            let data = response.data.results;
+            let data = response.data.results || {};
             if(data.length < 20){
                 state.isloadMore = false;
                 state.pagesearch = 1
@@ -153,7 +159,8 @@ export default {
             state.isloadMore = true;
             let search = state.strSearch;
             let page = payload;
-            if(state.endLoad) { //stop if endload true
+            if(state.endLoad) {
+                console.log(state.endLoad); //stop if endload true
                 state.isloadMore = false;
                 return; 
             }

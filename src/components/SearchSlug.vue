@@ -34,6 +34,7 @@ export default {
     },
     watch:{
         '$route.query'(val){
+            console.log(val);
             if(val.query && this.refreshSearch){
                 this.searchSubmit(val.query)
                 this.refreshSearch = false
