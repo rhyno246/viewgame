@@ -136,9 +136,13 @@ export default {
             const search = payload
             state.strSearch = search;
             state.isLoading = true;
-            state.pagesearch = 1;
+            state.pagesearch = 2;
             let response = await axios(`https://api.rawg.io/api/games?search=${search}`);
             let data = response.data.results;
+            if(data.length < 20){
+                state.isloadMore = false;
+                state.pagesearch = 1
+            }
             if(data){
                 commit('SearchGame' , data);
                 state.isLoading = false
