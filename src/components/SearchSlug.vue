@@ -22,7 +22,6 @@ export default {
             if (typeof input === 'string' || input instanceof String){
                 this.search = input;
             }
-            
             if(this.search == ""){
                 this.$router.push('/');
                 return

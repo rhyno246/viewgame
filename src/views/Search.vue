@@ -44,11 +44,6 @@ export default {
             }
         }
     },
-    watch : {
-        isLoadSearch(val){
-            console.log(val);
-        }
-    },
     computed : {
         endLoad(){
             return this.$store.state.game.endLoad;
