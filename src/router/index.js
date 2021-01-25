@@ -7,6 +7,10 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect : '/game'
+  },
+  {
+    path: '/game',
     name: 'Game',
     component: Game
   },
@@ -16,7 +20,7 @@ const routes = [
     component : () => import('../views/Search.vue')
   },
   {
-    path : '/:slug',
+    path : '/game/:slug',
     props : true,
     name : 'GameDetail',
     component : () => import('../views/GameDetail.vue')
@@ -33,7 +37,7 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
 };
 const router = new VueRouter({
-  mode: 'history',
+  //mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

@@ -2,7 +2,7 @@
     <div class="detail__main--box">
         <v-row>
             <v-col cols="12" sm="5" md="4">
-                <div class="img" v-lazy:background-image="image"></div>
+                <div class="img" :style="{ backgroundImage: 'url(' + image + ')' }"></div>
                 <button class="play-trailer" @click="dialog = true" v-if="clip">
                     <v-icon>mdi-play</v-icon> Play Trailer
                 </button>
@@ -69,7 +69,7 @@
         </v-row>
         <v-row>
             <v-col cols="12" sm="10" md="10">
-                <div class="grid-detail mt-5">
+                <div class="grid-detail mt-5" v-if="renderComponent">
                     <gallery-detail
                         v-for="image in getdetailscreen" :key="image.id"
                         class="gird-img"
@@ -104,9 +104,19 @@ export default {
     data(){
         return{
             seemore : true,
-            dialog : false
+            dialog : false,
+            renderComponent : false
         }
     },
+
+    watch : {
+        getdetailscreen(val){
+            this.$nextTick(() => {
+                this.renderComponent = true;
+            })
+        }
+    },
+
     computed : {
         hasMetacritic(){
             if(this.metacritic == null){
@@ -231,6 +241,7 @@ export default {
         .box-img{
             height: 25rem;
             overflow: hidden;
+            background: rgba($color: #000000, $alpha: .9);
             @media (max-width: 768px) {
                 height: 15rem;
             }

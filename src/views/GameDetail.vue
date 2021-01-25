@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <div class="detail__bg-page">
+        <div class="detail__bg-page" v-if="renderComponent">
             <div class="bg" :style="{ backgroundImage:  `linear-gradient(rgba(15, 15, 15, 0.7),
             rgb(21, 21, 21)), linear-gradient(rgba(21, 21, 21, 0.8),
             rgba(21, 21, 21, 0.5)), url('${ getDetailGame.background_image }')` }"></div>
@@ -31,7 +31,7 @@ export default {
     props : ['slug'],
     data(){
         return { 
-            renderComponent : true
+            renderComponent : false
         }
     },
     watch : {
@@ -40,15 +40,13 @@ export default {
              * re-render component
              */
             //off component
-            this.renderComponent = false;
             this.$nextTick(() =>{
                 //on component after proccess other
                 this.renderComponent = true;
             });
-            console.log(val);
         } 
     },
-    mounted(){
+    created(){
         this.$store.dispatch('game/getGameDetail' , this.slug );
     },
     computed : {

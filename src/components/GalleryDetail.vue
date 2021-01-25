@@ -1,6 +1,6 @@
 <template>
     <div class="box-img">
-        <img v-lazy="img" class="img-res">
+        <img v-lazy="img.replace('media/screenshots', 'media/resize/420/-/screenshots')" class="img-res">
     </div>
 </template>
 

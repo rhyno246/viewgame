@@ -33,7 +33,7 @@
 
         <div class="group-body">
             <div class="card__name">
-                <router-link :to="`/${slug}`"> {{ name }} </router-link>
+                <router-link :to="`/game/${slug}`"> {{ name }} </router-link>
                 <span class="metacritic" :class="hasMetacritic">{{ metacritic ? metacritic : 0 }}</span>
             </div>
             <div class="card__platforms">

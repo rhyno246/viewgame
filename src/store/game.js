@@ -8,7 +8,6 @@ let menuObj = {
 };
 let urlObj = urlParse();
 let params = { ...menuObj, ...urlObj };
-
 //cache key name trong storage
 const slug = "slug";
 export default { 
@@ -99,7 +98,6 @@ export default {
         async loadMore({ commit , state } , payload){
             const game = state.params.game
             const page = payload;
-            console.log(page, game);
             state.isloadMore = true;
             let response = await axios.get(`https://api.rawg.io/api/games?genres=${game}&page=${page}`);
             let data = response.data.results;
@@ -122,8 +120,8 @@ export default {
             }
         },
         async getGameDetail({ commit } , payload){
-            const id = payload;
-            let response = await axios.get(`https://api.rawg.io/api/games/${id}`);
+            const slug = payload;
+            let response = await axios.get(`https://api.rawg.io/api/games/${slug}`);
             let data = response.data;
             if(data){
                 commit('getGameDetail' , data);
