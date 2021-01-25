@@ -1,8 +1,8 @@
 <template>
   <div class="game">
     <div class="load-more text-center" v-if="isLoading">
-        <img src="img/loader.svg" alt="">
-      </div>
+      <img src="img/loader.svg" alt="">
+    </div>
     <div class="game__box" v-else>
       <game-item
         class="game__item"
@@ -52,6 +52,7 @@ export default {
       }
     },
   },
+
   computed :{
     params(){
         return this.$store.getters['game/params']

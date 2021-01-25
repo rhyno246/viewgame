@@ -51,20 +51,21 @@ export default {
         recordGame(state, payload){
             state.All = payload;
         },
-        FilterPlatForm(state , payload){
-            const filter = payload;
-            switch (filter) {
-                case "PC":
-                    return (state.All.filter(item => {
-                        return item.parent_platforms[0].platform.name === filter
-                    }));
-                default:
-                    return state.All
-            }
-        },
-        FilterOrderby(state, payload){
-            console.log(payload);
-        },
+        // FilterPlatForm(state , payload){
+        //     const filter = payload;
+        //     switch (filter) {
+        //         case "PC":
+        //             return (state.All.filter(item => {
+        //                 return item.parent_platforms[0].platform.name === filter
+        //             }));
+        //         default:
+        //             return state.All
+        //     }
+        // },
+        // FilterOrderby(state, payload){
+        //     const arrfilter = payload.results
+        //     state.All = arrfilter
+        // },
         loadMore(state,payload){
             let newArr =  payload
             state.All = state.All.concat(newArr);
@@ -171,14 +172,21 @@ export default {
             }
         },
 
-        FilterPlatForm({ commit } , payload){
-            const filter = payload
-            commit('FilterPlatForm' , filter);
-        },
-        FilterOrderby({ commit, state } , payload){
-            const orderBy = payload
-            console.log(orderBy);
-        }
+        // FilterPlatForm({ commit } , payload){
+        //     const filter = payload
+        //     commit('FilterPlatForm' , filter);
+        // },
+        // async FilterOrderby({ commit, state } , payload){
+        //     const orderBy = payload;
+        //     const game = state.params.game;
+        //     const page = state.pager;
+        //     console.log(game , page);
+        //     let response = await axios.get(`https://rawg.io/api/games?ordering=${orderBy}&genres=${game}&page=${page}`);
+        //     let data = response.data || {};
+        //     if(data){
+        //         commit('FilterOrderby' , data);
+        //     }
+        // }
     },
     getters : {
         getSlug(state) { 

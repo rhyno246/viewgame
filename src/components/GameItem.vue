@@ -3,12 +3,16 @@
         <div class="card__img"
             v-lazy:background-image="image"
         >
-        
             <!-- :style="{ backgroundImage: 'url(' + image + ')' }" -->
             <!-- <loading class="loader" v-if="loadding"></loading> -->
             <loading-item class="loader" v-if="loadding"></loading-item>
             <div class="playvideo" v-if="hasClip">
                 <v-icon>mdi-play</v-icon>
+            </div>
+            <div class="none-videoslider" v-if="!hasClip && isShowSlide">
+                <div>
+                    Slide Show
+                </div>
             </div>
         </div>
 
@@ -73,10 +77,17 @@ export default {
         return{
             isShow : false,
             loadding : false,
-            dialog : false
+            dialog : false,
+            isShowSlide : false
         }
     },
+    mounted (){
+        return this.$store.dispatch('game/GetScreenshots', this.id)
+    },
     computed : {
+        getdetailscreen(){
+            return this.$store.getters['game/getScreenshots']
+        },
         hasMetacritic(){
             if(this.metacritic == null){
                 return "error"
@@ -93,6 +104,7 @@ export default {
     methods : {
         hoverPlayvideo(){
             if(this.clip == null){
+                this.isShowSlide = true
                 return
             }
             this.loadding = true
@@ -101,6 +113,7 @@ export default {
         leaveVideo(){
             this.loadding = false
             this.isShow = false
+            this.isShowSlide = false
         }
     }
 }
