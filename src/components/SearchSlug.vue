@@ -17,7 +17,7 @@ export default {
     },
     methods : {
         searchSubmit(input){
-            console.log(input)
+            //console.log(input)
             //when enter search input = event 
             if (typeof input === 'string' || input instanceof String){
                 this.search = input;

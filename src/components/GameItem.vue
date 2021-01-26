@@ -10,9 +10,7 @@
                 <v-icon>mdi-play</v-icon>
             </div>
             <div class="none-videoslider" v-if="!hasClip && isShowSlide">
-                <div>
-                    Slide Show
-                </div>
+                <slide-game :item="shortimg"></slide-game>
             </div>
         </div>
 
@@ -70,9 +68,10 @@
 <script>
 import GamePlat from './GamePlat.vue'
 import LoadingItem from './LoadingItem.vue'
+import SlideGame from './SlideGame.vue'
 export default {
-    components: { GamePlat,LoadingItem },
-    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip'],
+    components: { GamePlat,LoadingItem , SlideGame },
+    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip' , 'shortimg'],
     data(){
         return{
             isShow : false,
@@ -80,9 +79,6 @@ export default {
             dialog : false,
             isShowSlide : false
         }
-    },
-    mounted (){
-        return this.$store.dispatch('game/GetScreenshots', this.id)
     },
     computed : {
         getdetailscreen(){
@@ -104,7 +100,7 @@ export default {
     methods : {
         hoverPlayvideo(){
             if(this.clip == null){
-                this.isShowSlide = true
+                this.isShowSlide = true;
                 return
             }
             this.loadding = true
@@ -129,6 +125,7 @@ export default {
             background-size: cover;
             background-position: center center;
             position: relative;
+            overflow: hidden;
             .playvideo{
                 background: rgba($color: #000000, $alpha: .7);
                 position: absolute;

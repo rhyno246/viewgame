@@ -83,7 +83,7 @@ export default {
         },
         SetEndLoad(state, payload){
             state.endLoad = payload;
-            console.log('set endload', payload)
+            //console.log('set endload', payload)
         }
     },
     actions : {

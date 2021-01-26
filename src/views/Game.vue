@@ -16,6 +16,7 @@
         :rating="game.rating"
         :slug="game.slug"
         :clip="game.clip"
+        :shortimg="game.short_screenshots"
       >
       </game-item>
     </div>
@@ -52,7 +53,6 @@ export default {
       }
     },
   },
-
   computed :{
     params(){
         return this.$store.getters['game/params']
