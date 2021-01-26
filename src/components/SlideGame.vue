@@ -1,15 +1,13 @@
 <template>
     <div class="slide">
         <div class="slide__img">
-            <div class="img" :style="{ backgroundImage: 'url(' + getSlide.image + ')' }"></div>
+            <div class="img" :style="{ backgroundImage: 'url(' + resizeImg + ')' }"></div>
         </div>
         <div class="slide__control">
             <span v-for="(item,index) in item" :key="index" @mouseover="handleSlide(index)" :class="{ active : selectedIndex == index }"></span>
         </div>
     </div>
 </template>
-
-
 <script>
 export default {
     props : ['item'],
@@ -22,6 +20,13 @@ export default {
         getSlide(){
             const index = this.selectedIndex;
             return this.item[index] || {};
+        },
+        resizeImg(){
+            if(this.getSlide.id == -1){
+                return this.getSlide.image.replace('media/games' , 'media/resize/640/-/games');
+            }else{
+                return this.getSlide.image.replace('media/screenshots', 'media/resize/640/-/screenshots');
+            }
         }
     },
     methods : {

@@ -1,5 +1,8 @@
 import lscache from "lscache";
-
+const parseData = function(type) {
+  if (type == "[]") return [];
+  return {};
+};
 const Storage = {
   get(key, parseType) {
     let data = lscache.get(key);
@@ -7,10 +10,13 @@ const Storage = {
       if (data && parseType) {
         data = JSON.parse(data);
       }
+
+      if (!data && parseType) {
+        data = parseData(parseType);
+      }
     } catch (err) {
       //config parse ex: "{}" or "[]"
-      if (parseType == "[]") data = [];
-      else data = {};
+      data = parseData(parseType);
     }
 
     return data || "";
@@ -30,6 +36,5 @@ export default Storage;
  * Use
  * Storage.get('keyname'); result: value
  * Storage.get('keyname', '[]'); result: array
- * Storage.get('keyname', '{}'); result: object
  * Storage.get('keyname', '{}'); result: object
  */
