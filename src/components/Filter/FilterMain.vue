@@ -1,6 +1,6 @@
 <template>
     <v-row v-if="!routeFilter">
-        <v-col cols="12" sm="6" md="6">
+        <v-col cols="12" sm="3" md="3">
             <v-select
                 class="select"
                 :items="items"
@@ -11,7 +11,7 @@
             >
             </v-select>
         </v-col>
-        <v-col cols="12" sm="6" md="6">
+        <v-col cols="12" sm="3" md="3">
             <v-select
                 class="select-1"
                 :items="items1"
@@ -68,7 +68,7 @@ export default {
     }
     .select-1{
         @media (max-width: 768px) {
-            margin-top: -3rem !important;
+            margin-top: -4rem !important;
         }
     }
 </style>

@@ -82,17 +82,18 @@ export default {
             const newArr = payload.results
             state.All = state.All.concat(newArr);
         },
-        // FilterPlatForm(state , payload){
-        //     const filter = payload;
-        //     switch (filter) {
-        //         case "PC":
-        //             return (state.All.filter(item => {
-        //                 return item.parent_platforms[0].platform.name === filter
-        //             }));
-        //         default:
-        //             return state.All
-        //     }
-        // },
+        FilterPlatForm(state , payload){
+            const filter = payload;
+            console.log(filter);
+            // switch (filter) {
+            //     case "PC":
+            //         return (state.All.filter(item => {
+            //             return item.parent_platforms[0].platform.name === filter
+            //         }));
+            //     default:
+            //         return state.All
+            // }
+        },
     },
     actions : {
         async getSlug({ commit ,state }){
@@ -181,10 +182,10 @@ export default {
             }
         },
 
-        // FilterPlatForm({ commit } , payload){
-        //     const filter = payload
-        //     commit('FilterPlatForm' , filter);
-        // },
+        FilterPlatForm({ commit } , payload){
+            const filter = payload
+            commit('FilterPlatForm' , filter);
+        },
 
 
         async FilterOrderby({ commit, state } , payload){

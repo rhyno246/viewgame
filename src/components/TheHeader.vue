@@ -62,10 +62,17 @@ export default {
         padding-left: 0 !important;
         list-style: none;
         margin: 2rem 0 0 0;
+        @media (max-width : 768px) {
+            display: flex;
+            flex-wrap: wrap;
+        }
         li{
             margin-right: 1.2rem;
             display : inline-block;
             font-size: 1.4rem;
+            @media (max-width : 768px) {
+                margin-right: 0;
+            }
             a{
                 font-size: 1.4rem;
             }

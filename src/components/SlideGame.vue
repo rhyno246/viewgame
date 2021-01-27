@@ -1,7 +1,7 @@
 <template>
-    <div class="slide">
+    <div class="slide" v-if="hasNull">
         <div class="slide__img">
-            <div class="img" :style="{ backgroundImage: 'url(' + resizeImg + ')' }"></div>
+            <div class="img"  v-lazy:background-image="resizeImg"></div>
             <!-- :style="{ backgroundImage: 'url(' + resizeImg + ')' }" -->
             <!-- v-lazy:background-image="resizeImg" -->
         </div>
@@ -24,11 +24,16 @@ export default {
             return this.item[index] || {};
         },
         resizeImg(){
-            if(this.getSlide.id == -1){
+            var strGame  = this.getSlide.image.includes('media/games')
+            var strScreen = this.getSlide.image.includes('media/screenshots');
+            if(strGame){
                 return this.getSlide.image.replace('media/games' , 'media/resize/640/-/games');
-            }else{
+            }else if(strScreen){
                 return this.getSlide.image.replace('media/screenshots', 'media/resize/640/-/screenshots');
             }
+        },
+        hasNull(){
+            return this.item.length > 0
         }
     },
     methods : {
@@ -46,7 +51,7 @@ export default {
                 height: 20rem;
                 background-size: cover;
                 background-position: center center;
-                //background-color:rgba($color: #000000, $alpha: .8);
+                background-color:rgba($color: #000000, $alpha: 1);
                 .img-res{
                     max-width: 100%;
                 }

@@ -83,7 +83,7 @@ export default {
 .game{
   &__box{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
     @media (max-width: 992px) {
       grid-template-columns: repeat(3,1fr);
