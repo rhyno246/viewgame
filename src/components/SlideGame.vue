@@ -2,6 +2,8 @@
     <div class="slide">
         <div class="slide__img">
             <div class="img" :style="{ backgroundImage: 'url(' + resizeImg + ')' }"></div>
+            <!-- :style="{ backgroundImage: 'url(' + resizeImg + ')' }" -->
+            <!-- v-lazy:background-image="resizeImg" -->
         </div>
         <div class="slide__control">
             <span v-for="(item,index) in item" :key="index" @mouseover="handleSlide(index)" :class="{ active : selectedIndex == index }"></span>
@@ -44,6 +46,7 @@ export default {
                 height: 20rem;
                 background-size: cover;
                 background-position: center center;
+                //background-color:rgba($color: #000000, $alpha: .8);
                 .img-res{
                     max-width: 100%;
                 }

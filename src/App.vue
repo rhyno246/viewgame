@@ -1,6 +1,7 @@
 <template>
   <v-app class="my-app">
     <the-header></the-header>
+    <filter-main></filter-main>
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -11,10 +12,12 @@
 <script>
 import TheHeader from './components/TheHeader.vue';
 import PageFooter from './components/PageFooter.vue';
+import FilterMain from './components/Filter/FilterMain.vue';
 export default {
   name: 'App',
   components: {
     TheHeader,
+    FilterMain,
     PageFooter,
   },
 };

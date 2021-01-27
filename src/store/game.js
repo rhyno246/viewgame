@@ -27,6 +27,7 @@ export default {
             params : params,
             LoadSearch : {},
             endLoad: false,
+            isFilterLoad : false,
         }
     },
     mutations : {
@@ -62,10 +63,11 @@ export default {
         //             return state.All
         //     }
         // },
-        // FilterOrderby(state, payload){
-        //     const arrfilter = payload.results
-        //     state.All = arrfilter
-        // },
+        FilterOrderby(state, payload){
+            const arrfilter = payload.results
+            state.All = arrfilter
+            console.log(state.All);
+        },
         loadMore(state,payload){
             let newArr =  payload
             state.All = state.All.concat(newArr);
@@ -84,6 +86,9 @@ export default {
         SetEndLoad(state, payload){
             state.endLoad = payload;
             //console.log('set endload', payload)
+        },
+        setFilterLoad(state,payload){
+            state.isFilterLoad = payload;
         }
     },
     actions : {
@@ -112,6 +117,7 @@ export default {
             state.isloadMore = false;
             state.isLoading = true;
             state.strSearch = '';
+            state.isFilterLoad = false;
             state.pager = 2;
             let response = await axios.get(`https://api.rawg.io/api/games?genres=${slugFilter}`);
             let data = response.data.results;
@@ -176,17 +182,28 @@ export default {
         //     const filter = payload
         //     commit('FilterPlatForm' , filter);
         // },
-        // async FilterOrderby({ commit, state } , payload){
-        //     const orderBy = payload;
-        //     const game = state.params.game;
-        //     const page = state.pager;
-        //     console.log(game , page);
-        //     let response = await axios.get(`https://rawg.io/api/games?ordering=${orderBy}&genres=${game}&page=${page}`);
-        //     let data = response.data || {};
-        //     if(data){
-        //         commit('FilterOrderby' , data);
-        //     }
-        // }
+
+
+        async FilterOrderby({ commit, state } , payload){
+            const orderBy = payload;
+            const game = state.params.game;
+            state.isLoading = true;
+            state.pager = 2;
+            let response = await axios.get(`https://rawg.io/api/games?ordering=${orderBy}&genres=${game}`);
+            let data = response.data || {};
+            if(data){
+                commit('FilterOrderby' , data);
+                state.isLoading = false
+            }
+        },
+
+        async loadFilter({ commit , state } , payload){
+            const page = payload;
+            state.isloadMore = true;
+            ///////////////////
+        }
+
+
     },
     getters : {
         getSlug(state) { 

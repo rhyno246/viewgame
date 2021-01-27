@@ -1,5 +1,5 @@
 <template>
-    <v-row>
+    <v-row v-if="!routeFilter">
         <v-col cols="12" sm="6" md="6">
             <v-select
                 class="select"
@@ -40,11 +40,17 @@ export default {
             ]
         }
     },
+    computed : {
+        routeFilter(){
+            return this.$route.name === "GameDetail" || this.$route.name === "Search"
+        }
+    },
     methods :{
         FilterPlatForm(val){
             return this.$store.dispatch('game/FilterPlatForm' , val)
         },
         FilterOrderby(val){
+            this.$store.commit('game/setFilterLoad' , true);
             return this.$store.dispatch('game/FilterOrderby' , val)
         }
     }

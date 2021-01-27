@@ -47,10 +47,18 @@ export default {
     loadMore() {
       let pager = this.$store.state.game.pager;
       const routeName = this.$route.name;
-      if(routeName === "Game"){
+      const sortGame = this.$store.state.game.isFilterLoad;
+      if(sortGame){
+        this.$store.dispatch('game/loadFilter' , pager)
+        this.$store.commit('game/SetPager' , ++pager);
+      }else if(routeName === "Game"){
         this.$store.dispatch('game/loadMore' , pager);
         this.$store.commit('game/SetPager' , ++pager);
       }
+      // if(routeName === "Game"){
+      //   this.$store.dispatch('game/loadMore' , pager);
+      //   this.$store.commit('game/SetPager' , ++pager);
+      // }
     },
   },
   computed :{

@@ -13,7 +13,7 @@
                 <slide-game :item="shortimg"></slide-game>
             </div>
         </div>
-
+        
         <div class="card__video" v-if="isShow">
             <video :src="clip.clip" loop muted autoplay></video>
             <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
@@ -77,7 +77,7 @@ export default {
             isShow : false,
             loadding : false,
             dialog : false,
-            isShowSlide : false
+            isShowSlide : false,
         }
     },
     computed : {
