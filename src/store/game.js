@@ -28,6 +28,7 @@ export default {
             LoadSearch : {},
             endLoad: false,
             isFilterLoad : false,
+            nameOderby : "",
         }
     },
     mutations : {
@@ -52,22 +53,6 @@ export default {
         recordGame(state, payload){
             state.All = payload;
         },
-        // FilterPlatForm(state , payload){
-        //     const filter = payload;
-        //     switch (filter) {
-        //         case "PC":
-        //             return (state.All.filter(item => {
-        //                 return item.parent_platforms[0].platform.name === filter
-        //             }));
-        //         default:
-        //             return state.All
-        //     }
-        // },
-        FilterOrderby(state, payload){
-            const arrfilter = payload.results
-            state.All = arrfilter
-            console.log(state.All);
-        },
         loadMore(state,payload){
             let newArr =  payload
             state.All = state.All.concat(newArr);
@@ -85,11 +70,29 @@ export default {
         },
         SetEndLoad(state, payload){
             state.endLoad = payload;
-            //console.log('set endload', payload)
         },
         setFilterLoad(state,payload){
             state.isFilterLoad = payload;
-        }
+        },
+        FilterOrderby(state, payload){
+            const arrfilter = payload.results
+            state.All = arrfilter
+        },
+        setLoadMoreOrderBy(state,payload){
+            const newArr = payload.results
+            state.All = state.All.concat(newArr);
+        },
+        // FilterPlatForm(state , payload){
+        //     const filter = payload;
+        //     switch (filter) {
+        //         case "PC":
+        //             return (state.All.filter(item => {
+        //                 return item.parent_platforms[0].platform.name === filter
+        //             }));
+        //         default:
+        //             return state.All
+        //     }
+        // },
     },
     actions : {
         async getSlug({ commit ,state }){
@@ -185,7 +188,7 @@ export default {
 
 
         async FilterOrderby({ commit, state } , payload){
-            const orderBy = payload;
+            const orderBy = state.nameOderby =  payload;
             const game = state.params.game;
             state.isLoading = true;
             state.pager = 2;
@@ -199,8 +202,15 @@ export default {
 
         async loadFilter({ commit , state } , payload){
             const page = payload;
+            const game = state.params.game;
+            const orderBy = state.nameOderby;
             state.isloadMore = true;
-            ///////////////////
+            let response = await axios.get(`https://rawg.io/api/games?ordering=${orderBy}&genres=${game}&page=${page}`);
+            let data = response.data || {};
+            if(data){
+                commit('setLoadMoreOrderBy' , data)
+                state.isloadMore = false;
+            }
         }
 
 

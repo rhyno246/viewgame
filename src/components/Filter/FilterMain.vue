@@ -35,7 +35,7 @@ export default {
             items1 : [
                 { state : 'Name' , abbr : 'name' },
                 { state : 'Rating' , abbr : '-rating' },
-                { state : 'Release Date' , abbr : '-release' },
+                { state : 'Release Date' , abbr : '-released' },
                 { state : 'Date added' , abbr : '-created' }
             ]
         }
@@ -50,6 +50,7 @@ export default {
             return this.$store.dispatch('game/FilterPlatForm' , val)
         },
         FilterOrderby(val){
+            this.$router.push(`?ordering=${val}`)
             this.$store.commit('game/setFilterLoad' , true);
             return this.$store.dispatch('game/FilterOrderby' , val)
         }
