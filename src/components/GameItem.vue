@@ -195,7 +195,7 @@ export default {
         .group-body{
             padding: 1rem 1rem;
             position: inherit;
-            z-index: 99;
+            z-index: 8;
         }
     }
     .error,.warning,.success{

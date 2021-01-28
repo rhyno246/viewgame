@@ -5,6 +5,8 @@
                 class="select"
                 :items="items"
                 label="PlatForm"
+                item-text="state"
+                item-value="abbr"
                 dense
                 solo
                 @change="FilterPlatForm"
@@ -31,7 +33,17 @@
 export default {
     data(){
         return{
-            items: ['PC', 'PlayStation', 'Xbox', 'IOS','Android' ,'linux' , 'Web'],
+            //items: ['PC', 'PlayStation', 'Xbox', 'IOS','Android' ,'linux' , 'Web'],
+            items : [
+                { state : 'PC' , abbr : '1' },
+                { state : 'PlayStation' , abbr : '2' },
+                { state : 'Xbox' , abbr : '3' },
+                { state : 'IOS' , abbr : '4' },
+                { state : 'Linux' , abbr : '6' },
+                { state : 'Android' , abbr : '8' },
+                { state : 'Web' , abbr : '14' },
+                
+            ],
             items1 : [
                 { state : 'Name' , abbr : 'name' },
                 { state : 'Rating' , abbr : '-rating' },

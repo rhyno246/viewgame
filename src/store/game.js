@@ -3,10 +3,9 @@ import { urlParse,urlStringify } from "../utils/helpers.js";
 import Storage from '../utils/storage.js';
 
 //active control menu
-let menuObj = { 
-    game : 'action',
-    name : 'Action'
-};
+let menuObj = {
+    game : "action",
+ };
 let urlObj = urlParse();
 let params = { ...menuObj, ...urlObj };
 //cache key name trong storage
@@ -84,16 +83,8 @@ export default {
             state.All = state.All.concat(newArr);
         },
         FilterPlatForm(state , payload){
-            const filter = payload;
-            console.log(filter);
-            // switch (filter) {
-            //     case "PC":
-            //         return (state.All.filter(item => {
-            //             return item.parent_platforms[0].platform.name === filter
-            //         }));
-            //     default:
-            //         return state.All
-            // }
+            const arrPlatForm = payload.results;
+            state.All =arrPlatForm;
         },
     },
     actions : {
@@ -183,9 +174,16 @@ export default {
             }
         },
 
-        FilterPlatForm({ commit } , payload){
+        async FilterPlatForm({ commit, state } , payload){
+            state.isLoading = true
             const filter = payload
-            commit('FilterPlatForm' , filter);
+            let game = state.params.game
+            let response = await axios.get(`https://rawg.io/api/games?parent_platforms=${filter}&genres=${game}&page=1`);
+            let data = response.data || {};
+            if(data){
+                state.isLoading = false;
+                commit('FilterPlatForm' , data);
+            }
         },
 
 

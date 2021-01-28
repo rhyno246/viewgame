@@ -8,7 +8,7 @@
         </div>
         <div class="main-nav" v-if="!routeDetail">
             <v-card width="100%" class="show-mobile">
-                <div class="control"><span>Action</span><v-icon class="icon">mdi-arrow-down-drop-circle</v-icon></div>
+                <div class="control"><span class="name-menu-mobile">{{ nameMenu }}</span><v-icon class="icon">mdi-arrow-down-drop-circle</v-icon></div>
             </v-card>
             <div class="slug-menu">
                 <slug-item
@@ -45,19 +45,12 @@ export default {
             icon.classList.remove('active-icon')
         }); 
     },
-
-    watch : {
-        params(val){
-            console.log(val);
-        }
-    },
-
     computed : {
         getSlug(){
             return this.$store.getters['game/getSlug'];
         },
-        params(){
-            return this.$store.getters['game/params']
+        nameMenu(){
+            return this.$store.state.game.params.game
         },
         routeDetail(){
             return this.$route.name === "GameDetail" || this.$route.name === "Search"
@@ -121,6 +114,9 @@ export default {
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
+            .name-menu-mobile{
+                text-transform: uppercase;
+            }
             .active-icon{
                 transition: all .3s ease;
                 transform: rotate(180deg);
