@@ -55,10 +55,6 @@ export default {
         this.$store.dispatch('game/loadMore' , pager);
         this.$store.commit('game/SetPager' , ++pager);
       }
-      // if(routeName === "Game"){
-      //   this.$store.dispatch('game/loadMore' , pager);
-      //   this.$store.commit('game/SetPager' , ++pager);
-      // }
     },
   },
   computed :{

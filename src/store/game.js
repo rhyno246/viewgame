@@ -4,7 +4,8 @@ import Storage from '../utils/storage.js';
 
 //active control menu
 let menuObj = { 
-    game : 'action' 
+    game : 'action',
+    name : 'Action'
 };
 let urlObj = urlParse();
 let params = { ...menuObj, ...urlObj };

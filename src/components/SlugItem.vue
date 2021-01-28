@@ -28,7 +28,7 @@ export default {
     li{
         background: #333;
         margin-bottom: 1rem;
-        @media (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
             width: 100%;
             margin-bottom: 0;
         }
@@ -41,7 +41,7 @@ export default {
         font-size: 1.6rem;
         border-radius: 5px;
         display: block;
-        @media (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
             border-radius: 0;
         }
     }
