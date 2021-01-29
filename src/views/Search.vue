@@ -45,9 +45,6 @@ export default {
         }
     },
     computed : {
-        endLoad(){
-            return this.$store.state.game.endLoad;
-        },
         isLoadmore(){
             return this.$store.getters['game/isloadMore'];
         },

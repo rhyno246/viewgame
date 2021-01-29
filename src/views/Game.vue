@@ -43,13 +43,19 @@ export default {
   // async mounted(){
   //   await this.$store.dispatch("game/recordGame" , this.params.game);
   // },
+
+
   methods : {
     loadMore() {
       let pager = this.$store.state.game.pager;
       const routeName = this.$route.name;
       const sortGame = this.$store.state.game.isFilterLoad;
+      const filterGame = this.$store.state.game.isFilterPlatForm;
       if(sortGame){
-        this.$store.dispatch('game/loadFilter' , pager)
+        this.$store.dispatch('game/loadOrderBy' , pager)
+        this.$store.commit('game/SetPager' , ++pager);
+      }else if(filterGame){
+        this.$store.dispatch('game/loadFilterFlatForm' , pager);
         this.$store.commit('game/SetPager' , ++pager);
       }else if(routeName === "Game"){
         this.$store.dispatch('game/loadMore' , pager);
