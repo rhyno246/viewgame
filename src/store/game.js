@@ -31,6 +31,8 @@ export default {
             isFilterPlatForm : false,
             nameOderby : "",
             nameFilter : "",
+            selectedChange : "",
+            flexibleLayout : true
         }
     },
     mutations : {
@@ -94,6 +96,12 @@ export default {
         setLoadMorePlatForm(state,payload){
             const newArr = payload.results
             state.All = state.All.concat(newArr)
+        },
+        setSelectedChange(state,payload){
+            state.selectedChange = payload
+        },
+        flexibleLayout(state,payload){
+            state.flexibleLayout = payload
         }
     },
     actions : {
@@ -171,7 +179,7 @@ export default {
             let search = state.strSearch
             let page = payload
             if(state.endLoad) {
-                console.log(state.endLoad) //stop if endload true
+                //console.log(state.endLoad) //stop if endload true
                 state.isloadMore = false
                 return 
             }

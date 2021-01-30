@@ -12,12 +12,12 @@
             <div class="none-videoslider" v-if="!hasClip && isShowSlide">
                 <slide-game :item="shortimg"></slide-game>
             </div>
+            <div class="card__video" v-if="isShow">
+                <video :src="clip.clip" loop muted autoplay></video>
+                <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
+            </div>
         </div>
         
-        <div class="card__video" v-if="isShow">
-            <video :src="clip.clip" loop muted autoplay></video>
-            <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
-        </div>
 
 
         <v-dialog  
@@ -121,11 +121,11 @@ export default {
         overflow: hidden;
         position: relative;
         &__img{
-             height: 20rem;
             background-size: cover;
             background-position: center center;
             position: relative;
             overflow: hidden;
+            padding-bottom: 56.5%;
             .playvideo{
                 background: rgba($color: #000000, $alpha: .7);
                 position: absolute;
@@ -167,8 +167,9 @@ export default {
             top: 0;
             left: 0;
             width: 100%;
+            height: 100%;
             video{
-                height: 20rem;
+                height: 100%;
                 width: 100%;
                 object-fit: cover;
             }

@@ -1,5 +1,5 @@
 <template>
-    <li>
+    <li @click="resetSelected">
         <a class="nav-link" @click="slugChange(slug)" :class="{ active: params.game === slug}">
             {{ name }}
         </a>
@@ -15,6 +15,10 @@ export default {
         },
     },
     methods : {
+        resetSelected(){
+            const selectedChange = this.$store.state.game.selectedChange;
+            return selectedChange.selectfilter.reset() || selectedChange.selectorder.reset()
+        },
         slugChange(slug){
             this.$store.commit("game/setGameSlug", { game : slug });
             this.$router.push(`?game=${slug}`);

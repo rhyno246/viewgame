@@ -3,7 +3,7 @@
     <div class="load-more text-center" v-if="isLoading">
       <img src="img/loader.svg" alt="">
     </div>
-    <div class="game__box" v-else>
+    <div class="game__box" :class="{activelayout : activeLayout}" v-else>
       <game-item
         class="game__item"
         v-for="(game , index) in getAllGame"
@@ -64,6 +64,9 @@ export default {
     },
   },
   computed :{
+    activeLayout(){
+      return this.$store.state.game.flexibleLayout
+    },
     params(){
         return this.$store.getters['game/params']
     },
@@ -85,16 +88,22 @@ export default {
 .game{
   &__box{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 77rem;
+    margin: 0 auto;
     grid-gap: 2rem;
+  }
+  .activelayout{
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 100%;
     @media (max-width: 992px) {
       grid-template-columns: repeat(3,1fr);
     }
     @media (max-width: 768px) {
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns: repeat(3,1fr);
     }
      @media (max-width: 480px) {
-       grid-template-columns: repeat(1,1fr);
+       grid-template-columns: repeat(2,1fr);
      }
   }
 }

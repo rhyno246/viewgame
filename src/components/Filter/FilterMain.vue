@@ -1,46 +1,48 @@
 <template>
-    <v-row v-if="!routeFilter">
-        <v-col cols="6" sm="3" md="3">
-            <v-select
-                ref="dropdownObj"
-                class="select"
-                :items="items"
-                item-text="state"
-                item-value="abbr"
-                label="PlatForm"
-                dense
-                solo
-                @change="FilterPlatForm"
-            >
-            </v-select>
-        </v-col>
-        <v-col cols="6" sm="3" md="3">
-            <v-select
-                class="select-1"
-                :items="items1"
-                label="Order By"
-                item-text="state"
-                item-value="abbr"
-                dense
-                solo
-                @change="FilterOrderby"
-            >
-            </v-select>
-        </v-col>
-
-        <v-btn
-            depressed
-            color="primary"
-            @click="endSelect"
-        >
-            Primary
-        </v-btn>
-
-
-    </v-row>
+    <div v-if="!routeFilter">
+        <v-row>
+            <v-col cols="6" sm="3" md="3">
+                <v-select
+                    ref="selectfilter"
+                    class="select"
+                    :items="items"
+                    item-text="state"
+                    item-value="abbr"
+                    label="PlatForm"
+                    dense
+                    outlined
+                    success
+                    solo
+                    @change="FilterPlatForm"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="6" sm="3" md="3">
+                <v-select
+                    ref="selectorder"
+                    class="select-1"
+                    :items="items1"
+                    label="Order By"
+                    item-text="state"
+                    item-value="abbr"
+                    dense
+                    outlined
+                    success
+                    solo
+                    @change="FilterOrderby"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="12" sm="3" md="3">
+                <switch-columns></switch-columns>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 <script>
+import SwitchColumns from '../Switch/SwitchColumns.vue';
 export default {
+    components: { SwitchColumns },
     data(){
         return{
             items : [
@@ -61,25 +63,28 @@ export default {
             ]
         }
     },
-
-
-
-    
+    watch :{
+        '$refs' : {
+            immediate : true, //immediate giá trị của refs thi chưa thay đổi
+            handler(val){
+                this.$store.commit('game/setSelectedChange' , val);
+            }
+        }
+    },
     computed : {
         routeFilter(){
             return this.$route.name === "GameDetail" || this.$route.name === "Search"
         }
     },
     methods :{
-        endSelect(){
-            console.log(this.$refs.dropdownObj);
-        },
         FilterPlatForm(val){
+            this.$refs.selectorder.reset()
             this.$store.commit('game/setFilterPlatForm' , true);
             this.$store.commit('game/SetEndLoad', false);
             return this.$store.dispatch('game/FilterPlatForm' , val)
         },
         FilterOrderby(val){
+            this.$refs.selectfilter.reset()
             this.$store.commit('game/setFilterLoad' , true);
             return this.$store.dispatch('game/FilterOrderby' , val)
         },

@@ -1,7 +1,7 @@
 <template>
     <div class="slide" v-if="hasNull">
         <div class="slide__img">
-            <div class="img"  v-lazy:background-image="resizeImg"></div>
+            <div class="img-slide"  v-lazy:background-image="resizeImg"></div>
             <!-- :style="{ backgroundImage: 'url(' + resizeImg + ')' }" -->
             <!-- v-lazy:background-image="resizeImg" -->
         </div>
@@ -47,8 +47,13 @@ export default {
 <style lang="scss">
     .slide{
         &__img{
-            .img{
-                height: 20rem;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            .img-slide{
+                height: 100%;
                 background-size: cover;
                 background-position: center center;
                 background-color:rgba($color: #000000, $alpha: 1);
