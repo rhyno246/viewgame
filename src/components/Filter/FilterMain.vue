@@ -73,7 +73,7 @@ export default {
     },
     computed : {
         routeFilter(){
-            return this.$route.name === "GameDetail" || this.$route.name === "Search"
+            return this.$route.name === "GameDetail" || this.$route.name === "Search" || this.$route.name === "SignUp"
         }
     },
     methods :{

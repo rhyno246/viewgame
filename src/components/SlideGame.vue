@@ -1,5 +1,5 @@
 <template>
-    <div class="slide" v-if="hasNull">
+    <div class="slide" v-if="item">
         <div class="slide__img">
             <div class="img-slide"  v-lazy:background-image="resizeImg"></div>
             <!-- :style="{ backgroundImage: 'url(' + resizeImg + ')' }" -->
@@ -31,9 +31,6 @@ export default {
             }else if(strScreen){
                 return this.getSlide.image.replace('media/screenshots', 'media/resize/640/-/screenshots');
             }
-        },
-        hasNull(){
-            return this.item.length > 0
         }
     },
     methods : {

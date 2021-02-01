@@ -36,76 +36,76 @@ export default {
         }
     },
     mutations : {
-        getAllSlug(state ,payload){
+        getAllSlug : (state ,payload) =>{
             state.Slug = payload
         },
-        getGameDetail(state,payload){
+        getGameDetail: (state ,payload) =>{
            state.DetailGame = payload
         },
-        GetScreenshots(state,payload){
+        GetScreenshots : (state ,payload) =>{
             state.screenShot = payload
         },
-        SearchGame(state,payload) {
+        SearchGame: (state ,payload) => {
             state.search = payload
         },
-        setGameSlug(state,payload){
+        setGameSlug: (state ,payload) =>{
             state.params = { ...state.params , ...payload }
             let urlParams = urlStringify(state.params)
             if (history)
                 history.replaceState({}, "", location.pathname + "#/?" + urlParams)
         },
-        recordGame(state, payload){
+        recordGame: (state ,payload) =>{
             state.All = payload
         },
-        loadMore(state,payload){
+        loadMore: (state ,payload) =>{
             let newArr =  payload
             state.All = state.All.concat(newArr)
         },
-        SetLoadSearch(state,payload){
+        SetLoadSearch: (state ,payload) =>{
             let newLoadSearch = payload
             state.LoadSearch = newLoadSearch
             state.search = state.search.concat(newLoadSearch.results)
         },
-        SetPager(state , payload){
+        SetPager: (state ,payload) =>{
             state.pager = payload
         },
-        SetPageSearch(state,payload){
+        SetPageSearch: (state ,payload) =>{
             state.pagesearch = payload
         },
-        SetEndLoad(state, payload){
+        SetEndLoad: (state ,payload) =>{
             state.endLoad = payload
         },
-        setFilterLoad(state,payload){
+        setFilterLoad: (state ,payload) =>{
             state.isFilterLoad = payload
         },
-        setFilterPlatForm(state,payload){
+        setFilterPlatForm: (state ,payload) =>{
             state.isFilterPlatForm = payload
         },
-        FilterOrderby(state, payload){
+        FilterOrderby: (state ,payload) =>{
             const arrfilter = payload.results
             state.All = arrfilter
         },
-        setLoadMoreOrderBy(state,payload){
+        setLoadMoreOrderBy: (state ,payload) =>{
             const newArr = payload.results
             state.All = state.All.concat(newArr)
         },
-        FilterPlatForm(state , payload){
+        FilterPlatForm: (state ,payload) =>{
             const arrPlatForm = payload.results
             state.All =arrPlatForm
         },
-        setLoadMorePlatForm(state,payload){
+        setLoadMorePlatForm: (state ,payload) =>{
             const newArr = payload.results
             state.All = state.All.concat(newArr)
         },
-        setSelectedChange(state,payload){
+        setSelectedChange: (state ,payload) =>{
             state.selectedChange = payload
         },
-        flexibleLayout(state,payload){
+        flexibleLayout: (state ,payload) =>{
             state.flexibleLayout = payload
         }
     },
     actions : {
-        async getSlug({ commit ,state }){
+        getSlug : async ({ commit ,state }) =>{
             if(state.Slug.length > 0) return //check array is exist
             let response = await axios.get('https://api.rawg.io/api/genres')
             let data = response.data.results
@@ -114,7 +114,7 @@ export default {
                 commit('getAllSlug' , data)
             }
         },
-        async loadMore({ commit , state } , payload){
+        loadMore : async ({ commit , state } , payload) => {
             const game = state.params.game
             const page = payload
             state.isloadMore = true
@@ -125,7 +125,7 @@ export default {
                 state.isloadMore = false
             }
         },
-        async recordGame({ commit, state } , payload){
+        recordGame : async ({ commit, state } , payload) => {
             const slugFilter = payload
             state.isloadMore = false
             state.isLoading = true
@@ -140,7 +140,7 @@ export default {
                 state.isLoading = false
             }
         },
-        async getGameDetail({ commit } , payload){
+        getGameDetail : async ({ commit } , payload) =>{
             const slug = payload
             let response = await axios.get(`https://api.rawg.io/api/games/${slug}`)
             let data = response.data
@@ -149,7 +149,7 @@ export default {
             }
         },
 
-        async GetScreenshots({ commit }, payload){
+        GetScreenshots : async ({ commit }, payload) =>{
             const idImg = payload
             let response = await axios.get(`https://api.rawg.io/api/games/${idImg}/screenshots`)
             let data = response.data.results
@@ -157,7 +157,7 @@ export default {
                 commit('GetScreenshots' , data)
             }
         },
-        async SearchGame({ commit , state} , payload){
+        SearchGame : async ({ commit , state} , payload) =>{
             const search = payload
             state.strSearch = search
             state.isLoading = true
@@ -174,7 +174,7 @@ export default {
             }
         },
 
-        async loadSearch({ commit ,state } , payload){
+        loadSearch : async ({ commit ,state } , payload) =>{
             state.isloadMore = true
             let search = state.strSearch
             let page = payload
@@ -192,7 +192,7 @@ export default {
             }
         },
 
-        async FilterOrderby({ commit, state } , payload){
+        FilterOrderby : async ({ commit, state } , payload) =>{
             const orderBy = state.nameOderby =  payload
             const game = state.params.game
             state.isLoading = true
@@ -206,7 +206,7 @@ export default {
             }
         },
 
-        async loadOrderBy({ commit , state } , payload){
+        loadOrderBy : async ({ commit , state } , payload) =>{
             const page = payload
             const game = state.params.game
             const orderBy = state.nameOderby
@@ -218,7 +218,7 @@ export default {
                 state.isloadMore = false
             }
         },
-        async FilterPlatForm({ commit, state } , payload){
+        FilterPlatForm : async ({ commit, state } , payload) =>{
             state.isLoading = true
             const filter = state.nameFilter = payload
             let game = state.params.game
@@ -238,7 +238,7 @@ export default {
         },
 
 
-        async loadFilterFlatForm ({ commit, state } , payload){
+        loadFilterFlatForm : async ({ commit, state } , payload) =>{
             const page = payload
             const game = state.params.game
             const filter = state.nameFilter
@@ -257,34 +257,34 @@ export default {
         }
     },
     getters : {
-        getSlug(state) { 
+        getSlug : state => { 
             return state.Slug
         },
-        getAllGame(state){
+        getAllGame : state => {
             return state.All
         },
-        isLoading(state){
+        isLoading : state =>{
             return state.isLoading
         },
-        isloadMore(state){
+        isloadMore: state =>{
             return state.isloadMore
         },
-        getDetail(state){
+        getDetail : state =>{
             return state.DetailGame
         },
-        getScreenshots(state){
+        getScreenshots: state =>{
             return state.screenShot
         },
-        getSearch(state){
+        getSearch: state =>{
             return state.search
         },
-        getStrSearch(state){
+        getStrSearch: state =>{
             return state.strSearch
         },
-        hasSearch(state){
+        hasSearch: state =>{
             return state.search.length > 0 || !state.search
         },
-        params(state){
+        params : state =>{
             return state.params
         },
     }

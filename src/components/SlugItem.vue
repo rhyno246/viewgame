@@ -22,6 +22,12 @@ export default {
         slugChange(slug){
             this.$store.commit("game/setGameSlug", { game : slug });
             this.$router.push(`?game=${slug}`);
+            if(window.innerWidth <= 1024){
+                var parent = document.querySelector('.slug-menu');
+                var icon = document.querySelector('.icon');
+                parent.classList.remove('active-mobile');
+                icon.classList.remove('active-icon');
+            }
             return this.$store.dispatch('game/recordGame' , slug);
         }
     }

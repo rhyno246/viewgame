@@ -35,51 +35,54 @@
 </template>
 
 <script>
+
+// page use  mapGetters mapActions mapState
+
 import GameItem from '../components/GameItem.vue';
+import { mapGetters, mapActions, mapMutations , mapState } from 'vuex';
 export default {
   components: {
     GameItem,
   },
-  // async mounted(){
-  //   await this.$store.dispatch("game/recordGame" , this.params.game);
-  // },
-
-
+  computed :{
+    ...mapState('game', {
+        activeLayout : state => state.flexibleLayout,
+        pager : state => state.pager,
+        sortGame :  state => state.isFilterLoad,
+        filterGame :  state => state.isFilterPlatForm
+    }),
+    ...mapGetters('game' , {
+        isLoading : 'isLoading', // variable : 'name getters store'
+        getAllGame : 'getAllGame',
+        isLoadmore : 'isloadMore',
+        params : 'params',
+    }),
+  },
   methods : {
+    ...mapActions('game' , {
+      loadOrderBy : 'loadOrderBy', // variable : 'name actions store'
+      loadFilter: 'loadFilterFlatForm', 
+      loadmore : 'loadMore'
+    }),
+    ...mapMutations('game' , {
+      setpager : 'SetPager'
+    }),
+
     loadMore() {
-      let pager = this.$store.state.game.pager;
       const routeName = this.$route.name;
-      const sortGame = this.$store.state.game.isFilterLoad;
-      const filterGame = this.$store.state.game.isFilterPlatForm;
-      if(sortGame){
-        this.$store.dispatch('game/loadOrderBy' , pager)
-        this.$store.commit('game/SetPager' , ++pager);
-      }else if(filterGame){
-        this.$store.dispatch('game/loadFilterFlatForm' , pager);
-        this.$store.commit('game/SetPager' , ++pager);
+      let page = this.pager;
+      if(this.sortGame){
+        this.loadOrderBy(page);
+        this.setpager(++page);
+      }else if(this.filterGame){
+        this.loadFilter(page);
+        this.setpager(++page);
       }else if(routeName === "Game"){
-        this.$store.dispatch('game/loadMore' , pager);
-        this.$store.commit('game/SetPager' , ++pager);
+        this.loadmore(page);
+        this.setpager(++page);
       }
     },
   },
-  computed :{
-    activeLayout(){
-      return this.$store.state.game.flexibleLayout
-    },
-    params(){
-        return this.$store.getters['game/params']
-    },
-    isLoadmore(){
-      return this.$store.getters['game/isloadMore'];
-    },
-    getAllGame(){
-      return this.$store.getters['game/getAllGame'];
-    },
-    isLoading(){
-      return this.$store.getters['game/isLoading'];
-    }
-  }
    
 }
 </script>

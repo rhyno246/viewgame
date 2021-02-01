@@ -2,7 +2,7 @@
     <loading v-if="isLoading"></loading>
     <div class="search" v-else>
         <h1 class="notFound text-center" v-if="!hasSearch">Opps keyword <span>{{ getStrSearch }}</span> not found !!!!</h1>
-        <div class="game__box" v-else>
+        <div class="game__box activelayout" v-else>
             <search-item
                 v-for="(search, index) in getSearch"
                 :key="index"
@@ -72,5 +72,18 @@ export default {
         color: aquamarine;
     }
 }
+.activelayout{
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 100%;
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(3,1fr);
+    }
+     @media (max-width: 480px) {
+       grid-template-columns: repeat(2,1fr);
+     }
+  }
 </style>
 
