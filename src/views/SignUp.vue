@@ -23,7 +23,9 @@
                     @blur="$v.email.$touch()"
                 ></v-text-field>
                 <v-text-field
+                    :error-messages="password1Errors"
                     v-model="password1"
+                    required
                     outlined
                     dense
                     label="Password"
@@ -33,6 +35,8 @@
 
 
                 <v-text-field v-model="password2"
+                    :error-messages="password2Errors"
+                    required
                     outlined
                     dense
                     label="Confirm Password"
@@ -76,6 +80,8 @@ export default {
             minLength: minLength(3)
         },
         email: { required, email },
+        password1 : { required },
+        password2 : { required },
         checkbox: {
             checked (val) {
                 return val
@@ -117,10 +123,25 @@ export default {
             !this.$v.email.required && errors.push('E-mail is required')
             return errors
         },
+        password1Errors(){
+            const errors = []
+            if (!this.$v.password1.$dirty) return errors
+            !this.$v.password1.required && errors.push('Password is required')
+            return errors
+        },
+        password2Errors(){
+            const errors = []
+            if (!this.$v.password2.$dirty) return errors
+            !this.$v.password2.required && errors.push('Password is required')
+            return errors
+        }
     },
     methods : {
         submit(){
             this.$v.$touch();
+            if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === ""){
+                return
+            }
             console.log(this.name , this.email , this.password1 , this.password2);
         }
     },
@@ -129,7 +150,7 @@ export default {
 
 <style lang="scss">
     .sign-up{
-        max-width: 60rem;
+        max-width: 50rem;
         margin: 0 auto;
         h2{
             font-size: 3rem;

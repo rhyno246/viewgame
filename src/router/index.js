@@ -31,7 +31,11 @@ const routes = [
     name : 'SignUp',
     component : () => import('../views/SignUp.vue')
   },
-
+  {
+    path : '/login',
+    name : 'Login',
+    component : () => import('../views/Login.vue')
+  },
   { 
     path: '/:notFound(.*)',
     name : 'notfound',

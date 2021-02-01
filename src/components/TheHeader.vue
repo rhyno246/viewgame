@@ -7,7 +7,7 @@
             <search-slug></search-slug>
             <ul class="control-connect">
                 <li><router-link to="/sign-in">SIGN UP</router-link></li>
-                <li><router-link to="/sign-in">LOGIN</router-link></li>
+                <li><router-link to="/login">LOGIN</router-link></li>
             </ul>
         </div>
         <div class="main-nav" v-if="!routeDetail">
@@ -54,7 +54,7 @@ export default {
             return this.$store.state.game.params.game
         },
         routeDetail(){
-            return this.$route.name === "GameDetail" || this.$route.name === "Search" || this.$route.name === "SignUp"
+            return this.$route.name === "GameDetail" || this.$route.name === "Search" || this.$route.name === "SignUp" || this.$route.name === "Login"
         }
     }
 }
