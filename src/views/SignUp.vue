@@ -2,6 +2,9 @@
     <div class="sign-up">
         <v-container>
             <h2 class="text-center">SIGN UP</h2>
+
+            <div class="error error-text" v-if="error">{{ errorcode }} {{ error }}</div>
+
             <form class="mt-7">
                 <v-text-field
                     label="UserName"
@@ -71,6 +74,8 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, minLength , email } from 'vuelidate/lib/validators'
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
     mixins: [validationMixin],
 
@@ -90,6 +95,8 @@ export default {
     },
     data(){
         return{
+            error : '',
+            errorcode : '',
             name : '',
             email : '',
             password1 : '',
@@ -137,12 +144,23 @@ export default {
         }
     },
     methods : {
-        submit(){
+        async submit(){
             this.$v.$touch();
+            var email = this.email;
+            var password = this.password1;
             if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === ""){
                 return
-            }
-            console.log(this.name , this.email , this.password1 , this.password2);
+            }   
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                var user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                this.errorcode = error.code;
+                this.error =  error.message;
+                console.log(error);
+            });
         }
     },
 }
@@ -160,5 +178,9 @@ export default {
     .button{
         font-size: 1.6rem !important;
         width: 100%;
+    }
+    .error-text{
+        font-size: 1.5rem;
+        padding: 1rem 1.5rem;
     }
 </style>
