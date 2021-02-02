@@ -32,7 +32,8 @@ export default {
             nameOderby : "",
             nameFilter : "",
             selectedChange : "",
-            flexibleLayout : true
+            flexibleLayout : true,
+            isLogin : false
         }
     },
     mutations : {
@@ -102,6 +103,9 @@ export default {
         },
         flexibleLayout: (state ,payload) =>{
             state.flexibleLayout = payload
+        },
+        setIsLogin(state , payload){
+            state.isLogin = payload
         }
     },
     actions : {

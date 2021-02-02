@@ -5,8 +5,12 @@
                 <router-link to="/"><img src="../assets/logo2.png" alt="" class="img-res"></router-link>
             </div>
             <search-slug></search-slug>
-            <ul class="control-connect">
-                <li><router-link to="/sign-in">SIGN UP</router-link></li>
+            <ul class="user" v-if="isLogin">
+                <li><span class="mr-2 first-name">H</span> <span>name</span></li>
+                <li><v-icon>mdi-logout</v-icon></li>
+            </ul>
+            <ul class="control-connect" v-else>
+                <li><router-link to="/sign-up">SIGN UP</router-link></li>
                 <li><router-link to="/login">LOGIN</router-link></li>
             </ul>
         </div>
@@ -55,6 +59,9 @@ export default {
         },
         routeDetail(){
             return this.$route.name === "GameDetail" || this.$route.name === "Search" || this.$route.name === "SignUp" || this.$route.name === "Login"
+        },
+        isLogin(){
+            return this.$store.state.game.isLogin
         }
     }
 }
@@ -89,7 +96,7 @@ export default {
                     margin-top: 2rem;
                 }
             }
-            .control-connect{
+            .control-connect, .user{
                 padding-left: 0;
                 list-style: none;
                 display: flex;
@@ -118,6 +125,20 @@ export default {
                         text-decoration: none;
                         font-size: 1.4rem;
                         text-transform: uppercase;
+                    }
+                }
+            }
+            .user{
+                li{
+                    background: transparent;
+                    .first-name{
+                        background: #fff;
+                        color: #333;
+                        padding: 1rem 1.5rem;
+                        border-radius: 50%;
+                    }
+                    span{
+                        font-size: 1.5rem;
                     }
                 }
             }

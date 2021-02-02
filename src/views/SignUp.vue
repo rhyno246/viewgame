@@ -3,7 +3,7 @@
         <v-container>
             <h2 class="text-center">SIGN UP</h2>
 
-            <div class="error error-text" v-if="error">{{ errorcode }} {{ error }}</div>
+            <div class="error error-text mt-4 mb-10" v-if="error">{{ error }}</div>
 
             <form class="mt-7">
                 <v-text-field
@@ -51,7 +51,7 @@
 
                 <v-checkbox class="mt-0"
                     v-model="checkbox"
-                    color="green"
+                    color="blue-grey"
                     :error-messages="checkboxErrors"
                     label="Do you agree?"
                     required
@@ -61,10 +61,15 @@
                 <v-btn
                     class="button mt-4"
                     @click="submit"
-                    color="success"
+                    color="blue-grey"
+                    :loading="loading"
+                    :disabled="loading"
                 >
                     SIGN UP
                 </v-btn>
+                <div class="have-account mt-4">
+                    <router-link to="/login">Already have an account? Login.</router-link>
+                </div>
             </form>
         </v-container>
     </div>
@@ -93,15 +98,25 @@ export default {
             },
         },
     },
+    watch: {
+      loader () {
+        const l = this.loader
+        this[l] = !this[l]
+        setTimeout(() => (this[l] = false), 3000)
+
+        this.loader = null
+      },
+    },
     data(){
         return{
             error : '',
-            errorcode : '',
             name : '',
             email : '',
             password1 : '',
             password2 : '',
             checkbox: false,
+            loader: null,
+            loading: false,
             pwdRules: [v => !!v || "Password required"],
             pwdConfirm: [
                 v => !!v || "Confirm password",
@@ -124,6 +139,7 @@ export default {
             return errors
         },
         emailErrors () {
+            this.loading = false
             const errors = []
             if (!this.$v.email.$dirty) return errors
             !this.$v.email.email && errors.push('Must be valid e-mail')
@@ -144,23 +160,35 @@ export default {
         }
     },
     methods : {
-        async submit(){
+        submit(){
             this.$v.$touch();
             var email = this.email;
+            this.loading = true;
             var password = this.password1;
-            if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === ""){
+            if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === "" || this.checkbox === false){
+                this.loading = false
                 return
-            }   
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                var user = userCredential.user;
-                console.log(user);
-            })
-            .catch((error) => {
-                this.errorcode = error.code;
-                this.error =  error.message;
-                console.log(error);
-            });
+            } 
+            setTimeout(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    var user = userCredential.user;
+                    console.log(user);
+                    this.error = false;
+                    this.loading = false;
+                    this.$router.push('/game');
+                    this.$store.commit('game/setIsLogin' , true);
+                })
+                .catch(error=> {
+                    if(error){
+                        this.loading = false
+                        this.errorcode = error.code;
+                        this.error =  error.message;
+                        return
+                    }
+                    console.log(error);
+                });
+            }, 500);  
         }
     },
 }
@@ -183,4 +211,46 @@ export default {
         font-size: 1.5rem;
         padding: 1rem 1.5rem;
     }
+    .have-account{
+        a{
+            font-size: 1.6rem;
+            color: #fff;
+        }
+    }
+    .custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 </style>
