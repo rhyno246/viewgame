@@ -36,6 +36,8 @@ export default {
 
             //user-login
             isLogin : false,
+            username : "",
+            usernameNull : ""
 
         }
     },
@@ -107,8 +109,17 @@ export default {
         flexibleLayout: (state ,payload) =>{
             state.flexibleLayout = payload
         },
+
+        //login
         setIsLogin : (state , payload) =>{
             state.isLogin = payload
+        },
+        setUserName : (state,payload) => {
+            state.username = payload
+            console.log(state.username);
+        },
+        setNullUser(state,payload){
+            state.usernameNull = payload
         }
     },
     actions : {

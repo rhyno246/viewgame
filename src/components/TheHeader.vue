@@ -6,7 +6,7 @@
             </div>
             <search-slug></search-slug>
             <ul class="user" v-if="isLogin">
-                <li><span class="mr-2 first-name">sss</span> <span>{{nameUser}}</span></li>
+                <li><span class="mr-2 first-name">sss</span> <span>{{ nameUser || nameUserNull }}</span></li>
                 <li><v-icon @click="signOut">mdi-logout</v-icon></li>
             </ul>
             <ul class="control-connect" v-else>
@@ -48,10 +48,15 @@ export default {
             isShowName : false
         }
     },
+
+
     created(){
         // refresh page no out account
         firebase.auth().onAuthStateChanged(user => {
-            //console.log(user);
+            if(user){
+                const nameUser = user.displayName
+                this.$store.commit('game/setUserName' , nameUser)
+            }
             this.$store.state.game.isLogin = !!user;
         })
     },
@@ -88,9 +93,11 @@ export default {
             return this.$store.state.game.isLogin
         },
         nameUser(){
-            var username = firebase.auth();
-            console.log(username);
+            return this.$store.state.game.username
         },
+        nameUserNull(){
+            return this.$store.state.game.usernameNull
+        }
     }
 }
 </script>

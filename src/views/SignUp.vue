@@ -181,7 +181,6 @@ export default {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(userCredential => {
                     var user = userCredential.user;
-                    console.log(user);
                     user.updateProfile({
                         displayName : name
                     })
@@ -189,6 +188,7 @@ export default {
                     this.loading = false;
                     this.$router.push('/game');
                     this.$store.commit('game/setIsLogin' , true);
+                    this.$store.commit('game/setNullUser' , name);
                 })
                 .catch(error=> {
                     if(error){

@@ -111,10 +111,11 @@ export default {
                 firebase.auth().signInWithEmailAndPassword(this.email, this.password)
                 .then(userCredential => {
                     var user = userCredential.user
-                    //var nameUser = user.displayName
-                    this.loading = false
-                    this.$router.push('/game')
-                    this.$store.commit('game/setIsLogin' , true)
+                    if(user){
+                        this.loading = false
+                        this.$router.push('/game')
+                        this.$store.commit('game/setIsLogin' , true)
+                    }
                 })
                 .catch(error => {
                     var errorCode = error.code
