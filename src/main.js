@@ -29,9 +29,17 @@ Vue.use(VueLazyload, {
 })
 Vue.directive("viewability", viewability);
 Vue.use(VueYouTubeEmbed)
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+let app;
+firebase.auth().onAuthStateChanged(user =>{
+  if(!app){
+    app = new Vue({
+      router,
+      store,
+      vuetify,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})
+
+
+

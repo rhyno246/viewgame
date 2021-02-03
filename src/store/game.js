@@ -33,7 +33,10 @@ export default {
             nameFilter : "",
             selectedChange : "",
             flexibleLayout : true,
-            isLogin : false
+
+            //user-login
+            isLogin : false,
+
         }
     },
     mutations : {
@@ -104,7 +107,7 @@ export default {
         flexibleLayout: (state ,payload) =>{
             state.flexibleLayout = payload
         },
-        setIsLogin(state , payload){
+        setIsLogin : (state , payload) =>{
             state.isLogin = payload
         }
     },

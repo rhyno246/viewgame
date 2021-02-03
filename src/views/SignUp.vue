@@ -12,6 +12,7 @@
                     v-model="name"
                     dense
                     :error-messages="nameErrors"
+                    :rules="nameRules"
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
                 ></v-text-field>
@@ -117,7 +118,13 @@ export default {
             checkbox: false,
             loader: null,
             loading: false,
-            pwdRules: [v => !!v || "Password required"],
+            nameRules: [
+                v => !!v || 'Name is required',
+                v => v.length <= 10 || 'Name must be less than 10 characters',
+            ],
+            pwdRules: [
+                v => !!v || "Password required",
+            ],
             pwdConfirm: [
                 v => !!v || "Confirm password",
                 v => v === this.password1 || "Passwords do not match"
@@ -163,8 +170,9 @@ export default {
         submit(){
             this.$v.$touch();
             var email = this.email;
-            this.loading = true;
             var password = this.password1;
+            var name = this.name;
+            this.loading = true;
             if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === "" || this.checkbox === false){
                 this.loading = false
                 return
@@ -174,6 +182,9 @@ export default {
                 .then(userCredential => {
                     var user = userCredential.user;
                     console.log(user);
+                    user.updateProfile({
+                        displayName : name
+                    })
                     this.error = false;
                     this.loading = false;
                     this.$router.push('/game');
@@ -218,39 +229,39 @@ export default {
         }
     }
     .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
+        animation: loader 1s infinite;
+        display: flex;
     }
-    to {
-      transform: rotate(360deg);
+    @-moz-keyframes loader {
+        from {
+        transform: rotate(0);
+        }
+        to {
+        transform: rotate(360deg);
+        }
     }
-  }
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
+    @-webkit-keyframes loader {
+        from {
+        transform: rotate(0);
+        }
+        to {
+        transform: rotate(360deg);
+        }
     }
-    to {
-      transform: rotate(360deg);
+    @-o-keyframes loader {
+        from {
+        transform: rotate(0);
+        }
+        to {
+        transform: rotate(360deg);
+        }
     }
-  }
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
+    @keyframes loader {
+        from {
+        transform: rotate(0);
+        }
+        to {
+        transform: rotate(360deg);
+        }
     }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
 </style>

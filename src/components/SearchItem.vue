@@ -10,11 +10,13 @@
             <div class="playvideo" v-if="hasClip">
                 <v-icon>mdi-play</v-icon>
             </div>
-        </div>
-
-        <div class="card__video" v-if="isShow">
-            <video :src="clip.clip" loop muted autoplay></video>
-            <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
+            <div class="none-videoslider" v-if="!hasClip && isShowSlide">
+                <slide-game :item="shortimg"></slide-game>
+            </div>
+            <div class="card__video" v-if="isShow">
+                <video :src="clip.clip" loop muted autoplay></video>
+                <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
+            </div>
         </div>
 
 
@@ -67,14 +69,16 @@
 <script>
 import GamePlat from './GamePlat.vue'
 import LoadingItem from './LoadingItem.vue'
+import SlideGame from './SlideGame.vue'
 export default {
-    components: { GamePlat,LoadingItem },
-    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip'],
+    components: { GamePlat,LoadingItem, SlideGame },
+    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip', 'shortimg'],
     data(){
         return{
             isShow : false,
             loadding : false,
-            dialog : false
+            dialog : false,
+            isShowSlide : false,
         }
     },
     computed : {
@@ -94,6 +98,7 @@ export default {
     methods : {
         hoverPlayvideo(){
             if(this.clip == null){
+                this.isShowSlide = true;
                 return
             }
             this.loadding = true
@@ -102,7 +107,9 @@ export default {
         leaveVideo(){
             this.loadding = false
             this.isShow = false
+            this.isShowSlide = false
         }
     }
 }
 </script>
+

@@ -6,8 +6,8 @@
             </div>
             <search-slug></search-slug>
             <ul class="user" v-if="isLogin">
-                <li><span class="mr-2 first-name">H</span> <span>name</span></li>
-                <li><v-icon>mdi-logout</v-icon></li>
+                <li><span class="mr-2 first-name">sss</span> <span>{{nameUser}}</span></li>
+                <li><v-icon @click="signOut">mdi-logout</v-icon></li>
             </ul>
             <ul class="control-connect" v-else>
                 <li><router-link to="/sign-up">SIGN UP</router-link></li>
@@ -36,20 +36,44 @@
 <script>
 import SearchSlug from './SearchSlug.vue';
 import SlugItem from './SlugItem.vue';
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
     components: {SearchSlug, SlugItem },
     async mounted(){
         await this.$store.dispatch('game/getSlug'); 
     },
-
+    data(){
+        return {
+            isShowName : false
+        }
+    },
+    created(){
+        // refresh page no out account
+        firebase.auth().onAuthStateChanged(user => {
+            //console.log(user);
+            this.$store.state.game.isLogin = !!user;
+        })
+    },
     methods : {
         handleToggleMobile(){
             var parent = document.querySelector('.slug-menu')
             var icon = document.querySelector('.icon')
             parent.classList.toggle('active-mobile')
             icon.classList.toggle('active-icon')
+        },
+        async signOut(){
+            try {
+                const data = firebase.auth().signOut();
+                console.log(data);
+                this.$router.push('/game');
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
+
+
     computed : {
         getSlug(){
             return this.$store.getters['game/getSlug'];
@@ -62,7 +86,11 @@ export default {
         },
         isLogin(){
             return this.$store.state.game.isLogin
-        }
+        },
+        nameUser(){
+            var username = firebase.auth();
+            console.log(username);
+        },
     }
 }
 </script>
@@ -131,11 +159,17 @@ export default {
             .user{
                 li{
                     background: transparent;
+                    display: flex;
+                    align-items: center;
                     .first-name{
                         background: #fff;
                         color: #333;
-                        padding: 1rem 1.5rem;
                         border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 35px;
+                        height: 35px;
                     }
                     span{
                         font-size: 1.5rem;

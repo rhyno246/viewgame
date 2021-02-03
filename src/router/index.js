@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Game from '../views/Game.vue'
-
+import firebase from "firebase/app"
+import "firebase/auth"
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect : '/game'
+    redirect : '/game',
+    meta : { requiresAuth : true }
   },
   {
     path: '/game',
@@ -52,4 +54,15 @@ const router = new VueRouter({
   routes
 })
 
+
+router.beforeEach((to, from , next)=> {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const isAuthenticated = firebase.auth().currentUser;
+  if(requiresAuth && !isAuthenticated){
+    next("/game");
+  }else{
+    next();
+  }
+
+})
 export default router

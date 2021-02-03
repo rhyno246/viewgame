@@ -13,6 +13,7 @@
                 :rating="search.rating"
                 :slug="search.slug"
                 :clip="search.clip"
+                :shortimg="search.short_screenshots"
             ></search-item>
         </div>
         <div class="load-more"
