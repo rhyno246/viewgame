@@ -50,9 +50,11 @@ export default {
         // refresh page no out account
         firebase.auth().onAuthStateChanged(user => {
             if(user){
-                console.log(user);
-                const nameUser = user.displayName
-                this.$store.commit('game/setUserName' , nameUser)
+                this.$store.commit('game/setUserName', {
+                    nameUser : user.displayName,
+                    emailUser : user.email,
+                    phoneUser : user.phoneNumber
+                })
             }
             this.$store.state.game.isLogin = !!user;
         })

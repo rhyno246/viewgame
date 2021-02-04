@@ -16,6 +16,20 @@
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
                 ></v-text-field>
+
+
+                <v-text-field
+                    :error-messages="phoneErrors"
+                    label="Phone"
+                    outlined
+                    type="number"
+                    v-model="phone"
+                    dense
+                    :rules="phoneRules"
+                    @input="$v.phone.$touch()"
+                    @blur="$v.phone.$touch()"
+                ></v-text-field>
+
                 <v-text-field
                     label="Email"
                     outlined
@@ -90,6 +104,7 @@ export default {
             required, 
             minLength: minLength(3)
         },
+        phone : { required , minLength: minLength(10) },
         email: { required, email },
         password1 : { required },
         password2 : { required },
@@ -115,12 +130,17 @@ export default {
             email : '',
             password1 : '',
             password2 : '',
+            phone : '',
             checkbox: false,
             loader: null,
             loading: false,
             nameRules: [
                 v => !!v || 'Name is required',
                 v => v.length <= 10 || 'Name must be less than 10 characters',
+            ],
+            phoneRules : [
+                v => !!v || 'Phone is required',
+                v => v.length <= 10 || 'Phone must be less than 10 Number',
             ],
             pwdRules: [
                 v => !!v || "Password required",
@@ -137,6 +157,13 @@ export default {
             if (!this.$v.name.$dirty) return errors
             !this.$v.name.minLength && errors.push('Name must be at most 3 characters long')
             !this.$v.name.required && errors.push('Name is required.')
+            return errors
+        },
+        phoneErrors () {
+            const errors = []
+            if (!this.$v.phone.$dirty) return errors
+            !this.$v.phone.minLength && errors.push('Phone must be at most 10 number long')
+            !this.$v.phone.required && errors.push('Phone is required.')
             return errors
         },
         checkboxErrors () {
@@ -172,8 +199,9 @@ export default {
             var email = this.email;
             var password = this.password1;
             var name = this.name;
+            var phone = this.phone;
             this.loading = true;
-            if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === "" || this.checkbox === false){
+            if(this.name === "" || this.email === "" || this.password1 === "" || this.password2 === "" || this.phone ==="" || this.checkbox === false){
                 this.loading = false
                 return
             } 
@@ -181,9 +209,11 @@ export default {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(userCredential => {
                     var user = userCredential.user;
+                    console.log(user);
                     user.updateProfile({
-                        displayName : name
+                        displayName : name,
                     })
+                    console.log(user);
                     this.error = false;
                     this.loading = false;
                     this.$router.push('/game');

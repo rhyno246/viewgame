@@ -117,7 +117,7 @@ export default {
         setUserName : (state,payload) => {
             state.username = payload
         },
-        setNullUser(state,payload){
+        setNullUser : (state,payload) => {
             state.usernameNull = payload
         }
     },
@@ -305,7 +305,10 @@ export default {
             return state.params
         },
         getNameUser : state => {
-            return state.username || state.usernameNull
+            return state.username.nameUser || state.usernameNull
+        },
+        getEmailUser : state => {
+            return state.username.emailUser || {}
         }
     }
 }
