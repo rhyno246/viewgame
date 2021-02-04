@@ -38,6 +38,11 @@ const routes = [
     name : 'Login',
     component : () => import('../views/Login.vue')
   },
+  {
+    path : '/profile',
+    name : 'Profile',
+    component : () => import('../views/profile.vue')
+  },
   { 
     path: '/:notFound(.*)',
     name : 'notfound',

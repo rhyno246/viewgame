@@ -60,7 +60,7 @@
                     @blur="$v.checkbox.$touch()"
                 ></v-checkbox>
                 <v-btn
-                    class="button mt-4"
+                    class="button mt-4 button-position"
                     @click="submit"
                     color="blue-grey"
                     :loading="loading"
@@ -217,6 +217,10 @@ export default {
     .button{
         font-size: 1.6rem !important;
         width: 100%;
+    }
+    .v-btn:not(.v-btn--round).v-size--default{
+        position: relative !important;
+        left: 0 !important;
     }
     .error-text{
         font-size: 1.5rem;

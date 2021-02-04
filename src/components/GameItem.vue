@@ -49,9 +49,8 @@
                     >
                     </game-plat>
                 </div>
-                <div class="mt-2">
+                <div class="custom-rating d-flex align-center justify-space-between">
                     <v-rating 
-                        class="custom-rating"
                         color="yellow darken-3" 
                         background-color="grey darken-2"
                         size="20" 
@@ -59,6 +58,7 @@
                         half-increments 
                         :value="rating">
                     </v-rating>
+                    <v-icon class="heart" @click="handleLike">mdi-heart</v-icon>
                 </div>
             </div>
         </div>
@@ -110,6 +110,14 @@ export default {
             this.loadding = false
             this.isShow = false
             this.isShowSlide = false
+        },
+        handleLike(){
+            const isLogin = this.$store.state.game.isLogin;
+            if(isLogin === false){
+                this.$router.replace('/login');
+            }else{
+                console.log(this.id);
+            }
         }
     }
 }
@@ -199,6 +207,18 @@ export default {
             z-index: 8;
         }
     }
+    .heart{
+        font-size: 2rem !important;
+        cursor: pointer;
+        color: #333 !important;
+        &:hover{
+            color: red !important;
+        }
+    }
+    .active-heart{
+        color: red !important;
+    }
+
     .error,.warning,.success{
         color: #fff !important;
     }

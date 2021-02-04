@@ -6,7 +6,10 @@
             </div>
             <search-slug></search-slug>
             <ul class="user" v-if="isLogin">
-                <li><span class="mr-2 first-name">sss</span> <span>{{ nameUser || nameUserNull }}</span></li>
+                <li>
+                    <span class="mr-2 first-name">{{ subStringName }}</span> 
+                    <router-link :to="`/profile?name=${nameUser}`" class="profile"><span>{{ nameUser }}</span></router-link>
+                </li>
                 <li><v-icon @click="signOut">mdi-logout</v-icon></li>
             </ul>
             <ul class="control-connect" v-else>
@@ -43,17 +46,11 @@ export default {
     async mounted(){
         await this.$store.dispatch('game/getSlug'); 
     },
-    data(){
-        return {
-            isShowName : false
-        }
-    },
-
-
     created(){
         // refresh page no out account
         firebase.auth().onAuthStateChanged(user => {
             if(user){
+                console.log(user);
                 const nameUser = user.displayName
                 this.$store.commit('game/setUserName' , nameUser)
             }
@@ -87,17 +84,18 @@ export default {
             return this.$store.state.game.params.game
         },
         routeDetail(){
-            return this.$route.name === "GameDetail" || this.$route.name === "Search" || this.$route.name === "SignUp" || this.$route.name === "Login"
+            return this.$route.name === "GameDetail" || this.$route.name === "Search" || this.$route.name === "SignUp" || this.$route.name === "Login" || this.$route.name === "Profile"
         },
         isLogin(){
             return this.$store.state.game.isLogin
         },
         nameUser(){
-            return this.$store.state.game.username
+            return this.$store.getters['game/getNameUser']
         },
-        nameUserNull(){
-            return this.$store.state.game.usernameNull
-        }
+        subStringName(){
+            const name = this.nameUser;
+            return name.substring(0,1).toUpperCase();
+        },
     }
 }
 </script>
@@ -177,6 +175,10 @@ export default {
                         justify-content: center;
                         width: 35px;
                         height: 35px;
+                    }
+                    .profile{
+                        text-transform: inherit;
+                        font-weight: normal;
                     }
                     span{
                         font-size: 1.5rem;

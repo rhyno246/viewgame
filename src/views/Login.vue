@@ -124,6 +124,7 @@ export default {
                         this.loading = false
                         this.error = "wrong password"
                     } else {
+                        this.loading = false
                         this.error = errorMessage
                     }
                 });
@@ -154,6 +155,11 @@ export default {
             font-size: 1.6rem;
             color: #fff;
         }
+    }
+    .v-btn:not(.v-btn--round).v-size--default{
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
     }
     .custom-loader {
     animation: loader 1s infinite;

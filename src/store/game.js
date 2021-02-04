@@ -116,7 +116,6 @@ export default {
         },
         setUserName : (state,payload) => {
             state.username = payload
-            console.log(state.username);
         },
         setNullUser(state,payload){
             state.usernameNull = payload
@@ -305,5 +304,8 @@ export default {
         params : state =>{
             return state.params
         },
+        getNameUser : state => {
+            return state.username || state.usernameNull
+        }
     }
 }
