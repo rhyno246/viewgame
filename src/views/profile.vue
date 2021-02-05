@@ -69,16 +69,6 @@ import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import firebase from "firebase/app"
 import "firebase/auth"
 export default {
-    mixins: [validationMixin],
-
-    validations: {
-        name: { 
-            required, 
-            minLength: minLength(3),
-            maxLength : maxLength(10)
-        },
-    },
-
     data(){
         return {
             name : "",
@@ -88,19 +78,25 @@ export default {
             ],
             nameRules: [
                 v => !!v || 'Name is required',
-                
             ],
             imageData: null,
             loader: null,
             loading: false,
         }
     },
+    mixins: [validationMixin],
+    validations: {
+        name: { 
+            required, 
+            minLength: minLength(3),
+            maxLength : maxLength(10)
+        },
+    },
     watch: {
       loader () {
         const l = this.loader
         this[l] = !this[l]
         setTimeout(() => (this[l] = false), 3000)
-
         this.loader = null
       }
     },

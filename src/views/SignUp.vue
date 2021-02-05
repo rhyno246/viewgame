@@ -82,7 +82,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, minLength , email , sameAs  } from 'vuelidate/lib/validators'
+import { required, minLength , email } from 'vuelidate/lib/validators'
 import firebase from "firebase/app";
 import "firebase/auth";
 export default {

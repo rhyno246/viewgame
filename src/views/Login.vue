@@ -45,7 +45,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, minLength , email } from 'vuelidate/lib/validators'
+import { required , email } from 'vuelidate/lib/validators'
 import firebase from "firebase/app"
 import "firebase/auth"
 export default {
@@ -62,10 +62,6 @@ export default {
     mixins: [validationMixin],
 
     validations: {
-        name: { 
-            required, 
-            minLength: minLength(3)
-        },
         email: { required, email },
         password : { required },
         checkbox: {
