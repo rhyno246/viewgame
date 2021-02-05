@@ -4,8 +4,7 @@
             <h2 class="text-center">SIGN UP</h2>
 
             <div class="error error-text mt-4 mb-10" v-if="error">{{ error }}</div>
-
-            <form class="mt-7">
+            <v-form class="mt-7" v-model="valid" ref="form" lazy-validation>
                 <v-text-field
                     label="UserName"
                     outlined
@@ -36,6 +35,8 @@
                     dense
                     label="Password"
                     type="password"
+                    @input="$v.password1.$touch()"
+                    @blur="$v.password1.$touch()"
                     :rules="pwdRules"
                 ></v-text-field>
 
@@ -48,6 +49,8 @@
                     dense
                     label="Confirm Password"
                     type="password"
+                    @input="$v.password2.$touch()"
+                    @blur="$v.password2.$touch()"
                     :rules="pwdConfirm"
                 ></v-text-field>
 
@@ -67,14 +70,14 @@
                     @click="submit"
                     color="blue-grey"
                     :loading="loading"
-                    :disabled="loading"
+                    :disabled="!valid"
                 >
                     SIGN UP
                 </v-btn>
                 <div class="have-account mt-4">
                     <router-link to="/login">Already have an account? Login.</router-link>
                 </div>
-            </form>
+            </v-form>
         </v-container>
     </div>
 </template>
@@ -107,7 +110,6 @@ export default {
         const l = this.loader
         this[l] = !this[l]
         setTimeout(() => (this[l] = false), 3000)
-
         this.loader = null
       },
     },
@@ -121,6 +123,7 @@ export default {
             checkbox: false,
             loader: null,
             loading: false,
+            valid: true,
             nameRules: [
                 v => !!v || 'Name is required',
                 v => v.length <= 10 || 'Name must be less than 10 characters',
@@ -165,7 +168,7 @@ export default {
         password2Errors(){
             const errors = []
             if (!this.$v.password2.$dirty) return errors
-            !this.$v.password2.required && errors.push('Password is required')
+            !this.$v.password2.required && errors.push('Comfirm Password is required')
             return errors
         }
     },
@@ -180,33 +183,33 @@ export default {
                 this.loading = false
                 return
             } 
-            setTimeout(() => {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    var user = userCredential.user;
-                    user.updateProfile({
-                        displayName : name,
-                        //photoURL: "https://example.com/jane-q-user/profile.jpg"
+            if(this.$refs.form.validate()){
+                setTimeout(() => {
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then(userCredential => {
+                        var user = userCredential.user;
+                        user.updateProfile({
+                            displayName : name,
+                            //photoURL: "https://example.com/jane-q-user/profile.jpg"
+                        })
+                        console.log(user);
+                        this.error = false;
+                        this.loading = false;
+                        this.$router.push('/game');
+                        this.$store.commit('game/setIsLogin' , true);
+                        this.$store.commit('game/setNullUser' , name);
                     })
-                    
-                    console.log(user);
-                    this.error = false;
-                    this.loading = false;
-                    this.$router.push('/game');
-                    this.$store.commit('game/setIsLogin' , true);
-                    this.$store.commit('game/setNullUser' , name);
-                })
-                .catch(error=> {
-                    if(error){
-                        this.loading = false
-                        this.errorcode = error.code;
-                        this.error =  error.message;
-                        return
-                    }
-                    console.log(error);
-                });
-
-            }, 500);  
+                    .catch(error=> {
+                        if(error){
+                            this.loading = false
+                            this.errorcode = error.code;
+                            this.error =  error.message;
+                            return
+                        }
+                        console.log(error);
+                    });
+                }, 500); 
+            } 
         }
     },
 }
@@ -224,6 +227,9 @@ export default {
     .button{
         font-size: 1.6rem !important;
         width: 100%;
+        &:disabled{
+            background: #222;
+        }
     }
     .v-btn:not(.v-btn--round).v-size--default{
         position: relative !important;

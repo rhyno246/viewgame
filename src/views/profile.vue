@@ -17,37 +17,7 @@
                 <v-tabs-items v-model="tab">
                     <v-tab-item>
                         <v-card-text>
-                            <div class="profile-group mt-5" >
-                                <div class="choose-avatar" @click="chooseImage">
-                                    <div class="avartar" :style="{ 'background-image': `url(${imageData})` }">
-                                        <span v-if="!imageData">Choose Image</span>
-                                    </div>
-                                    <input type="file" ref="fileInput" class="d-none" @input="onSelectFile">
-                                </div>
-                                <div class="input-type email mt-4">
-                                    <v-card class="pt-2 pb-2 pl-4 pr-4"><v-text-field :value="EmailUser" disabled></v-text-field></v-card>
-                                </div>
-                                <div class="input-type email mt-4">
-                                    <v-card class="pt-2 pb-2 pl-4 pr-4">
-                                        <v-text-field 
-                                            v-model="name"
-                                            :error-messages="nameErrors"
-                                            :rules="nameRules"
-                                            @input="$v.name.$touch()"
-                                            @blur="$v.name.$touch()"
-                                            required
-                                        ></v-text-field>
-                                    </v-card>
-                                </div>
-                                <v-btn 
-                                    class="save-change"
-                                    :loading="loading"
-                                    :disabled="loading"
-                                    @click="hanleSaveChange"
-                                >
-                                    Save Change
-                                </v-btn>
-                            </div>
+                            <item-profile></item-profile>
                         </v-card-text>
                     </v-tab-item>
                     <v-tab-item>
@@ -57,100 +27,41 @@
                             </div>
                         </v-card-text>
                     </v-tab-item>
+                    <v-tab-item>
+                        <v-card-text>
+                            <div class="box mt-5">
+                                <change-password></change-password>
+                            </div>
+                        </v-card-text>
+                    </v-tab-item>
                 </v-tabs-items>
-
             </div>
         </v-container>
     </div>
 </template>
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, minLength, maxLength } from 'vuelidate/lib/validators'
-import firebase from "firebase/app"
-import "firebase/auth"
+import ChangePassword from '../components/ChangePassword.vue';
+import ItemProfile from '../components/ItemProfile.vue';
 export default {
+    components: { ItemProfile, ChangePassword },
     data(){
         return {
             name : "",
             tab: null,
             items: [
-                'Profile', 'Favourite'
+                'Profile', 'Favourite' , 'Change PassWord'
             ],
-            nameRules: [
-                v => !!v || 'Name is required',
-            ],
-            imageData: null,
-            loader: null,
-            loading: false,
         }
     },
-    mixins: [validationMixin],
-    validations: {
-        name: { 
-            required, 
-            minLength: minLength(3),
-            maxLength : maxLength(10)
-        },
-    },
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-        setTimeout(() => (this[l] = false), 3000)
-        this.loader = null
-      }
-    },
     computed : {
-        nameErrors () {
-            const errors = []
-            if (!this.$v.name.$dirty) return errors
-            !this.$v.name.minLength && errors.push('Name must be at most 3 characters long')
-            !this.$v.name.maxLength && errors.push('Name must be less than 10 characters')
-            !this.$v.name.required && errors.push('Name is required.')
-            return errors
-        },
         nameUser(){
-            return  this.name = this.$store.getters['game/getNameUser']
-        },
-        EmailUser(){
-            return this.$store.getters['game/getEmailUser']
+            return this.name = this.$store.getters['game/getNameUser']
         },
         subStringName(){
             const name = this.nameUser;
             return name.substring(0,1).toUpperCase();
         },
     },
-    methods : {
-        chooseImage(){
-            this.$refs.fileInput.click()
-        },
-        onSelectFile () {
-            const input = this.$refs.fileInput
-            const files = input.files
-            if (files && files[0]) {
-                const reader = new FileReader
-                reader.onload = e => {
-                this.imageData = e.target.result
-                }
-                reader.readAsDataURL(files[0])
-                this.$emit('input', files[0])
-            }
-        },
-        hanleSaveChange(){
-            this.$v.$touch()
-            const imgdata = this.imageData
-            const namedata = this.name
-            this.loading = true;
-            if(namedata === ""){
-                this.loading = false
-                return 
-            }
-            setTimeout(() => {
-                console.log(imgdata , namedata);
-                this.loading = false
-            }, 500);
-        }
-    }
 }
 </script>
 
@@ -163,6 +74,9 @@ export default {
         margin-top: 2rem;
         font-size: 1.4rem !important;
         width: 100%;
+        &:disabled{
+            background: #222;
+        }
     }
     .v-btn:not(.v-btn--round).v-size--default{
         position: relative !important;
@@ -238,9 +152,6 @@ export default {
     }
     .v-tabs-items {
         background: transparent !important;
-    }
-    .color{
-        color: red;
     }
      .custom-loader {
         animation: loader 1s infinite;

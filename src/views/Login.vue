@@ -3,7 +3,8 @@
         <v-container>
             <h2 class="text-center">LOGIN</h2>
             <div class="error error-text mt-4 mb-10" v-if="error">{{ error }}</div>
-            <form class="mt-7">
+
+            <v-form class="mt-7" v-model="valid" ref="form" lazy-validation>
                 <v-text-field
                     label="Email"
                     outlined
@@ -29,7 +30,7 @@
                     @click="submit"
                     color="blue-grey"
                     :loading="loading"
-                    :disabled="loading"
+                    :disabled="!valid"
                 >
                     LOGIN
                 </v-btn>
@@ -37,8 +38,7 @@
                 <div class="dont-have-account mt-4">
                     <router-link to="/sign-up">Don't have an account? Sign up.</router-link>
                 </div>
-
-            </form>
+            </v-form>
         </v-container>
     </div>
 </template>
@@ -56,6 +56,7 @@ export default {
             error : "",
             loader: null,
             loading: false,
+            valid: true,
             pwdRules: [v => !!v || "Password required"],
         }
     },
@@ -96,35 +97,37 @@ export default {
         },
     },
     methods : {
-        async submit(){
+        submit(){
             this.$v.$touch();   
             this.loading = true
             if(this.email === "" || this.password === ""){
                 this.loading = false
                 return 
             }
-            setTimeout(() => {
-                firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                .then(userCredential => {
-                    var user = userCredential.user
-                    if(user){
-                        this.loading = false
-                        this.$router.push('/game')
-                        this.$store.commit('game/setIsLogin' , true)
-                    }
-                })
-                .catch(error => {
-                    var errorCode = error.code
-                    var errorMessage = error.message
-                    if (errorCode === 'auth/wrong-password') {
-                        this.loading = false
-                        this.error = "wrong password"
-                    } else {
-                        this.loading = false
-                        this.error = errorMessage
-                    }
-                });
-            }, 500);
+            if(this.$refs.form.validate()){
+                setTimeout(() => {
+                    firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                    .then(userCredential => {
+                        var user = userCredential.user
+                        if(user){
+                            this.loading = false
+                            this.$router.push('/game')
+                            this.$store.commit('game/setIsLogin' , true)
+                        }
+                    })
+                    .catch(error => {
+                        var errorCode = error.code
+                        var errorMessage = error.message
+                        if (errorCode === 'auth/wrong-password') {
+                            this.loading = false
+                            this.error = "wrong password"
+                        } else {
+                            this.loading = false
+                            this.error = errorMessage
+                        }
+                    });
+                }, 500);
+            }
         }
     }
 }
@@ -141,6 +144,9 @@ export default {
     .button{
         font-size: 1.6rem !important;
         width: 100%;
+        &:disabled{
+            background: #222;
+        }
     }
     .error-text{
         font-size: 1.5rem;
