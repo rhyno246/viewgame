@@ -53,7 +53,6 @@ export default {
                 this.$store.commit('game/setUserName', {
                     nameUser : user.displayName,
                     emailUser : user.email,
-                    phoneUser : user.phoneNumber
                 })
             }
             this.$store.state.game.isLogin = !!user;
