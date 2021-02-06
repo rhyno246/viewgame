@@ -50,10 +50,17 @@ export default {
         // refresh page no out account
         firebase.auth().onAuthStateChanged(user => {
             if(user){
-                this.$store.commit('game/setUserName', {
-                    nameUser : user.displayName,
-                    emailUser : user.email,
-                })
+                user.providerData.forEach((profile) => {
+                    const name = profile.displayName
+                    const email = profile.email
+                    this.$store.commit('game/setUserName' , name);
+                    this.$store.commit('game/setEmailUser' , email);
+                    // console.log("Sign-in provider: " + profile.providerId);
+                    // console.log("  Provider-specific UID: " + profile.uid);
+                    // console.log("  Name: " + profile.displayName);
+                    // console.log("  Email: " + profile.email);
+                    // console.log("  Photo URL: " + profile.photoURL);
+                });
             }
             this.$store.state.game.isLogin = !!user;
         })

@@ -37,7 +37,8 @@ export default {
             //user-login
             isLogin : false,
             username : "",
-            usernameNull : ""
+            usernameNull : "",
+            email : ""
 
         }
     },
@@ -119,6 +120,9 @@ export default {
         },
         setNullUser : (state,payload) => {
             state.usernameNull = payload
+        },
+        setEmailUser : (state, payload) => {
+            state.email = payload
         }
     },
     actions : {
@@ -305,10 +309,10 @@ export default {
             return state.params
         },
         getNameUser : state => {
-            return state.username.nameUser || state.usernameNull
+            return state.username || state.usernameNull
         },
         getEmailUser : state => {
-            return state.username.emailUser || {}
+            return state.email 
         }
     }
 }

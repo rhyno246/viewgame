@@ -190,7 +190,6 @@ export default {
                         var user = userCredential.user;
                         user.updateProfile({
                             displayName : name,
-                            //photoURL: "https://example.com/jane-q-user/profile.jpg"
                         })
                         console.log(user);
                         this.error = false;
