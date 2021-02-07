@@ -17,7 +17,8 @@ Vue.config.productionTip = false
   projectId: "authviewgame",
   storageBucket: "authviewgame.appspot.com",
   messagingSenderId: "256553392757",
-  appId: "1:256553392757:web:a80ab6ff1e15430456763c"
+  appId: "1:256553392757:web:a80ab6ff1e15430456763c",
+  storageBucket : 'gs://authviewgame.appspot.com/',
 };
 firebase.initializeApp(firebaseConfig);
 

@@ -4,7 +4,7 @@
             <div class="avartar" :style="{ 'background-image': `url(${imageData})` }">
                 <span v-if="!imageData">Choose Image</span>
             </div>
-            <input type="file" ref="fileInput" class="d-none" @input="onSelectFile">
+            <input type="file" ref="fileInput" class="d-none" @input="onSelectFile" accept="image/*">
         </div>
         <div class="input-type email mt-4">
             <v-card class="pt-2 pb-2 pl-4 pr-4"><v-text-field :value="EmailUser" disabled></v-text-field></v-card>
@@ -39,6 +39,7 @@ import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
 import firebase from "firebase/app"
 import "firebase/auth"
+import "firebase/storage";
 export default {
     data(){
         return{
@@ -98,6 +99,7 @@ export default {
                 const reader = new FileReader
                 reader.onload = e =>{
                     this.imageData = e.target.result
+                    console.log(this.imageData);
                 }
                 reader.readAsDataURL(files[0])
                 this.$emit('input', files[0])

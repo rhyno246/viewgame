@@ -1,5 +1,5 @@
 <template>
-    <div class="slide" v-if="item.length > 0">
+    <div class="slide" v-if="item && item.length > 0">
         <div class="slide__img">
             <div class="img-slide"  v-lazy:background-image="resizeImg"></div>
             <!-- :style="{ backgroundImage: 'url(' + resizeImg + ')' }" -->
