@@ -4,8 +4,8 @@
             <div class="profile">
                 <div class="profile__name">
                     <div class="img-name">
-                        <div class="first-name">
-                            <span>{{ subStringName }}</span>
+                        <div class="first-name" :style="{ backgroundImage: 'url(' + image  + ')' }">
+                            <span v-if="isShowName">{{ subStringName }}</span>
                         </div>
                     </div>
                 </div>
@@ -42,16 +42,33 @@
 <script>
 import ChangePassword from '../components/ChangePassword.vue';
 import ItemProfile from '../components/ItemProfile.vue';
+import firebase from "firebase/app";
+import "firebase/auth";
+import 'firebase/storage';
 export default {
     components: { ItemProfile, ChangePassword },
     data(){
         return {
             name : "",
             tab: null,
+            image : null,
+            isShowName : true,
             items: [
                 'Profile', 'Favourite' , 'Change PassWord'
             ],
         }
+    },
+    created(){
+        firebase.auth().onAuthStateChanged(user => {
+            if(user){
+                firebase.storage().ref('users/' + user.uid + '/profile.jpg').getDownloadURL().then(imgUrl => {
+                    this.isShowName = false
+                    this.image = imgUrl 
+                }).catch(error => {
+                    console.log(error.message);
+                })
+            }
+        })
     },
     computed : {
         nameUser(){
@@ -61,6 +78,9 @@ export default {
             const name = this.nameUser;
             return name.substring(0,1).toUpperCase();
         },
+        photoUser(){
+            return this.$store.state.game.photo
+        }
     },
 }
 </script>
@@ -81,23 +101,6 @@ export default {
     .v-btn:not(.v-btn--round).v-size--default{
         position: relative !important;
         left: 0 !important;
-    }
-    .choose-avatar{
-        .avartar{
-            background: #ddd;
-            border-radius: 5px;
-            color: #333;
-            width: 20rem;
-            margin: 0 auto;
-            height: 20rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: normal;
-            background-size: cover;
-            cursor: pointer;
-            background-position: center center;
-        }
     }
     .input-type {
         input{

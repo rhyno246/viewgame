@@ -1,11 +1,15 @@
 <template>
     <div class="profile-group mt-5" >
-        <div class="choose-avatar" @click="chooseImage">
-            <div class="avartar" :style="{ 'background-image': `url(${imageData})` }">
-                <span v-if="!imageData">Choose Image</span>
-            </div>
-            <input type="file" ref="fileInput" class="d-none" @input="onSelectFile" accept="image/*">
+
+        <div class="input-file">
+            <v-btn raised class="primary" @click="onPickFile">Upload Image</v-btn>
+            <input type="file" class="d-none" ref="fileInput" accept="image/*" @change="onFilePicked">
         </div>
+        <div class="choose-avatar">
+            <div class="avartar" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" v-if="isShowAvartar"></div>
+        </div>
+
+
         <div class="input-type email mt-4">
             <v-card class="pt-2 pb-2 pl-4 pr-4"><v-text-field :value="EmailUser" disabled></v-text-field></v-card>
         </div>
@@ -48,10 +52,13 @@ export default {
                 v => v && v.length <= 10 || "Name must be less than 10 characters"
             ],
             name : "",
-            imageData: null,
             loader: null,
             valid: true,
             loading: false,
+            isShowAvartar : false,
+            imageUrl : "",
+            image : null
+  
         }
     },
     mixins: [validationMixin],
@@ -88,38 +95,51 @@ export default {
             return this.$store.getters['game/getEmailUser']
         },
     },
+
     methods : {
-        chooseImage(){
+        onPickFile(){
             this.$refs.fileInput.click()
         },
-        onSelectFile () {
-            const input = this.$refs.fileInput
-            const files = input.files
-            if (files && files[0]) {
-                const reader = new FileReader
-                reader.onload = e =>{
-                    this.imageData = e.target.result
-                    console.log(this.imageData);
-                }
-                reader.readAsDataURL(files[0])
-                this.$emit('input', files[0])
+        onFilePicked(event){
+            this.isShowAvartar = true
+            const files = event.target.files
+            let filename = files[0].name
+            if(filename.lastIndexOf('.') <= 0){
+                return alert('Please add a valid file !')
             }
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load' , () => {
+                this.imageUrl = fileReader.result
+            })
+            fileReader.readAsDataURL(files[0])
+            this.image = files[0]
         },
+
+
+
         hanleSaveChange(){
             this.$v.$touch();
-            const imgdata = this.imageData
             const namedata = this.name
             this.loading = true;
-            if(namedata === ""){
+            if(namedata === "" || !this.image){
                 this.loading = false
                 return 
             }
             if(this.$refs.form.validate()){
                 setTimeout(() => {
                     this.loading = false
-                    var user = firebase.auth().currentUser
-                    user.updateProfile({
-                        displayName : namedata,
+                    console.log(this.image);
+                    firebase.auth().onAuthStateChanged(user => {
+                        if(user){
+                            user.updateProfile({
+                                displayName : namedata,
+                            })
+                            firebase.storage().ref('users/' + user.uid + '/profile.jpg').put(this.image).then(function(){
+                                console.log('success');
+                            }).catch(error => {
+                                console.log(error.message);
+                            })
+                        }
                     })
                     this.$store.commit('game/setUserName', namedata)
                     this.$store.commit('game/setNullUser' , namedata);
@@ -146,22 +166,23 @@ export default {
     .v-btn:not(.v-btn--round).v-size--default{
         position: relative !important;
         left: 0 !important;
+        font-size: 1.4rem;
+        width: 100%;
     }
     .choose-avatar{
         .avartar{
             background: #ddd;
             border-radius: 5px;
             color: #333;
-            width: 20rem;
-            margin: 0 auto;
-            height: 20rem;
+            width: 100%;
+            height: 25rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: normal;
             background-size: cover;
-            cursor: pointer;
             background-position: center center;
+            margin-top: 1.5rem;
         }
     }
     .input-type {

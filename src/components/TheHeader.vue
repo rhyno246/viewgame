@@ -41,6 +41,7 @@ import SearchSlug from './SearchSlug.vue';
 import SlugItem from './SlugItem.vue';
 import firebase from "firebase/app";
 import "firebase/auth";
+import 'firebase/storage';
 export default {
     components: {SearchSlug, SlugItem },
     async mounted(){

@@ -38,7 +38,8 @@ export default {
             isLogin : false,
             username : "",
             usernameNull : "",
-            email : ""
+            email : "",
+            photo : null
 
         }
     },
@@ -123,6 +124,10 @@ export default {
         },
         setEmailUser : (state, payload) => {
             state.email = payload
+        },
+        setPhoto : (state , payload) => {
+            state.photo = payload
+            console.log(state.photo);
         }
     },
     actions : {
