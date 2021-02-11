@@ -39,7 +39,7 @@ export default {
             username : "",
             usernameNull : "",
             email : "",
-            photo : null
+            photo : "",
 
         }
     },
@@ -127,8 +127,7 @@ export default {
         },
         setPhoto : (state , payload) => {
             state.photo = payload
-            console.log(state.photo);
-        }
+        },
     },
     actions : {
         getSlug : async ({ commit ,state }) =>{

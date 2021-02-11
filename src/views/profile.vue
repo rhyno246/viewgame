@@ -4,8 +4,8 @@
             <div class="profile">
                 <div class="profile__name">
                     <div class="img-name">
-                        <div class="first-name" :style="{ backgroundImage: 'url(' + image  + ')' }">
-                            <span v-if="isShowName">{{ subStringName }}</span>
+                        <div class="first-name" :style="{ backgroundImage: 'url(' + getPhoto + ')' }">
+                            <span v-if="nameNull">{{ subStringName }}</span>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     <v-tab-item>
                         <v-card-text>
                             <div class="box mt-5">
-                                Favourite List user
+                                <!-- Favourite List user -->
                             </div>
                         </v-card-text>
                     </v-tab-item>
@@ -42,33 +42,29 @@
 <script>
 import ChangePassword from '../components/ChangePassword.vue';
 import ItemProfile from '../components/ItemProfile.vue';
-import firebase from "firebase/app";
-import "firebase/auth";
-import 'firebase/storage';
 export default {
     components: { ItemProfile, ChangePassword },
     data(){
         return {
             name : "",
             tab: null,
-            image : null,
-            isShowName : true,
+            nameNull : true,
             items: [
                 'Profile', 'Favourite' , 'Change PassWord'
             ],
         }
     },
-    created(){
-        firebase.auth().onAuthStateChanged(user => {
-            if(user){
-                firebase.storage().ref('users/' + user.uid + '/profile.jpg').getDownloadURL().then(imgUrl => {
-                    this.isShowName = false
-                    this.image = imgUrl 
-                }).catch(error => {
-                    console.log(error.message);
-                })
+    watch : {
+        getPhoto : {
+            immediate : true,
+            handler(val){
+                if(val){
+                    this.$nextTick(() => {
+                        this.nameNull = false
+                    })
+                }
             }
-        })
+        }
     },
     computed : {
         nameUser(){
@@ -78,17 +74,22 @@ export default {
             const name = this.nameUser;
             return name.substring(0,1).toUpperCase();
         },
-        photoUser(){
+        getPhoto(){
             return this.$store.state.game.photo
-        }
+        },
     },
 }
 </script>
 
 
 <style lang="scss">
+    .v-slide-group__wrapper {
+        max-width: 50rem;
+        margin: 0 auto;
+    }
     .profile-group{
         max-width: 50rem;
+        margin: 0 auto;
     }
     .save-change{
         margin-top: 2rem;
@@ -162,34 +163,34 @@ export default {
     }
     @-moz-keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
     @-webkit-keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
     @-o-keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
     @keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
 </style>

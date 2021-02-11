@@ -1,15 +1,12 @@
 <template>
     <div class="profile-group mt-5" >
-
         <div class="input-file">
-            <v-btn raised class="primary" @click="onPickFile">Upload Image</v-btn>
+            <v-btn raised class="red" @click="onPickFile">Upload Avatar</v-btn>
             <input type="file" class="d-none" ref="fileInput" accept="image/*" @change="onFilePicked">
         </div>
         <div class="choose-avatar">
             <div class="avartar" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" v-if="isShowAvartar"></div>
         </div>
-
-
         <div class="input-type email mt-4">
             <v-card class="pt-2 pb-2 pl-4 pr-4"><v-text-field :value="EmailUser" disabled></v-text-field></v-card>
         </div>
@@ -17,6 +14,7 @@
             <v-card class="pt-2 pb-2 pl-4 pr-4">
                 <v-form v-model="valid" ref="form" lazy-validation>
                     <v-text-field 
+                        ref="nameinput"
                         :error-messages="nameErrors"
                         v-model="name"
                         :rules="nameRules"
@@ -56,8 +54,10 @@ export default {
             valid: true,
             loading: false,
             isShowAvartar : false,
+            isProcess : false,
             imageUrl : "",
-            image : null
+            image : null,
+            imageGlobal : "",
   
         }
     },
@@ -93,7 +93,7 @@ export default {
         },
         EmailUser(){
             return this.$store.getters['game/getEmailUser']
-        },
+        }
     },
 
     methods : {
@@ -103,6 +103,9 @@ export default {
         onFilePicked(event){
             this.isShowAvartar = true
             const files = event.target.files
+            if(files === null){
+                return
+            }
             let filename = files[0].name
             if(filename.lastIndexOf('.') <= 0){
                 return alert('Please add a valid file !')
@@ -115,34 +118,49 @@ export default {
             this.image = files[0]
         },
 
-
-
         hanleSaveChange(){
             this.$v.$touch();
             const namedata = this.name
+            const imageData = this.image
             this.loading = true;
-            if(namedata === "" || !this.image){
-                this.loading = false
-                return 
-            }
-            if(this.$refs.form.validate()){
+            if (this.$refs.form.validate()){
                 setTimeout(() => {
-                    this.loading = false
-                    console.log(this.image);
                     firebase.auth().onAuthStateChanged(user => {
+                        this.loading = false
                         if(user){
                             user.updateProfile({
                                 displayName : namedata,
                             })
-                            firebase.storage().ref('users/' + user.uid + '/profile.jpg').put(this.image).then(function(){
-                                console.log('success');
-                            }).catch(error => {
-                                console.log(error.message);
-                            })
+                            this.$store.commit('game/setUserName', namedata)
+                            this.$store.commit('game/setNullUser' , namedata)
                         }
                     })
-                    this.$store.commit('game/setUserName', namedata)
-                    this.$store.commit('game/setNullUser' , namedata);
+                    var user = firebase.auth().currentUser
+                    if(!this.image){
+                        this.loading = false
+                        return
+                    }else if(user){
+                        var uploadTask = firebase.storage().ref('users/' + user.uid + '/profile.jpg').put(imageData);
+                        uploadTask.on('state_changed', 
+                            (snapshot) => {
+                                //this.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                this.isShowAvartar = false
+                                switch (snapshot.state) {
+                                case firebase.storage.TaskState.PAUSED:
+                                    break;
+                                case firebase.storage.TaskState.RUNNING:
+                                    break;
+                                }
+                            }, 
+                            (error) => {
+                                console.log(error);
+                            }, () => {
+                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    this.$store.commit('game/setPhoto' , downloadURL)
+                                });
+                            }
+                        );
+                    }
                 }, 500);
             }
         }
@@ -170,6 +188,7 @@ export default {
         width: 100%;
     }
     .choose-avatar{
+        position: relative;
         .avartar{
             background: #ddd;
             border-radius: 5px;
@@ -183,6 +202,12 @@ export default {
             background-size: cover;
             background-position: center center;
             margin-top: 1.5rem;
+        }
+        .progress{
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            transform: translate(50%,-50%);
         }
     }
     .input-type {
@@ -235,34 +260,34 @@ export default {
     }
     @-moz-keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
     @-webkit-keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
     @-o-keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
     @keyframes loader {
         from {
-        transform: rotate(0);
+            transform: rotate(0);
         }
         to {
-        transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
 </style>

@@ -13,6 +13,9 @@
 import TheHeader from './components/TheHeader.vue';
 import PageFooter from './components/PageFooter.vue';
 import FilterMain from './components/Filter/FilterMain.vue';
+import firebase from "firebase/app"
+import "firebase/auth"
+import "firebase/storage";
 export default {
   name: 'App',
   components: {
@@ -20,6 +23,26 @@ export default {
     FilterMain,
     PageFooter,
   },
+  created(){
+    firebase.auth().onAuthStateChanged(user => {
+      if(user != null){
+        firebase.storage().ref('users/' + user.uid + '/profile.jpg').getDownloadURL().then(imgUrl => {
+          this.$store.state.game.photo = imgUrl
+        }).catch(error => {
+            switch (error.code) {
+              case 'storage/object-not-found':
+                  break;
+              case 'storage/unauthorized':
+                  break;
+              case 'storage/canceled':
+                  break;
+              case 'storage/unknown':
+                  break;
+            }
+        })
+      }
+    })
+  }
 };
 </script>
 

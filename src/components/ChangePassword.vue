@@ -123,6 +123,7 @@ export default {
 <style lang="scss">
     .change-password{
         max-width: 50rem;
+        margin: 0 auto;
     }
     .button{
         font-size: 1.6rem !important;

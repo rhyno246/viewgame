@@ -7,7 +7,9 @@
             <search-slug></search-slug>
             <ul class="user" v-if="isLogin">
                 <li>
-                    <span class="mr-2 first-name">{{ subStringName }}</span> 
+                    <span class="mr-2 first-name" :style="{ backgroundImage: 'url(' + getPhoto + ')' }">
+                        <i class="font-bol" v-if="nameNull">{{ subStringName }}</i>
+                    </span> 
                     <router-link :to="`/profile?name=${nameUser}`" class="profile"><span>{{ nameUser }}</span></router-link>
                 </li>
                 <li><v-icon @click="signOut">mdi-logout</v-icon></li>
@@ -44,6 +46,25 @@ import "firebase/auth";
 import 'firebase/storage';
 export default {
     components: {SearchSlug, SlugItem },
+
+    data(){
+        return {
+            nameNull : true
+        }
+    },
+    watch : {
+        getPhoto : {
+            immediate : true,
+            handler(val){
+                if(val){
+                    this.$nextTick(() => {
+                        this.nameNull = false
+                    })
+                }
+            }
+        }
+    },
+
     async mounted(){
         await this.$store.dispatch('game/getSlug'); 
     },
@@ -71,15 +92,14 @@ export default {
         async signOut(){
             try {
                 const data = firebase.auth().signOut();
-                console.log(data);
+                this.nameNull = true
+                this.$store.commit('game/setPhoto' , null)
                 this.$router.push('/game');
             } catch (err) {
                 console.log(err);
             }
         }
     },
-
-
     computed : {
         getSlug(){
             return this.$store.getters['game/getSlug'];
@@ -100,12 +120,18 @@ export default {
             const name = this.nameUser;
             return name.substring(0,1).toUpperCase();
         },
+        getPhoto(){
+            return this.$store.state.game.photo
+        }
     }
 }
 </script>
 
 
 <style lang="scss">
+    .font-bol{
+        font-style: normal;
+    }
     .nav{
         padding: 2rem 0;
         .top-nav {
@@ -179,6 +205,8 @@ export default {
                         justify-content: center;
                         width: 35px;
                         height: 35px;
+                        background-size: cover;
+                        background-position: center center;
                     }
                     .profile{
                         text-transform: inherit;
