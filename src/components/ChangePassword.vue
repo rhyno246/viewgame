@@ -116,7 +116,7 @@ export default {
                     var user = firebase.auth().currentUser;
                     if(user){
                         user.updatePassword(newpass).then(() =>{
-                            console.log(newpass);
+                            console.log(newpass , 'success');
                         }).catch((error) =>{
                             console.log(error);
                         })
