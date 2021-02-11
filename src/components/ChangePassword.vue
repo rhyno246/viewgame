@@ -113,6 +113,14 @@ export default {
                 console.log(oldpass , newpass , confirm);
                 setTimeout(() => {
                     this.loading = false
+                    var user = firebase.auth().currentUser;
+                    if(user){
+                        user.updatePassword(newpass).then(() =>{
+                            console.log(newpass);
+                        }).catch((error) =>{
+                            console.log(error);
+                        })
+                    }
                 }, 500);
             }
         }
