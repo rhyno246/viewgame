@@ -39,8 +39,7 @@ export default {
             username : "",
             usernameNull : "",
             email : "",
-            photo : "",
-
+            photo : ""
         }
     },
     mutations : {
@@ -127,7 +126,7 @@ export default {
         },
         setPhoto : (state , payload) => {
             state.photo = payload
-        },
+        }
     },
     actions : {
         getSlug : async ({ commit ,state }) =>{

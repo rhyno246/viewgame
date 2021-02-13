@@ -1,7 +1,7 @@
 <template>
     <div class="change-password">
         <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field
+            <!-- <v-text-field
                 :error-messages="oldpasswordErrors"
                 required
                 label="Old Password"
@@ -11,7 +11,7 @@
                 dense
                 @input="$v.oldpassword.$touch()"
                 @blur="$v.oldpassword.$touch()"
-            ></v-text-field>
+            ></v-text-field> -->
             <v-text-field
                 :error-messages="newpasswordErrors"
                 required
@@ -57,7 +57,7 @@ import "firebase/auth";
 export default {
     data(){
         return{
-            oldpassword : "",
+            //oldpassword : "",
             newpassword : "",
             comfirmpassword : "",
             loader: null,
@@ -74,17 +74,17 @@ export default {
     },
     mixins: [validationMixin],
     validations: {
-        oldpassword : { required },
+        //oldpassword : { required },
         newpassword : { required },
         comfirmpassword : { required },
     },
     computed : {
-        oldpasswordErrors(){
-            const errors = []
-            if (!this.$v.oldpassword.$dirty) return errors
-            !this.$v.oldpassword.required && errors.push('Old Password is required')
-            return errors
-        },
+        // oldpasswordErrors(){
+        //     const errors = []
+        //     if (!this.$v.oldpassword.$dirty) return errors
+        //     !this.$v.oldpassword.required && errors.push('Old Password is required')
+        //     return errors
+        // },
         newpasswordErrors(){
             const errors = []
             if (!this.$v.newpassword.$dirty) return errors
@@ -102,21 +102,22 @@ export default {
         handleChangePassWord(){
             this.$v.$touch()
             this.loading = true;
-            const oldpass = this.oldpassword
+            //const oldpass = this.oldpassword
             const newpass = this.newpassword
             const confirm = this.comfirmpassword
-            if(oldpass === "" || newpass === "" || confirm === ""){
+            if(newpass === "" || confirm === ""){
                 this.loading = false
                 return
             }
             if(this.$refs.form.validate()){
-                console.log(oldpass , newpass , confirm);
                 setTimeout(() => {
                     this.loading = false
                     var user = firebase.auth().currentUser;
                     if(user){
                         user.updatePassword(newpass).then(() =>{
-                            console.log(newpass , 'success');
+                            this.newpassword = ""
+                            this.comfirmpassword = ""
+                            this.$router.replace("/")
                         }).catch((error) =>{
                             console.log(error);
                         })
