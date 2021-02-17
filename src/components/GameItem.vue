@@ -58,7 +58,9 @@
                         half-increments 
                         :value="rating">
                     </v-rating>
-                    <v-icon class="heart" @click="handleLike">mdi-heart</v-icon>
+                    <v-btn :loading="loaddingLike" class="heart">
+                        <v-icon @click="handleLike">mdi-heart</v-icon>
+                    </v-btn>
                 </div>
             </div>
         </div>
@@ -69,6 +71,8 @@
 import GamePlat from './GamePlat.vue'
 import LoadingItem from './LoadingItem.vue'
 import SlideGame from './SlideGame.vue'
+import firebase from "firebase/app"
+import 'firebase/auth'
 export default {
     components: { GamePlat,LoadingItem , SlideGame },
     props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip' , 'shortimg'],
@@ -78,6 +82,7 @@ export default {
             loadding : false,
             dialog : false,
             isShowSlide : false,
+            loaddingLike : false
         }
     },
     computed : {
@@ -116,8 +121,26 @@ export default {
             if(isLogin === false){
                 this.$router.replace('/login');
             }else{
-                console.log(this.id);
-            }
+                const db = firebase.firestore();
+                const userID = firebase.auth().currentUser.uid
+                this.loaddingLike = true
+                const dataGame = {
+                    title : this.name,
+                    id : this.id,
+                    image : this.image,
+                    metacritic : this.metacritic,
+                    rating : this.rating,
+                    clip : this.clip.clip,
+                    shortimg : this.shortimg,
+                    parent_platforms : this.parent_platforms
+                }
+                db.collection(userID).add(dataGame).then(() => {
+                    console.log('success like');
+                    this.loaddingLike = false
+                }).catch((error) => {
+                    console.log(error);
+                })
+            }   
         }
     }
 }
@@ -211,6 +234,11 @@ export default {
         font-size: 2rem !important;
         cursor: pointer;
         color: #333 !important;
+        min-width: auto !important;
+        height: auto !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        width: auto !important;
         &:hover{
             color: red !important;
         }

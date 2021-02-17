@@ -23,7 +23,7 @@
                     <v-tab-item>
                         <v-card-text>
                             <div class="box mt-5">
-                                <!-- Favourite List user -->
+                                <favourite-list></favourite-list>
                             </div>
                         </v-card-text>
                     </v-tab-item>
@@ -41,9 +41,10 @@
 </template>
 <script>
 import ChangePassword from '../components/ChangePassword.vue';
+import FavouriteList from '../components/FavouriteList.vue';
 import ItemProfile from '../components/ItemProfile.vue';
 export default {
-    components: { ItemProfile, ChangePassword },
+    components: { ItemProfile, ChangePassword, FavouriteList },
     data(){
         return {
             name : "",
@@ -54,6 +55,7 @@ export default {
             ],
         }
     },
+    
     watch : {
         getPhoto : {
             immediate : true,

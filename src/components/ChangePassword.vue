@@ -119,7 +119,10 @@ export default {
                             this.comfirmpassword = ""
                             this.$router.replace("/")
                         }).catch((error) =>{
-                            console.log(error);
+                            if(error.code == 'auth/requires-recent-login'){
+                                user.updatePassword(newpass);
+                                this.$router.replace("/")
+                            }
                         })
                     }
                 }, 500);

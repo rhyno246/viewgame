@@ -39,7 +39,8 @@ export default {
             username : "",
             usernameNull : "",
             email : "",
-            photo : ""
+            photo : "",
+            favourite : []
         }
     },
     mutations : {
@@ -126,6 +127,13 @@ export default {
         },
         setPhoto : (state , payload) => {
             state.photo = payload
+        },
+        setFavourite : (state,payload) => {
+            state.favourite.push(payload);
+            const newArr = [...state.favourite]
+            return newArr.filter(item => {
+                console.log(item.id);
+            })
         }
     },
     actions : {
@@ -278,6 +286,10 @@ export default {
             if(data.next == null){
                 state.endLoad = true
             }
+        },
+        actionFavourite : async ({ commit } , payload) => {
+            const data = payload
+            commit('setFavourite' , data)
         }
     },
     getters : {
@@ -316,6 +328,9 @@ export default {
         },
         getEmailUser : state => {
             return state.email 
+        },
+        getFavourite : state => {
+            return state.favourite
         }
     }
 }

@@ -8,6 +8,7 @@ import VueYouTubeEmbed from 'vue-youtube-embed';
 import VueLazyload from 'vue-lazyload';
 import viewability from "./components/directives/Viewability.js";
 import firebase from 'firebase/app';
+import "firebase/firestore"
 Vue.config.productionTip = false
 
 
@@ -21,15 +22,16 @@ Vue.config.productionTip = false
   storageBucket : 'gs://authviewgame.appspot.com/',
 };
 firebase.initializeApp(firebaseConfig);
-
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: 'img/error.svg',
   loading: 'img/loader.svg',
   attempt: 1
 })
+
 Vue.directive("viewability", viewability);
 Vue.use(VueYouTubeEmbed)
+
 let app;
 firebase.auth().onAuthStateChanged(user =>{
   if(!app){
