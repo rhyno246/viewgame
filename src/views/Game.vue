@@ -92,7 +92,7 @@ export default {
   &__box{
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    max-width: 77rem;
+    max-width: 70rem;
     margin: 0 auto;
     grid-gap: 2rem;
   }

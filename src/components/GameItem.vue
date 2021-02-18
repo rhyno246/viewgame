@@ -58,6 +58,10 @@
                         half-increments 
                         :value="rating">
                     </v-rating>
+                    
+                    <v-btn class="heart">
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
 
                     <v-btn :loading="loaddingLike" class="heart">
                         <v-icon @click="handleLike">mdi-heart</v-icon>
@@ -134,7 +138,7 @@ export default {
                     clip : this.clip,
                     shortimg : this.shortimg,
                     parent_platforms : this.parent_platforms,
-                    slug : this.slug,
+                    slug : this.slug
                 }
                 db.collection(userID).add(dataGame).then(() => {
                     this.loaddingLike = false
