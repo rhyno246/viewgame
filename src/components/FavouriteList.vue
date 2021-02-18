@@ -12,7 +12,6 @@
                 :slug="item.slug"
                 :clip="item.clip"
                 :shortimg="item.shortimg"
-                :active="item.active"
             >
             </game-item>
         </div>
