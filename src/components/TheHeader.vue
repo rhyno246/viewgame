@@ -10,7 +10,7 @@
                     <span class="mr-2 first-name" :style="{ backgroundImage: 'url(' + getPhoto + ')' }">
                         <i class="font-bol" v-if="nameNull">{{ subStringName }}</i>
                     </span> 
-                    <router-link :to="`/profile?name=${nameUser}`" class="profile"><span>{{ nameUser }}</span></router-link>
+                    <router-link :to="`/profile`" class="profile"><span>{{ nameUser }}</span></router-link>
                 </li>
                 <li><v-icon @click="signOut">mdi-logout</v-icon></li>
             </ul>

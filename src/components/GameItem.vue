@@ -58,6 +58,8 @@
                         half-increments 
                         :value="rating">
                     </v-rating>
+
+
                     <v-btn :loading="loaddingLike" class="heart">
                         <v-icon @click="handleLike">mdi-heart</v-icon>
                     </v-btn>
@@ -82,7 +84,7 @@ export default {
             loadding : false,
             dialog : false,
             isShowSlide : false,
-            loaddingLike : false
+            loaddingLike : false,
         }
     },
     computed : {
@@ -130,12 +132,13 @@ export default {
                     image : this.image,
                     metacritic : this.metacritic,
                     rating : this.rating,
-                    clip : this.clip.clip,
+                    clip : this.clip,
                     shortimg : this.shortimg,
-                    parent_platforms : this.parent_platforms
+                    parent_platforms : this.parent_platforms,
+                    slug : this.slug,
+                    active : true
                 }
                 db.collection(userID).add(dataGame).then(() => {
-                    console.log('success like');
                     this.loaddingLike = false
                 }).catch((error) => {
                     console.log(error);
@@ -186,6 +189,7 @@ export default {
                 font-size: 1.4rem;
                 padding: 0 .6rem;
                 border-radius: 3px;
+                line-height: 1.5;
             }
             a{
                 font-size: 1.8rem;
@@ -243,7 +247,7 @@ export default {
             color: red !important;
         }
     }
-    .active-heart{
+    .activeheart{
         color: red !important;
     }
 

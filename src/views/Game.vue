@@ -45,6 +45,7 @@ export default {
     GameItem,
   },
   computed :{
+
     ...mapState('game', {
         activeLayout : state => state.flexibleLayout,
         pager : state => state.pager,
@@ -67,7 +68,6 @@ export default {
     ...mapMutations('game' , {
       setpager : 'SetPager'
     }),
-
     loadMore() {
       const routeName = this.$route.name;
       let page = this.pager;

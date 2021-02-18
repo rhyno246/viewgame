@@ -77,7 +77,6 @@ export default {
         },
         nameUser(){
             this.$nextTick()
-            
         }
     },
     computed : {
@@ -222,8 +221,6 @@ export default {
     }
 
     .profile{
-        max-width: 100rem;
-        margin: 0 auto;
         &__name{
             font-size: 4rem;
             margin-top: 5rem;
