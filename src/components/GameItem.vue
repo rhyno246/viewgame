@@ -61,7 +61,7 @@
 
 
                     <v-btn :loading="loaddingLike" class="heart">
-                        <v-icon @click="handleLike">mdi-heart</v-icon>
+                        <v-icon @click="handleLike" :class="{ activeheart : isActive}">mdi-heart</v-icon>
                     </v-btn>
                 </div>
             </div>
@@ -77,7 +77,7 @@ import firebase from "firebase/app"
 import 'firebase/auth'
 export default {
     components: { GamePlat,LoadingItem , SlideGame },
-    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip' , 'shortimg'],
+    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip' , 'shortimg' , 'active'],
     data(){
         return{
             isShow : false,
@@ -85,6 +85,7 @@ export default {
             dialog : false,
             isShowSlide : false,
             loaddingLike : false,
+            isActive : false
         }
     },
     computed : {
@@ -136,10 +137,11 @@ export default {
                     shortimg : this.shortimg,
                     parent_platforms : this.parent_platforms,
                     slug : this.slug,
-                    active : true
+                    active : this.isActive
                 }
                 db.collection(userID).add(dataGame).then(() => {
                     this.loaddingLike = false
+                    this.isActive = !this.isActive
                 }).catch((error) => {
                     console.log(error);
                 })
