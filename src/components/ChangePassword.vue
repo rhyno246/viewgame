@@ -51,7 +51,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import { required , minLength } from 'vuelidate/lib/validators'
 import firebase from "firebase/app";
 import "firebase/auth";
 export default {
@@ -75,7 +75,7 @@ export default {
     mixins: [validationMixin],
     validations: {
         //oldpassword : { required },
-        newpassword : { required },
+        newpassword : { required, minLength: minLength(6) },
         comfirmpassword : { required },
     },
     computed : {
@@ -88,6 +88,7 @@ export default {
         newpasswordErrors(){
             const errors = []
             if (!this.$v.newpassword.$dirty) return errors
+            !this.$v.newpassword.minLength && errors.push('Password must be at most 6 characters long')
             !this.$v.newpassword.required && errors.push('New Password is required')
             return errors
         },

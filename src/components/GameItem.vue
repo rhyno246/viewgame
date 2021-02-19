@@ -1,5 +1,5 @@
 <template>
-    <v-card class="card" @mouseover="hoverPlayvideo" @mouseleave="leaveVideo">
+    <v-card class="card" @mouseover="hoverPlayvideo" @mouseleave="leaveVideo" v-if="isShowGameFavourite">
         <div class="card__img"
             v-lazy:background-image="image"
         >
@@ -17,7 +17,9 @@
                 <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
             </div>
         </div>
-    
+
+
+        <!-- dialog full video -->
         <v-dialog  
             v-model="dialog"
             class="ma-2" 
@@ -30,6 +32,8 @@
                 </v-btn>
             </v-card-actions>
         </v-dialog>
+
+
 
         <div class="group-body">
             <div class="card__name">
@@ -111,6 +115,7 @@ export default {
             dialog1 : false,
             isShowSlide : false,
             loaddingLike : false,
+            isShowGameFavourite : true
         }
     },
     computed : {
@@ -131,7 +136,9 @@ export default {
         }
     },
 
+    watch : {
 
+    },
 
     methods : {
         hoverPlayvideo(){
@@ -148,8 +155,8 @@ export default {
             this.isShowSlide = false
         },
         closeModalFavourite(){
-            this.$router.push("/");
             this.dialog1 = false
+            this.isShowGameFavourite = false
         },
         handleDelete(){
             const db = firebase.firestore();

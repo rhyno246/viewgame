@@ -97,8 +97,13 @@ export default {
             minLength: minLength(3)
         },
         email: { required, email },
-        password1 : { required },
-        password2 : { required },
+        password1 : { 
+            required,
+            minLength: minLength(6)
+        },
+        password2 : {
+            required,
+        },
         checkbox: {
             checked (val) {
                 return val
@@ -133,7 +138,7 @@ export default {
             ],
             pwdConfirm: [
                 v => !!v || "Confirm password",
-                v => v === this.password1 || "Passwords do not match"
+                v => v === this.password1 || "Passwords do not match",
             ]
         }
     },
@@ -162,6 +167,7 @@ export default {
         password1Errors(){
             const errors = []
             if (!this.$v.password1.$dirty) return errors
+            !this.$v.password1.minLength && errors.push('Password must be at most 6 characters long')
             !this.$v.password1.required && errors.push('Password is required')
             return errors
         },

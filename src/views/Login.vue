@@ -23,6 +23,8 @@
                     dense
                     label="Password"
                     type="password"
+                    @input="$v.password.$touch()"
+                    @blur="$v.password.$touch()"
                     :rules="pwdRules"
                 ></v-text-field>
                 <v-btn
@@ -45,10 +47,21 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required , email } from 'vuelidate/lib/validators'
+import { required , email , minLength } from 'vuelidate/lib/validators'
 import firebase from "firebase/app"
 import "firebase/auth"
 export default {
+    mixins: [validationMixin],
+
+    validations: {
+        email: { required, email },
+        password : { required , minLength: minLength(6) },
+        checkbox: {
+            checked (val) {
+                return val
+            },
+        },
+    },
     data(){
         return {
             email : "",
@@ -57,19 +70,10 @@ export default {
             loader: null,
             loading: false,
             valid: true,
-            pwdRules: [v => !!v || "Password required"],
+            pwdRules: [
+                v => !!v || "Password required",
+            ],
         }
-    },
-    mixins: [validationMixin],
-
-    validations: {
-        email: { required, email },
-        password : { required },
-        checkbox: {
-            checked (val) {
-                return val
-            },
-        },
     },
     watch: {
       loader () {
@@ -92,6 +96,7 @@ export default {
         password1Errors(){
             const errors = []
             if (!this.$v.password.$dirty) return errors
+            !this.$v.password.minLength && errors.push('Password must be at most 6 characters long')
             !this.$v.password.required && errors.push('Password is required')
             return errors
         },
