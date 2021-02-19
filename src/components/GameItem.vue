@@ -17,9 +17,7 @@
                 <button class="fullvideo" @click="dialog = true"><v-icon class="mr-1">mdi-play</v-icon> Full Video</button> 
             </div>
         </div>
-        
-
-
+    
         <v-dialog  
             v-model="dialog"
             class="ma-2" 
@@ -59,14 +57,38 @@
                         :value="rating">
                     </v-rating>
                     
-                    <v-btn class="heart">
-                        <v-icon>mdi-delete</v-icon>
+                    <v-btn class="heart" v-if="active">
+                        <v-icon @click="handleDelete">mdi-close-circle-outline</v-icon>
                     </v-btn>
 
-                    <v-btn :loading="loaddingLike" class="heart">
-                        <v-icon @click="handleLike">mdi-heart</v-icon>
+                    <v-btn :loading="loaddingLike" class="heart" v-else>
+                        <v-icon @click="handleLike">mdi-plus</v-icon>
                     </v-btn>
                 </div>
+
+
+                <!--favourite dialog-->
+                <v-dialog
+                    v-model="dialog1"
+                    persistent
+                    max-width="290"
+                >
+                    <v-card>
+                            <v-card-title class="headline">
+                                Delete success
+                            </v-card-title>
+                            <v-card-actions>
+                                <v-btn
+                                    color="green darken-1"
+                                    text
+                                    @click="closeModalFavourite"
+                                >
+                                    OK !!
+                                </v-btn>
+                            </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
             </div>
         </div>
     </v-card>
@@ -80,14 +102,15 @@ import firebase from "firebase/app"
 import 'firebase/auth'
 export default {
     components: { GamePlat,LoadingItem , SlideGame },
-    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip' , 'shortimg'],
+    props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip' , 'shortimg', 'active'],
     data(){
         return{
             isShow : false,
             loadding : false,
             dialog : false,
+            dialog1 : false,
             isShowSlide : false,
-            loaddingLike : false
+            loaddingLike : false,
         }
     },
     computed : {
@@ -107,6 +130,9 @@ export default {
             return this.clip
         }
     },
+
+
+
     methods : {
         hoverPlayvideo(){
             if(this.clip == null){
@@ -121,15 +147,40 @@ export default {
             this.isShow = false
             this.isShowSlide = false
         },
+        closeModalFavourite(){
+            this.$router.push("/");
+            this.dialog1 = false
+        },
+        handleDelete(){
+            const db = firebase.firestore();
+            const emailUser = firebase.auth().currentUser.email
+            const data = {
+                title : this.name,
+                id : this.id,
+                image : this.image,
+                metacritic : this.metacritic,
+                rating : this.rating,
+                clip : this.clip,
+                shortimg : this.shortimg,
+                parent_platforms : this.parent_platforms,
+                slug : this.slug,
+                active : true
+            }
+            db.collection(emailUser).doc('gameID' + data.id).delete().then(() => {
+                this.dialog1 = true
+            }).catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+        },
         handleLike(){
             const isLogin = this.$store.state.game.isLogin;
             if(isLogin === false){
                 this.$router.replace('/login');
             }else{
                 const db = firebase.firestore();
-                const userID = firebase.auth().currentUser.uid
+                const emailUser = firebase.auth().currentUser.email
                 this.loaddingLike = true
-                const dataGame = {
+                const data = {
                     title : this.name,
                     id : this.id,
                     image : this.image,
@@ -138,11 +189,16 @@ export default {
                     clip : this.clip,
                     shortimg : this.shortimg,
                     parent_platforms : this.parent_platforms,
-                    slug : this.slug
+                    slug : this.slug,
+                    active : true
                 }
-                db.collection(userID).add(dataGame).then(() => {
+                if(data.parent_platforms == null) {
+                    alert('Sorry !! the game is undefined') 
+                    return this.loaddingLike = false
+                }
+                db.collection(emailUser).doc('gameID' + data.id).set(data).then(() => {
                     this.loaddingLike = false
-                }).catch((error) => {
+                }).catch((error) =>{
                     console.log(error);
                 })
             }   
@@ -187,6 +243,7 @@ export default {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
+            line-height: 1.5;
             span{
                 font-size: 1.4rem;
                 padding: 0 .6rem;

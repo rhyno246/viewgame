@@ -17,6 +17,8 @@ export default {
                 case 'playstation' : 
                     return 'mdi-sony-playstation'
                 case 'mac' : 
+                    return 'mdi-desktop-mac'
+                case 'ios' : 
                     return 'mdi-apple'
                 case 'xbox' : 
                     return 'mdi-microsoft-xbox'

@@ -12,6 +12,7 @@
                 :slug="item.slug"
                 :clip="item.clip"
                 :shortimg="item.shortimg"
+                :active="item.active"
             >
             </game-item>
         </div>
@@ -32,8 +33,8 @@ export default {
     },
     created(){
         const db = firebase.firestore();
-        const userID = firebase.auth().currentUser.uid
-        db.collection(userID).get().then((data) => {
+        const emailUser = firebase.auth().currentUser.email
+        db.collection(emailUser).get().then((data) => {
             data.forEach((user) => {
                 const users = user.data()
                 const index = this.favourite.findIndex(arr => arr.id === users.id);

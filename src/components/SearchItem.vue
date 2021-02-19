@@ -49,9 +49,9 @@
                     >
                     </game-plat>
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 d-flex align-center justify-space-between">
                     <v-rating 
-                        class="custom-rating"
+                        class="mt-0 custom-rating"
                         color="yellow darken-3" 
                         background-color="grey darken-2"
                         size="20" 
@@ -59,6 +59,9 @@
                         half-increments 
                         :value="rating">
                     </v-rating>
+                     <v-btn :loading="loaddingLike" class="heart pt-0 pr-0 pl-0 pb-0">
+                        <v-icon @click="handleLike">mdi-plus</v-icon>
+                    </v-btn>
                 </div>
             </div>
         </div>
@@ -70,6 +73,8 @@
 import GamePlat from './GamePlat.vue'
 import LoadingItem from './LoadingItem.vue'
 import SlideGame from './SlideGame.vue'
+import firebase from "firebase/app"
+import 'firebase/auth'
 export default {
     components: { GamePlat,LoadingItem, SlideGame },
     props : ['id','name','image', 'metacritic','parent_platforms','rating' , 'slug','clip', 'shortimg'],
@@ -79,6 +84,7 @@ export default {
             loadding : false,
             dialog : false,
             isShowSlide : false,
+            loaddingLike : false,
         }
     },
     computed : {
@@ -108,6 +114,37 @@ export default {
             this.loadding = false
             this.isShow = false
             this.isShowSlide = false
+        },
+        handleLike(){
+            const isLogin = this.$store.state.game.isLogin;
+            if(isLogin === false){
+                this.$router.replace('/login');
+            }else{
+                const db = firebase.firestore();
+                const emailUser = firebase.auth().currentUser.email
+                this.loaddingLike = true
+                const data = {
+                    title : this.name,
+                    id : this.id,
+                    image : this.image,
+                    metacritic : this.metacritic,
+                    rating : this.rating,
+                    clip : this.clip,
+                    shortimg : this.shortimg,
+                    parent_platforms : this.parent_platforms,
+                    slug : this.slug,
+                    active : true
+                }
+                if(data.parent_platforms == null) {
+                    alert('Sorry !! the game is undefined') 
+                    return this.loaddingLike = false
+                }
+                db.collection(emailUser).doc('gameID' + data.id).set(data).then(() => {
+                    this.loaddingLike = false
+                }).catch((error) =>{
+                    console.log(error);
+                })
+            }   
         }
     }
 }

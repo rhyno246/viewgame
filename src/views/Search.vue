@@ -6,6 +6,7 @@
             <search-item
                 v-for="(search, index) in getSearch"
                 :key="index"
+                :id="search.id"
                 :name="search.name"
                 :image="search.background_image"
                 :metacritic="search.metacritic"
