@@ -115,7 +115,7 @@ export default {
             dialog1 : false,
             isShowSlide : false,
             loaddingLike : false,
-            isShowGameFavourite : true
+            isShowGameFavourite : true,
         }
     },
     computed : {
@@ -216,6 +216,9 @@ export default {
 
 
 <style lang="scss">
+    .v-dialog{
+        height: auto !important;
+    }
     .card{
         overflow: hidden;
         position: relative;

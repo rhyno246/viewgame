@@ -1,7 +1,7 @@
 <template>
     <div class="profile-group mt-5" >
         <div class="input-file">
-            <v-btn raised class="red" @click="onPickFile">Upload Avatar</v-btn>
+            <v-btn raised class="success" @click="onPickFile">Upload Avatar</v-btn>
             <input type="file" class="d-none" ref="fileInput" accept="image/*" @change="onFilePicked">
         </div>
         <div class="choose-avatar">
@@ -124,17 +124,29 @@ export default {
             this.loading = true;
             if (this.$refs.form.validate()){
                 setTimeout(() => {
-                    firebase.auth().onAuthStateChanged(user => {
-                        this.loading = false
-                        if(user){
-                            user.updateProfile({
-                                displayName : namedata,
-                            })
-                            this.$store.commit('game/setUserName', namedata)
-                            this.$store.commit('game/setNullUser' , namedata)
-                        }
-                    })
+                    this.$toast.success("!!! Update data success", {
+                        position: "bottom-right",
+                        timeout: 5000,
+                        closeOnClick: true,
+                        pauseOnFocusLoss: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        draggablePercent: 0.8,
+                        showCloseButtonOnHover: false,
+                        hideProgressBar: false,
+                        closeButton: "button",
+                        icon: true,
+                        rtl: true
+                    });
                     var user = firebase.auth().currentUser
+                    if(user){
+                        this.loading = false
+                        user.updateProfile({
+                            displayName : namedata,
+                        })
+                        this.$store.commit('game/setUserName', namedata)
+                        this.$store.commit('game/setNullUser' , namedata)
+                    }
                     if(!this.image){
                         this.loading = false
                         return

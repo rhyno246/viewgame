@@ -7,6 +7,8 @@ import vuetify from './plugins/vuetify';
 import VueYouTubeEmbed from 'vue-youtube-embed';
 import VueLazyload from 'vue-lazyload';
 import viewability from "./components/directives/Viewability.js";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 import firebase from 'firebase/app';
 import "firebase/firestore"
 Vue.config.productionTip = false
@@ -22,12 +24,20 @@ Vue.config.productionTip = false
   storageBucket : 'gs://authviewgame.appspot.com/',
 };
 firebase.initializeApp(firebaseConfig);
+
+
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: 'img/error.svg',
   loading: 'img/loader.svg',
   attempt: 1
 })
+
+Vue.use(Toast, {
+    transition: "Vue-Toastification__bounce",
+    maxToasts: 20,
+    newestOnTop: true
+});
 
 Vue.directive("viewability", viewability);
 Vue.use(VueYouTubeEmbed)
