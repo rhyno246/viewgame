@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <v-tabs v-model="tab" background-color="transparent" class="tabs">
-                    <v-tab v-for="item in items" :key="item">
+                    <v-tab v-for="(item , index) in items" :key="index">
                         {{ item }}
                     </v-tab>
                 </v-tabs>
@@ -79,7 +79,7 @@ export default {
         getPhoto(){
             return this.$store.state.game.photo
         },
-    },
+    }
 }
 </script>
 

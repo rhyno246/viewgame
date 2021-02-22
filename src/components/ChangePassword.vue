@@ -1,17 +1,8 @@
 <template>
     <div class="change-password">
+        <div class="error error-text mt-4 pt-3 pb-3 pr-3 pl-3 mb-10" v-if="validError">{{ validError }}</div>
+
         <v-form v-model="valid" ref="form" lazy-validation>
-            <!-- <v-text-field
-                :error-messages="oldpasswordErrors"
-                required
-                label="Old Password"
-                type="password"
-                v-model="oldpassword"
-                outlined
-                dense
-                @input="$v.oldpassword.$touch()"
-                @blur="$v.oldpassword.$touch()"
-            ></v-text-field> -->
             <v-text-field
                 :error-messages="newpasswordErrors"
                 required
@@ -57,34 +48,27 @@ import "firebase/auth";
 export default {
     data(){
         return{
-            //oldpassword : "",
             newpassword : "",
             comfirmpassword : "",
             loader: null,
             loading: false,
             valid : true,
+            validError : "",
             pwdRules: [
                 v => !!v || "Password required",
             ],
             pwdConfirm: [
                 v => !!v || "Confirm password",
                 v => v === this.newpassword || "Passwords do not match"
-            ]
+            ],
         }
     },
     mixins: [validationMixin],
     validations: {
-        //oldpassword : { required },
         newpassword : { required, minLength: minLength(6) },
         comfirmpassword : { required },
     },
     computed : {
-        // oldpasswordErrors(){
-        //     const errors = []
-        //     if (!this.$v.oldpassword.$dirty) return errors
-        //     !this.$v.oldpassword.required && errors.push('Old Password is required')
-        //     return errors
-        // },
         newpasswordErrors(){
             const errors = []
             if (!this.$v.newpassword.$dirty) return errors
@@ -103,7 +87,6 @@ export default {
         handleChangePassWord(){
             this.$v.$touch()
             this.loading = true;
-            //const oldpass = this.oldpassword
             const newpass = this.newpassword
             const confirm = this.comfirmpassword
             if(newpass === "" || confirm === ""){
@@ -116,24 +99,32 @@ export default {
                     var user = firebase.auth().currentUser;
                     if(user){
                         user.updatePassword(newpass).then(() =>{
-                            this.newpassword = ""
-                            this.comfirmpassword = ""
+                            this.$refs.form.reset()
                             this.$router.replace("/")
                         }).catch((error) =>{
-                            if(error.code == 'auth/requires-recent-login'){
+                            var errorCode = error.code
+                            var errorMessage = error.message
+                            if(errorCode == 'auth/requires-recent-login'){
+                                this.loading = false
                                 user.updatePassword(newpass);
-                                this.$router.replace("/")
+                                this.validError = errorMessage
+                                this.valid =false
                             }
                         })
                     }
                 }, 500);
+            }else{
+                this.$refs.form.resetValidation()
             }
-        }
+        },
     }
 }
 </script>
 
 <style lang="scss">
+    .error{
+        line-height: 1.5;
+    }
     .change-password{
         max-width: 50rem;
         margin: 0 auto;
