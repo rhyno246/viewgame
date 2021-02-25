@@ -62,11 +62,11 @@
                     </v-rating>
                     
                     <v-btn class="heart" v-if="active">
-                        <v-icon @click="handleDelete">mdi-close-circle-outline</v-icon>
+                        <v-icon @click="handleDelete" class="delete">mdi-close-circle-outline</v-icon>
                     </v-btn>
 
                     <v-btn :loading="loaddingLike" class="heart" v-else>
-                        <v-icon @click="handleLike">mdi-plus</v-icon>
+                        <v-icon @click="handleLike" class="add-favourite">mdi-plus</v-icon>
                     </v-btn>
                 </div>
 
@@ -84,6 +84,7 @@
                             <v-card-actions>
                                 <v-btn
                                     color="green darken-1"
+                                    class="delete-ok"
                                     text
                                     @click="closeModalFavourite"
                                 >

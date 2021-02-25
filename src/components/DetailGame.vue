@@ -56,7 +56,7 @@
                 </div>
                 <div class="box-txt mb-3">
                     <p class="mb-0 label">Link Source</p>
-                    <p class="mb-0 txt-name"><a :href="website" target="_bank">{{ website }}</a></p>
+                    <p class="mb-0 txt-link"><a :href="website" target="_bank">{{ website }}</a></p>
                 </div>
                 <div class="box-txt mb-3">
                     <p class="mb-0 label">Description</p>

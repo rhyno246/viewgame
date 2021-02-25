@@ -1,6 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
+describe('Home and Detail test', () => {
 
   beforeEach(() => {
     cy.visit('http://localhost:8080')
@@ -46,28 +46,31 @@ describe('My First Test', () => {
     cy.get('.switch-column__colums').first().click({ force: true })
     cy.wait(2000)
     cy.get('.select').click({ force: true }).type('Web')
-    cy.wait(200)
+    cy.wait(100)
     cy.get('#app').click({ force: true })
     cy.wait(5000)
     cy.get('.select-1').click({ force: true }).type('Rating')
-    cy.wait(200)
+    cy.wait(100)
     cy.get('#app').click({ force: true })
     cy.wait(5000)
-
-
-    //sign up
-    cy.get('.control-connect li').last().click()
+    cy.get('.select').click({ force: true }).type('PC')
+    cy.wait(100)
+    cy.get('#app').click({ force: true })
+    cy.wait(5000)
+    cy.get('.card__name').eq(0).click()
+    cy.wait(5000)
+    cy.scrollTo('bottom', { duration: 500 })
+    cy.wait(1000)
+    cy.scrollTo('top', { duration: 500 })
+    cy.wait(500)
+    for(i = 0; i < 2; i ++ ){
+      cy.get('.txt-name a').click({ force: true })
+      cy.wait(800)
+    }
+    cy.get('.play-trailer').click({ force: true })
+    cy.wait(3000)
+    cy.get('.close-model').click({ force: true })
     cy.wait(2000)
-    cy.get('.dont-have').last().click()
-    cy.wait(500)
-    cy.get('.name').type('mannguyen')
-    cy.wait(500)
-    cy.get('.email').type('nguyentrongminhman95@gmail.com')
-    cy.wait(500)
-    cy.get('.pw').type('minhman')
-    cy.wait(500)
-    cy.get('.cfpw').type('minhman')
-    cy.wait(500)
-    //cy.get('.checksignup').check()
+    cy.get('.logo a').click({ force: true })
   })
 })

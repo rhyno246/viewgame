@@ -12,11 +12,11 @@
                     </span> 
                     <router-link :to="`/profile`" class="profile"><span>{{ nameUser }}</span></router-link>
                 </li>
-                <li><v-icon @click="signOut">mdi-logout</v-icon></li>
+                <li><v-icon @click="signOut" class="logout">mdi-logout</v-icon></li>
             </ul>
             <ul class="control-connect" v-else>
                 <li><router-link to="/sign-up">SIGN UP</router-link></li>
-                <li><router-link to="/login">LOGIN</router-link></li>
+                <li><router-link to="/login" class="login">LOGIN</router-link></li>
             </ul>
         </div>
         <div class="main-nav" v-if="!routeDetail">

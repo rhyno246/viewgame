@@ -1,6 +1,6 @@
 <template>
-    <form action="" class="form" @submit.prevent="searchSubmit">
-        <input type="text" placeholder="Search ..... " class="input" v-model.trim="search">
+    <form action="" class="form form-search" @submit.prevent="searchSubmit">
+        <input type="text" placeholder="Search ..... " class="input search-input" v-model.trim="search">
         <button class="search-btn">
             <v-icon>mdi-search-web</v-icon>
         </button>

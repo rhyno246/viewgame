@@ -14,6 +14,7 @@
                 @input="$v.newpassword.$touch()"
                 @blur="$v.newpassword.$touch()"
                 :rules="pwdRules"
+                class="pw"
             ></v-text-field>
             <v-text-field
                 :error-messages="comfirmpasswordErrors"
@@ -26,6 +27,7 @@
                 @input="$v.comfirmpassword.$touch()"
                 @blur="$v.comfirmpassword.$touch()"
                 :rules="pwdConfirm"
+                class="cfpw"
             ></v-text-field>
             <v-btn
                 class="button mt-4 button-position"
@@ -106,7 +108,6 @@ export default {
                             var errorMessage = error.message
                             if(errorCode == 'auth/requires-recent-login'){
                                 this.loading = false
-                                user.updatePassword(newpass);
                                 this.validError = errorMessage
                                 this.valid =false
                             }

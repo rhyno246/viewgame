@@ -1,29 +1,31 @@
 <template>
     <div class="profile-group mt-5" >
         <div class="input-file">
-            <v-btn raised class="success" @click="onPickFile">Upload Avatar</v-btn>
+            <v-btn raised class="success openfile" @click="onPickFile">Upload Avatar</v-btn>
             <input type="file" class="d-none" ref="fileInput" accept="image/*" @change="onFilePicked">
         </div>
         <div class="choose-avatar">
             <div class="avartar" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" v-if="isShowAvartar"></div>
         </div>
         <div class="input-type email mt-4">
-            <v-card class="pt-2 pb-2 pl-4 pr-4"><v-text-field :value="EmailUser" disabled></v-text-field></v-card>
+            <v-list class="mb-3 pt-0 pb-0 rounded">
+                <v-list-item disabled>{{ EmailUser }}</v-list-item>
+            </v-list>
         </div>
-        <div class="input-type email mt-4">
-            <v-card class="pt-2 pb-2 pl-4 pr-4">
-                <v-form v-model="valid" ref="form" lazy-validation>
-                    <v-text-field 
-                        ref="nameinput"
-                        :error-messages="nameErrors"
-                        v-model="name"
-                        :rules="nameRules"
-                        @input="$v.name.$touch()"
-                        @blur="$v.name.$touch()"
-                        required
-                    ></v-text-field>
-                </v-form>
-            </v-card>
+        <div class="input-type email">
+            <v-form v-model="valid" ref="form" lazy-validation>
+                <v-text-field 
+                    ref="nameinput"
+                    :error-messages="nameErrors"
+                    v-model="name"
+                    :rules="nameRules"
+                    @input="$v.name.$touch()"
+                    @blur="$v.name.$touch()"
+                    required
+                    solo
+                    class="name-user"
+                ></v-text-field>
+            </v-form>
         </div>
         <v-btn 
             class="save-change"
@@ -185,7 +187,7 @@ export default {
         max-width: 50rem;
     }
     .save-change{
-        margin-top: 2rem;
+        margin-top: 0 !important;
         font-size: 1.4rem !important;
         width: 100%;
         &:disabled{

@@ -14,6 +14,7 @@
                     required
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
+                    class="email"
                 ></v-text-field>
                 <v-text-field
                     :error-messages="password1Errors"
@@ -26,9 +27,10 @@
                     @input="$v.password.$touch()"
                     @blur="$v.password.$touch()"
                     :rules="pwdRules"
+                    class="pw"
                 ></v-text-field>
                 <v-btn
-                    class="button mt-4"
+                    class="button btn-login mt-4"
                     @click="submit"
                     color="blue-grey"
                     :loading="loading"
