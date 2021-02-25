@@ -38,7 +38,7 @@
                 </v-btn>
 
                 <div class="dont-have-account mt-4">
-                    <router-link to="/sign-up">Don't have an account? Sign up.</router-link>
+                    <router-link to="/sign-up" class="dont-have">Don't have an account? Sign up.</router-link>
                 </div>
             </v-form>
         </v-container>

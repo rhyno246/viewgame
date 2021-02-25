@@ -15,6 +15,7 @@
                     :rules="nameRules"
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
+                    class="name"
                 ></v-text-field>
 
                 <v-text-field
@@ -26,6 +27,7 @@
                     required
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
+                    class="email"
                 ></v-text-field>
                 <v-text-field
                     :error-messages="password1Errors"
@@ -35,6 +37,7 @@
                     dense
                     label="Password"
                     type="password"
+                    class="pw"
                     @input="$v.password1.$touch()"
                     @blur="$v.password1.$touch()"
                     :rules="pwdRules"
@@ -52,11 +55,12 @@
                     @input="$v.password2.$touch()"
                     @blur="$v.password2.$touch()"
                     :rules="pwdConfirm"
+                    class="cfpw"
                 ></v-text-field>
 
 
 
-                <v-checkbox class="mt-0"
+                <v-checkbox class="mt-0 checksignup"
                     v-model="checkbox"
                     color="blue-grey"
                     :error-messages="checkboxErrors"

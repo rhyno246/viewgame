@@ -137,14 +137,14 @@ export default {
         .top-nav {
             display: flex;
             align-items: center;
-            @media (max-device-width: 767px) {
+            @media (max-width: 767px) {
                 flex-wrap: wrap;
             }
             .logo{
                 @media (max-width: 768px) {
                     margin-right: 2rem;
                 }
-                @media (max-device-width: 767px) {
+                @media (max-width: 767px) {
                     order: 2;
                     width: 40%;
                 }
@@ -153,7 +153,7 @@ export default {
                 width: 100%;
                 max-width: 70rem;
                 margin-left: 5rem;
-                @media (max-device-width: 767px) {
+                @media (max-width: 767px) {
                     order: 3;
                     margin-left: 0;
                     margin-top: 2rem;
@@ -167,7 +167,7 @@ export default {
                 align-items: center;
                 margin-left: 2.5rem;
                 width: 35%;
-                @media (max-device-width: 767px) {
+                @media (max-width: 767px) {
                     order: 2;
                     width: 52%;
                     margin-left: 0;
@@ -175,7 +175,7 @@ export default {
                 li{
                     background: transparent;
                     margin: 0  20px 0 0;
-                    @media (max-device-width: 767px) {
+                    @media (max-width: 767px) {
                         margin: 0  10px 0 0;
                         width: auto;
                     }
@@ -269,6 +269,7 @@ export default {
             font-size: 1.4rem;
             @media screen and (max-width: 1024px){
                 margin-right: 0;
+                margin-top: -1px;
             }
             a{
                 font-size: 1.4rem;

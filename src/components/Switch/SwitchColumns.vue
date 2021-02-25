@@ -25,7 +25,7 @@ export default {
     .switch-column{
         display: flex;
         align-items: center;
-        @media (max-device-width: 767px) {
+        @media (max-width: 767px) {
             margin-top: -35px;
             margin-bottom: 15px;
         }
