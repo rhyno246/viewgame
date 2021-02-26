@@ -166,7 +166,7 @@ export default {
                 justify-content: flex-end;
                 align-items: center;
                 margin-left: 2.5rem;
-                width: 35%;
+                width: 40%;
                 @media (max-width: 767px) {
                     order: 2;
                     width: 52%;
@@ -267,6 +267,9 @@ export default {
             margin-right: 1.2rem;
             display : inline-block;
             font-size: 1.4rem;
+            &:nth-child(16){
+                margin-right: 0;
+            }
             @media screen and (max-width: 1024px){
                 margin-right: 0;
                 margin-top: -1px;
