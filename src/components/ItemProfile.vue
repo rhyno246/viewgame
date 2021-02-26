@@ -2,7 +2,7 @@
     <div class="profile-group mt-5" >
         <div class="input-file">
             <v-btn raised class="success openfile" @click="onPickFile">Upload Avatar</v-btn>
-            <input type="file" class="d-none" ref="fileInput" accept="image/*" @change="onFilePicked">
+            <input type="file" class="d-none uploadfile" ref="fileInput" accept="image/*" @change="onFilePicked">
         </div>
         <div class="choose-avatar">
             <div class="avartar" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" v-if="isShowAvartar"></div>

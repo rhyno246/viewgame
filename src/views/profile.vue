@@ -10,27 +10,27 @@
                     </div>
                 </div>
                 <v-tabs v-model="tab" background-color="transparent" class="tabs">
-                    <v-tab v-for="(item , index) in items" :key="index">
+                    <v-tab v-for="(item , index) in items" :key="index" @click="getHero">
                         {{ item }}
                     </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="tab">
                     <v-tab-item>
                         <v-card-text>
-                            <item-profile></item-profile>
+                            <item-profile />
                         </v-card-text>
                     </v-tab-item>
                     <v-tab-item>
                         <v-card-text>
                             <div class="box mt-5">
-                                <favourite-list></favourite-list>
+                                <favourite-list />
                             </div>
                         </v-card-text>
                     </v-tab-item>
                     <v-tab-item>
                         <v-card-text>
                             <div class="box mt-5">
-                                <change-password></change-password>
+                                <change-password/>
                             </div>
                         </v-card-text>
                     </v-tab-item>
@@ -66,6 +66,17 @@ export default {
                     })
                 }
             }
+        }
+    },
+    methods : {
+        getHero(){
+            let tab = this.$store.state.game.tabChange
+            let pass = this.$store.state.game.validatePass
+            this.$store.state.game.errorChangePass = ""
+            if(!tab || !pass){
+                return
+            }
+            return tab.reset() || tab.resetValidation() || pass.$reset()
         }
     },
     computed : {

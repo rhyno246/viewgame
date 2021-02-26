@@ -117,6 +117,7 @@ export default {
             isShowSlide : false,
             loaddingLike : false,
             isShowGameFavourite : true,
+            activeGameItem : false
         }
     },
     computed : {

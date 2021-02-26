@@ -4,6 +4,7 @@ describe('Authentication Test', () => {
       cy.visit('http://localhost:8080')
     })
     it('Authentication', () => {
+        // autumation field form 
         cy.wait(5000)
         cy.get('.control-connect li').last().click()
         cy.wait(2000)
@@ -27,18 +28,15 @@ describe('Authentication Test', () => {
         cy.wait(200)
         cy.get('.name-user').type('Minh Man')
         cy.wait(500)
+        // change picture
+        const filepath = 'images/logo.png'
+        cy.get('input[type="file"]').attachFile(filepath)
+        cy.get('.openfile').click({ force: true })
+        cy.wait(500)
         cy.get('.save-change').click({ force: true })
-        cy.wait(3000)
+        cy.wait(5000)
 
 
-
-        // cy.fixture('cypress/fixtures/admin.jpg').then((fileContent ) => {
-        //     cy.get('input[type="file"]').attachFile({
-        //         fileContent: fileContent.toString(),
-        //         fileName: './logo.png',
-        //         mimeType: 'image/png'
-        //     });
-        // })
 
 
         cy.get('.v-tab').click({ multiple: true })

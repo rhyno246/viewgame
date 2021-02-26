@@ -1,6 +1,6 @@
 <template>
     <div class="change-password">
-        <div class="error error-text mt-4 pt-3 pb-3 pr-3 pl-3 mb-10" v-if="validError">{{ validError }}</div>
+        <div class="error error-text mt-4 pt-3 pb-3 pr-3 pl-3 mb-10" v-if="getErrorValidate">{{ getErrorValidate }}</div>
 
         <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field
@@ -55,7 +55,7 @@ export default {
             loader: null,
             loading: false,
             valid : true,
-            validError : "",
+            //validError : "",
             pwdRules: [
                 v => !!v || "Password required",
             ],
@@ -70,11 +70,15 @@ export default {
         newpassword : { required, minLength: minLength(6) },
         comfirmpassword : { required },
     },
+
     computed : {
         newpasswordErrors(){
             const errors = []
             if (!this.$v.newpassword.$dirty) return errors
             !this.$v.newpassword.minLength && errors.push('Password must be at most 6 characters long')
+            const ref = this.$refs.form
+            this.$store.commit('game/changeTabPassWord' , ref)
+            this.$store.commit('game/setValidatePass' , this.$v)
             !this.$v.newpassword.required && errors.push('New Password is required')
             return errors
         },
@@ -82,8 +86,13 @@ export default {
             const errors = []
             if (!this.$v.comfirmpassword.$dirty) return errors
             !this.$v.comfirmpassword.required && errors.push('Comfirm Password is required')
+            const ref = this.$refs.form
+            this.$store.commit('game/changeTabPassWord' , ref)
             return errors
-        }
+        },
+        getErrorValidate(){
+            return this.$store.getters['game/errorChangePass']
+        },
     },
     methods : {
         handleChangePassWord(){
@@ -102,13 +111,27 @@ export default {
                     if(user){
                         user.updatePassword(newpass).then(() =>{
                             this.$refs.form.reset()
-                            this.$router.replace("/")
+                            this.$v.$reset()
+                            this.$toast.success("!!! Update password success", {
+                                position: "bottom-right",
+                                timeout: 5000,
+                                closeOnClick: true,
+                                pauseOnFocusLoss: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                draggablePercent: 0.8,
+                                showCloseButtonOnHover: false,
+                                hideProgressBar: false,
+                                closeButton: "button",
+                                icon: true,
+                                rtl: true
+                            });
                         }).catch((error) =>{
                             var errorCode = error.code
                             var errorMessage = error.message
                             if(errorCode == 'auth/requires-recent-login'){
                                 this.loading = false
-                                this.validError = errorMessage
+                                this.$store.state.game.errorChangePass = errorMessage
                                 this.valid =false
                             }
                         })

@@ -39,7 +39,10 @@ export default {
             username : "",
             usernameNull : "",  
             email : "",
-            photo : ""
+            photo : "",
+            tabChange : null,
+            validatePass : {},
+            errorChangePass : ""
         }
     },
     mutations : {
@@ -126,6 +129,15 @@ export default {
         },
         setPhoto : (state , payload) => {
             state.photo = payload
+        },
+        changeTabPassWord : (state,payload) => {
+            state.tabChange = payload
+        },
+        setValidatePass  : (state , payload) => {
+            state.validatePass = payload
+        },
+        errorChangePass : (state , payload) => {
+            state.errorChangePass = payload
         }
     },
     actions : {
@@ -316,6 +328,9 @@ export default {
         },
         getEmailUser : state => {
             return state.email 
+        },
+        errorChangePass : state => {
+            return state.errorChangePass
         }
     }
 }
