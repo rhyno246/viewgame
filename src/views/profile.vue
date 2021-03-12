@@ -1,5 +1,5 @@
 <template>
-    <div class="main-profile">
+    <div class="main-profile" v-if="isLogin">
         <v-container>
             <div class="profile">
                 <div class="profile__name">
@@ -90,6 +90,15 @@ export default {
         getPhoto(){
             return this.$store.state.game.photo
         },
+
+
+        isLogin(){
+            if(!this.$store.state.game.isLogin){
+                this.$router.push('/login')
+            }
+            return this.$store.state.game.isLogin 
+        }
+
     }
 }
 </script>

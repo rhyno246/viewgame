@@ -65,11 +65,11 @@ export default {
     },
     watch :{
         '$refs' : {
-            immediate : true, //immediate giá trị của refs thi chưa thay đổi
+            immediate : true, 
             handler(val){
                 this.$store.commit('game/setSelectedChange' , val);
             }
-        }
+        },
     },
     computed : {
         routeFilter(){

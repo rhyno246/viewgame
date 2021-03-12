@@ -120,6 +120,7 @@ export default {
             activeGameItem : false
         }
     },
+
     computed : {
         getdetailscreen(){
             return this.$store.getters['game/getScreenshots']

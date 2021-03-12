@@ -145,7 +145,7 @@ export default {
             if(state.Slug.length > 0) return //check array is exist
             let response = await axios.get('https://api.rawg.io/api/genres')
             let data = response.data.results
-            Storage.set(slug, JSON.stringify(data), 60 * 24 * 3) //set data vao storage 
+            Storage.set(slug, JSON.stringify(data), 60 * 24 * 3) //set data in storage 
             if(data){
                 commit('getAllSlug' , data)
             }
