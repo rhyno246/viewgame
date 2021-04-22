@@ -10,6 +10,7 @@ let urlObj = urlParse()
 let params = { ...menuObj, ...urlObj }
 //cache key name trong storage
 const slug = "slug"
+const key = "f41f0a4478964909aa862ddc23847bdb"
 export default { 
     namespaced : true,
     state(){
@@ -42,7 +43,7 @@ export default {
             photo : "",
             tabChange : null,
             validatePass : {},
-            errorChangePass : ""
+            errorChangePass : "",    
         }
     },
     mutations : {
@@ -143,7 +144,7 @@ export default {
     actions : {
         getSlug : async ({ commit ,state }) =>{
             if(state.Slug.length > 0) return //check array is exist
-            let response = await axios.get('https://api.rawg.io/api/genres')
+            let response = await axios.get(`https://api.rawg.io/api/genres?key=${key}`)
             let data = response.data.results
             Storage.set(slug, JSON.stringify(data), 60 * 24 * 3) //set data in storage 
             if(data){
@@ -154,7 +155,7 @@ export default {
             const game = state.params.game
             const page = payload
             state.isloadMore = true
-            let response = await axios.get(`https://api.rawg.io/api/games?genres=${game}&page=${page}`)
+            let response = await axios.get(`https://api.rawg.io/api/games?key=${key}&genres=${game}&page=${page}`)
             let data = response.data.results
             if(data){
                 commit('loadMore' , data)
@@ -169,7 +170,7 @@ export default {
             state.isFilterLoad = false
             state.isFilterPlatForm = false
             state.pager = 2
-            let response = await axios.get(`https://api.rawg.io/api/games?genres=${slugFilter}`)
+            let response = await axios.get(`https://api.rawg.io/api/games?key=${key}&genres=${slugFilter}`)
             let data = response.data.results
             if(data){
                 commit('recordGame' , data)
@@ -178,7 +179,7 @@ export default {
         },
         getGameDetail : async ({ commit } , payload) =>{
             const slug = payload
-            let response = await axios.get(`https://api.rawg.io/api/games/${slug}`)
+            let response = await axios.get(`https://api.rawg.io/api/games/${slug}?key=${key}`)
             let data = response.data
             if(data){
                 commit('getGameDetail' , data)
@@ -187,7 +188,7 @@ export default {
 
         GetScreenshots : async ({ commit }, payload) =>{
             const idImg = payload
-            let response = await axios.get(`https://api.rawg.io/api/games/${idImg}/screenshots`)
+            let response = await axios.get(`https://api.rawg.io/api/games/${idImg}/screenshots?key=${key}`)
             let data = response.data.results
             if(data){
                 commit('GetScreenshots' , data)
@@ -198,7 +199,7 @@ export default {
             state.strSearch = search
             state.isLoading = true
             state.pagesearch = 2
-            let response = await axios(`https://api.rawg.io/api/games?search=${search}`)
+            let response = await axios(`https://api.rawg.io/api/games?key=${key}&search=${search}`)
             let data = response.data.results || {}
             if(data.length < 20){
                 state.isloadMore = false
@@ -219,7 +220,7 @@ export default {
                 state.isloadMore = false
                 return 
             }
-            let response = await axios.get(`https://api.rawg.io/api/games?page=${page}&search=${search}`)
+            let response = await axios.get(`https://api.rawg.io/api/games?key=${key}&page=${page}&search=${search}`)
             state.isloadMore = false
             let data = response.data || {}
             commit('SetLoadSearch' , data)
@@ -234,7 +235,7 @@ export default {
             state.isLoading = true
             state.pager = 2
             state.isFilterPlatForm = false
-            let response = await axios.get(`https://rawg.io/api/games?ordering=${orderBy}&genres=${game}`)
+            let response = await axios.get(`https://rawg.io/api/games?key=${key}&ordering=${orderBy}&genres=${game}`)
             let data = response.data || {}
             if(data){
                 commit('FilterOrderby' , data)
@@ -247,7 +248,7 @@ export default {
             const game = state.params.game
             const orderBy = state.nameOderby
             state.isloadMore = true
-            let response = await axios.get(`https://rawg.io/api/games?ordering=${orderBy}&genres=${game}&page=${page}`)
+            let response = await axios.get(`https://rawg.io/api/games?key=${key}&ordering=${orderBy}&genres=${game}&page=${page}`)
             let data = response.data || {}
             if(data){
                 commit('setLoadMoreOrderBy' , data)
@@ -264,7 +265,7 @@ export default {
                 state.isloadMore = false
                 return
             }
-            let response = await axios.get(`https://rawg.io/api/games?parent_platforms=${filter}&genres=${game}`)
+            let response = await axios.get(`https://rawg.io/api/games?key=${key}&parent_platforms=${filter}&genres=${game}`)
             let data = response.data || {}
             state.isLoading = false
             commit('FilterPlatForm' , data)
@@ -283,7 +284,7 @@ export default {
                 state.isloadMore = false
                 return
             }
-            let response = await axios.get(`https://rawg.io/api/games?parent_platforms=${filter}&genres=${game}&page=${page}`)
+            let response = await axios.get(`https://rawg.io/api/games?key=${key}&parent_platforms=${filter}&genres=${game}&page=${page}`)
             let data = response.data || {}
             state.isloadMore = false
             commit('setLoadMorePlatForm' , data)
